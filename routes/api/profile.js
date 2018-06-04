@@ -9,6 +9,8 @@ const secretKey = require("../../config/keys").secretKey;
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
+const validateProfileInput = require("../../validation/profile");
+
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -16,6 +18,7 @@ router.get(
     const errors = {};
 
     Profile.findOne({ user: req.user.id })
+      .populate("user", ["name", "avatar"])
       .then(profile => {
         if (!profile) {
           errors.profile = "There is no profile for users";
@@ -32,7 +35,11 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const errors = {};
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
     const profileFields = {};
 
@@ -46,7 +53,7 @@ router.post(
 
     //Skills is array
     if (typeof req.body.skills !== "undefined") {
-      profileFields.skills = req.body.split(",");
+      profileFields.skills = req.body.skills.split(",");
     }
     profileFields.social = {};
     if (req.body.youtube) profileFields.social.youtube = req.body.youtube;

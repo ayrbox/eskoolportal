@@ -13,6 +13,27 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+
+  const decoded = jwt_decode(localStorage.token);
+
+  store.dispatch(setCurrentUser(decoded));
+
+  const now = Date.now() / 1000;
+  if (decoded.exp < now) {
+    store.dispatch(logoutUser());
+
+    //todo: clear user
+
+    window.location.href = "/login";
+  }
+}
+
 class App extends Component {
   render() {
     return (

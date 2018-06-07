@@ -17,6 +17,7 @@ import Dashboard from "./components/Dashboard";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentProfile } from "./actions/profileActions";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -28,8 +29,7 @@ if (localStorage.token) {
   const now = Date.now() / 1000;
   if (decoded.exp < now) {
     store.dispatch(logoutUser());
-
-    //todo: clear user
+    store.dispatch(clearCurrentProfile());
 
     window.location.href = "/login";
   }
@@ -45,7 +45,7 @@ class App extends Component {
 
             <Route exact path="/" component={Landing} />
 
-            <div className="contianer">
+            <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/dashboard" component={Dashboard} />

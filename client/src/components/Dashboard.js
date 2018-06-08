@@ -21,7 +21,13 @@ class Dashboard extends Component {
       dashboardContent = <Spinner />;
     } else {
       if (Object.keys(profile).length > 0) {
-        dashboardContent = <h4>TODO: Display pROFILE</h4>;
+        dashboardContent = (
+          <div>
+            <p className="load text-muted">
+              Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            </p>
+          </div>
+        );
       } else {
         //User login without content
         dashboardContent = (

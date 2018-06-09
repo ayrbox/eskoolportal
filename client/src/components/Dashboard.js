@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import { getCurrentProfile, deleteAccount } from "../actions/profileActions";
-
 import Spinner from "./Spinner";
-
 import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -41,7 +40,8 @@ class Dashboard extends Component {
 
             <ProfileActions />
 
-            {/* TODO: experience and education */}
+            <Experience experience={profile.experience} />
+            <Education education={profile.education} />
 
             <div style={{ marginBottom: "60px" }}>
               <button className="btn btn-danger" onClick={this.onDeleteProfile}>

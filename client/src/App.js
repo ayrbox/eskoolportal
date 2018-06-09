@@ -17,6 +17,7 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
 import AddEditExperience from "./components/create-profile/AddEditExperience";
 import AddEditEducation from "./components/create-profile/AddEditEducation";
+import Profiles from "./components/Profiles";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -85,6 +86,7 @@ class App extends Component {
                   component={AddEditEducation}
                 />
               </Switch>
+              <Route exact path="/profiles" component={Profiles} />
             </div>
 
             <Footer />

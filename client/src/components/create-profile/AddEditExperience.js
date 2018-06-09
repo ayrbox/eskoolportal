@@ -5,6 +5,8 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import { addExperience } from "../../actions/profileActions";
+
 class AddEditExperience extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +26,28 @@ class AddEditExperience extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    console.log("Submit");
+
+    const exprienceData = {
+      company: this.state.company,
+      title: this.state.title,
+      location: this.state.location,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+
+    this.props.addExperience(exprienceData, this.props.history);
   }
 
   onChange(e) {
@@ -139,7 +160,8 @@ class AddEditExperience extends Component {
 
 AddEditExperience.propTypes = {
   profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  addExperience: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -147,4 +169,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(withRouter(AddEditExperience));
+export default connect(
+  mapStateToProps,
+  { addExperience }
+)(withRouter(AddEditExperience));

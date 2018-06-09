@@ -16,6 +16,7 @@ import Dashboard from "./components/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
 import AddEditExperience from "./components/create-profile/AddEditExperience";
+import AddEditEducation from "./components/create-profile/AddEditEducation";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -75,6 +76,13 @@ class App extends Component {
                   exact
                   path="/add-experience"
                   component={AddEditExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEditEducation}
                 />
               </Switch>
             </div>

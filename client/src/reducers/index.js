@@ -4,9 +4,11 @@ import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 
 import profileReducer from "./profileReducer";
+import githubReducer from "./githubReducer";
 
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  github: githubReducer
 });

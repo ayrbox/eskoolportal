@@ -10,3 +10,9 @@ export const GET_PROFILES = "GET_PROFILES";
 
 export const GET_GITHUB_PROFILE = "GET_GITHUB_PROFILE";
 export const GITHUB_LOADING = "GITHUB_LOADING";
+
+export const POST_LOADING = "POST_LOADING";
+export const GET_POSTS = "GET_POSTS";
+export const GET_POST = "GET_POST";
+export const ADD_POST = "ADD_POST";
+export const DELETE_POST = "DELETE_POST";

@@ -5,10 +5,12 @@ import errorReducer from "./errorReducer";
 
 import profileReducer from "./profileReducer";
 import githubReducer from "./githubReducer";
+import postReducer from "./postReducer";
 
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   profile: profileReducer,
-  github: githubReducer
+  github: githubReducer,
+  post: postReducer
 });

@@ -52,22 +52,11 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Post.findById(req.params.id).then(post => {
-      if (!post) {
-        return res.status(404).json({ notfound: "Post not found" });
-      }
-
-      //check if user own the post
-      if (post.user.toString() !== req.user.id) {
-        return res.status(401).json({ noauthorised: "User not authorised" });
-      }
-
-      //Delete
-      post
-        .remove()
-        .then(() => res.json({ success: true }))
-        .catch(err => res.status(500).json({ success: false, msg: err }));
-    });
+    Post.findOneAndRemove({ _id: req.params.id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => ({ success: false, detail: res.response.data }));
   }
 );
 

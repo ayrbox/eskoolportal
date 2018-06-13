@@ -19,6 +19,7 @@ import AddEditExperience from "./components/create-profile/AddEditExperience";
 import AddEditEducation from "./components/create-profile/AddEditEducation";
 import Profiles from "./components/Profiles";
 import Posts from "./components/Posts";
+import Post from "./components/Post";
 
 import Profile from "./components/Profile/Profile";
 
@@ -93,6 +94,9 @@ class App extends Component {
               <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
             </div>
 

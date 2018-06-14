@@ -61,7 +61,5 @@ typings/
 .next
 
 
-
-/config/keys_dev.js
 yarn.lock
 package-lock.json

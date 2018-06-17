@@ -4,15 +4,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import "./App.css";
-import "./inspina.css";
+import Landing from "./views/Landing";
 
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
-import Landing from "./components/layout/Landing";
-
-import Register from "./components/auth/Register";
-import Login from "./components/auth/Login";
+import Register from "./views/login/Register";
+import Login from "./views/login";
 import Dashboard from "./components/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
@@ -53,7 +48,6 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Navbar />
             <Route exact path="/" component={Landing} />
             <div className="container">
               <Route exact path="/register" component={Register} />
@@ -98,7 +92,6 @@ class App extends Component {
                 <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
             </div>
-            <Footer />
           </div>
         </Router>
       </Provider>

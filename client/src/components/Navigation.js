@@ -1,15 +1,27 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 import { clearCurrentProfile } from "../actions/profileActions";
+import classnames from "classnames";
 
 class Navigation extends Component {
-  componentDidMount() {
-    const { menu } = this.refs;
-    // $(menu).metisMenu();
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      profileDropdown: false
+    };
+
+    this.onToggleDropdown = this.onToggleDropdown.bind(this);
+  }
+
+  onToggleDropdown(e) {
+    e.preventDefault();
+    this.setState(prevState => ({
+      profileDropdown: !prevState.profileDropdown
+    }));
   }
 
   render() {
@@ -19,21 +31,39 @@ class Navigation extends Component {
       <nav className="navbar-default navbar-static-side" role="navigation">
         <ul className="nav flex-column metismenu" id="side-menu" ref="menu">
           <li className="nav-header">
-            <div className="dropdown profile-element">
-              <a data-toggle="dropdown" className="dropdown-toggle" href="#">
-                <span className="clear">
-                  <span className="block m-t-xs">
-                    <strong className="font-bold">{user.name}</strong>
-                  </span>
-                </span>
-              </a>
-              <ul className="dropdown-menu animated fadeInRight m-t-xs">
-                <li>
-                  <a href="#"> Logout</a>
-                </li>
-              </ul>
+            <div className="text-center profile-element">
+              <span>
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  title="You must have gravatar for email"
+                  style={{ width: "64px" }}
+                  className="rounded-circle"
+                />
+              </span>
+
+              <div className="dropdown">
+                <a
+                  className="btn btn-link dropdown-toggle"
+                  role="button"
+                  onClick={this.onToggleDropdown}
+                >
+                  {user.name}
+                </a>
+
+                <div
+                  className={classnames("dropdown-menu", {
+                    show: this.state.profileDropdown
+                  })}
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <a className="dropdown-item">Profile</a>
+                  <a className="dropdown-item">Change password</a>
+                  <div class="dropdown-divider" />
+                  <a className="dropdown-item">Logout</a>
+                </div>
+              </div>
             </div>
-            <div className="logo-element">IN+</div>
           </li>
 
           <li className="nav-item">
@@ -43,9 +73,14 @@ class Navigation extends Component {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/minor" className="nav-link">
+            <Link to="/profiles" className="nav-link">
               <i className="fa fa-th-large" />
-              <span className="nav-label">Minor view</span>
+              <span className="nav-label">Teachers</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/feed">
+              <i className="fa fa-list" /> Post Feed
             </Link>
           </li>
         </ul>

@@ -68,13 +68,15 @@ class Dashboard extends Component {
 
     return (
       <Main>
-        <div className="dashboard">
+        <div className="dashboard wrapper wrapper-content animated fadeInRight">
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
-                <h1 className="display-4">Dashboard</h1>
-                {dashboardContent}
+              <div className="col-lg-12">
+                <div className="text-center m-t-lg">
+                  <h1>Dashboard</h1>
+                </div>
               </div>
+              <div className="col-lg-12">{dashboardContent}</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-// import { Dropdown } from "react-bootstrap";
-import { Link, Location } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+import { clearCurrentProfile } from "../actions/profileActions";
 
 class Navigation extends Component {
   componentDidMount() {
@@ -8,35 +12,20 @@ class Navigation extends Component {
     // $(menu).metisMenu();
   }
 
-  activeRoute(routeName) {
-    // return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  }
-
-  secondLevelActive(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1
-      ? "nav nav-second-level collapse in"
-      : "nav nav-second-level collapse";
-  }
-
   render() {
+    const { user } = this.props.auth;
+
     return (
       <nav className="navbar-default navbar-static-side" role="navigation">
-        <ul className="nav metismenu" id="side-menu" ref="menu">
+        <ul className="nav flex-column metismenu" id="side-menu" ref="menu">
           <li className="nav-header">
             <div className="dropdown profile-element">
-              {" "}
-              <span />
               <a data-toggle="dropdown" className="dropdown-toggle" href="#">
                 <span className="clear">
-                  {" "}
                   <span className="block m-t-xs">
-                    {" "}
-                    <strong className="font-bold">Example user</strong>
-                  </span>{" "}
-                  <span className="text-muted text-xs block">
-                    Example position<b className="caret" />
-                  </span>{" "}
-                </span>{" "}
+                    <strong className="font-bold">{user.name}</strong>
+                  </span>
+                </span>
               </a>
               <ul className="dropdown-menu animated fadeInRight m-t-xs">
                 <li>
@@ -46,15 +35,16 @@ class Navigation extends Component {
             </div>
             <div className="logo-element">IN+</div>
           </li>
-          <li className={this.activeRoute("/main")}>
-            <Link to="/main">
-              <i className="fa fa-th-large" />{" "}
-              <span className="nav-label">Main view</span>
+
+          <li className="nav-item">
+            <Link to="/dashboard" className="nav-link">
+              <i className="fa fa-th-large" />
+              <span className="nav-label">Dashboard</span>
             </Link>
           </li>
-          <li className={this.activeRoute("/minor")}>
-            <Link to="/minor">
-              <i className="fa fa-th-large" />{" "}
+          <li className="nav-item">
+            <Link to="/minor" className="nav-link">
+              <i className="fa fa-th-large" />
               <span className="nav-label">Minor view</span>
             </Link>
           </li>
@@ -64,4 +54,17 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+Navigation.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser, clearCurrentProfile }
+)(Navigation);

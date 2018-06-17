@@ -1,12 +1,21 @@
 import React from "react";
-// import { Dropdown } from "react-bootstrap";
-// import { smoothlyMenu } from "../layouts/Helpers";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+import { clearCurrentProfile } from "../actions/profileActions";
 
 class Header extends React.Component {
   toggleNavigation(e) {
     e.preventDefault();
     // $("body").toggleClass("mini-navbar");
     // smoothlyMenu();
+  }
+
+  onLogout(e) {
+    e.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logoutUser();
   }
 
   render() {
@@ -28,9 +37,8 @@ class Header extends React.Component {
           </div>
           <ul className="nav navbar-top-links navbar-right">
             <li>
-              <a href="#">
+              <a onClick={this.onLogout.bind(this)}>
                 <i className="fa fa-sign-out" /> Log out
-                <faSignout />
               </a>
             </li>
           </ul>
@@ -40,4 +48,17 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser, clearCurrentProfile }
+)(Header);

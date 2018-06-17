@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getGithubProfile } from "../../actions/githubActions";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 
 class ProfileGithub extends Component {
   componentDidMount() {

@@ -23,17 +23,16 @@ class Header extends React.Component {
       <div className="row border-bottom">
         <nav
           className="navbar navbar-static-top white-bg"
-          role="navigation"
           style={{ marginBottom: 0, width: "100%" }}
         >
           <div className="navbar-header">
-            <a
-              className="navbar-minimalize minimalize-styl-2 btn btn-primary "
+            {/* TODO: close navigation using redux  */}
+            <button
+              className="navbar-minimalize minimalize-styl-2 btn btn-primary"
               onClick={this.toggleNavigation}
-              href="#"
             >
-              <i className="fa fa-bars" />{" "}
-            </a>
+              <i className="fa fa-bars" />
+            </button>
           </div>
           <ul className="nav navbar-top-links navbar-right">
             <li>

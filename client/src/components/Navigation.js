@@ -28,7 +28,7 @@ class Navigation extends Component {
     const { user } = this.props.auth;
 
     return (
-      <nav className="navbar-default navbar-static-side" role="navigation">
+      <nav className="navbar-default navbar-static-side">
         <ul className="nav flex-column metismenu" id="side-menu" ref="menu">
           <li className="nav-header">
             <div className="text-center profile-element">
@@ -59,7 +59,7 @@ class Navigation extends Component {
                 >
                   <a className="dropdown-item">Profile</a>
                   <a className="dropdown-item">Change password</a>
-                  <div class="dropdown-divider" />
+                  <div className="dropdown-divider" />
                   <a className="dropdown-item">Logout</a>
                 </div>
               </div>

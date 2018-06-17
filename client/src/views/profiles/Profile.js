@@ -7,9 +7,11 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
 import ProfileCredentials from "./ProfileCredentials";
 import ProfileGithub from "./ProfileGithub";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 
 import { getProfileByHandle } from "../../actions/profileActions";
+
+import Main from "../layouts/Main";
 
 class Profile extends Component {
   componentDidMount() {
@@ -39,19 +41,21 @@ class Profile extends Component {
       );
 
     return (
-      <div className="profile">
-        <div className="container">
-          <div className="row">
-            <div className="col-6">
-              <Link to="/profiles" className="btn btn-light mb-3 float-left">
-                Back To Profiles
-              </Link>
+      <Main>
+        <div className="profile">
+          <div className="container">
+            <div className="row">
+              <div className="col-6">
+                <Link to="/profiles" className="btn btn-light mb-3 float-left">
+                  Back To Profiles
+                </Link>
+              </div>
+              <div className="col-6" />
             </div>
-            <div className="col-6" />
+            {profileContent}
           </div>
-          {profileContent}
         </div>
-      </div>
+      </Main>
     );
   }
 }

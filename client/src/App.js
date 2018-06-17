@@ -13,11 +13,11 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
 import AddEditExperience from "./components/create-profile/AddEditExperience";
 import AddEditEducation from "./components/create-profile/AddEditEducation";
-import Profiles from "./components/Profiles";
 import Posts from "./components/Posts";
 import Post from "./components/Post";
 
-import Profile from "./components/Profile/Profile";
+import Profiles from "./views/profiles";
+import Profile from "./views/profiles/Profile";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";

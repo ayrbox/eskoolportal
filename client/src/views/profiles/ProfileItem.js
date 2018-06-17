@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import isEmpty from "../utils/is-empty";
+import isEmpty from "../../utils/is-empty";
 
 class ProfileItem extends Component {
   render() {
@@ -11,7 +11,7 @@ class ProfileItem extends Component {
         <div className="row">
           <div className="col-2">
             <img
-              className="rounded-circle"
+              className="rounded-circle img-fluid"
               src={profile.user.avatar}
               alt="Profile Avatar"
             />
@@ -25,21 +25,37 @@ class ProfileItem extends Component {
                 <span>@ {profile.company}</span>
               )}
             </p>
-            {isEmpty(profile.location) ? null : <p>{profile.location}</p>}
-            <Link to={`/profile/${profile.handle}`} className="btn btn-info">
+            {isEmpty(profile.location) ? null : (
+              <p>
+                <i className="fa fa-map-marker" /> {profile.location}
+              </p>
+            )}
+            <Link
+              to={`/profile/${profile.handle}`}
+              className="btn btn-primary btn-outline btn-sm"
+            >
               View Profile
             </Link>
           </div>
           <div className="col-md-4 d-none d-md-block">
-            <h4>Skill set</h4>
-            <ul className="list-group">
-              {profile.skills.slice(0, 4).map((skill, index) => (
-                <li key={index} className="list-group-item">
-                  <i className="fa fa-check pr-2" />
-                  {skill}
-                </li>
-              ))}
-            </ul>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Skill Set</th>
+                </tr>
+              </thead>
+              <tbody>
+                {profile.skills.slice(0, 4).map((skill, index) => (
+                  <tr key={index}>
+                    <td>
+                      <i className="fa fa-check pr-2" />
+                      {skill}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <ul className="list-group" />
           </div>
         </div>
       </div>

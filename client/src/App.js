@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import "./App.css";
+import "./inspina.css";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -53,9 +54,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-
             <Route exact path="/" component={Landing} />
-
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
@@ -99,7 +98,6 @@ class App extends Component {
                 <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
             </div>
-
             <Footer />
           </div>
         </Router>

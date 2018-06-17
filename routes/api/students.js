@@ -7,4 +7,10 @@ const router = express.Router();
 // @access Public
 router.get("/test", (req, res) => res.json({ message: "Students works" }));
 
+
+
+router.get('/students', (req, res) => {
+    res.json({'students': 'listo fo students'});
+})
+
 module.exports = router;

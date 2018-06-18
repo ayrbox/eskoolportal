@@ -40,30 +40,34 @@ class ProfileHeader extends Component {
     ];
 
     return (
-      <div className="row">
+      <div className="row row m-b-lg m-t-lg">
         <div className="col-md-12">
-          <div className="card card-body bg-info text-white mb-3">
-            <div className="row">
-              <div className="col-4 col-md-3 m-auto">
-                <img
-                  className="rounded-circle"
-                  src={profile.user.avatar}
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="text-center">
-              <h1 className="display-4 text-center">{profile.user.name}</h1>
-              <p className="lead text-center">
-                {profile.status}
-                {isEmpty(
-                  profile.company ? null : <span> at {profile.company}</span>
+          <div className="profile-image">
+            <img
+              className="rounded-circle circle-border m-b-md"
+              alt="profile"
+              src={profile.user.avatar}
+            />
+          </div>
+
+          <div className="profile-info">
+            <div className="">
+              <div>
+                <h2 className="no-margins">{profile.user.name}</h2>
+                <h4>
+                  {profile.status}
+                  {isEmpty(profile.company) ? null : (
+                    <span> at {profile.company}</span>
+                  )}
+                </h4>
+                <small>{profile.bio}</small>
+
+                {isEmpty(profile.location) ? null : (
+                  <p>
+                    <i className="fa fa-map-marker" /> {profile.location}
+                  </p>
                 )}
-              </p>
-
-              {isEmpty(profile.location) ? null : <p> {profile.location}</p>}
-
-              <p>{links.map(l => <ProfileIconLink key={l.key} {...l} />)}</p>
+              </div>
             </div>
           </div>
         </div>

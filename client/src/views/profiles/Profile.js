@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
+import ProfileSkills from "./ProfileSkills";
 import ProfileCredentials from "./ProfileCredentials";
 import ProfileGithub from "./ProfileGithub";
 import Spinner from "../../components/Spinner";
@@ -29,7 +30,14 @@ class Profile extends Component {
       ) : (
         <div>
           <ProfileHeader profile={profile} />
-          <ProfileAbout profile={profile} />
+          <div className="row">
+            <div className="col-md-6">
+              <ProfileAbout profile={profile} />
+            </div>
+            <div className="col-md-6">
+              <ProfileSkills profile={profile} />
+            </div>
+          </div>
           <ProfileCredentials
             experience={profile.experience}
             education={profile.education}
@@ -42,19 +50,7 @@ class Profile extends Component {
 
     return (
       <Main>
-        <div className="profile">
-          <div className="container">
-            <div className="row">
-              <div className="col-6">
-                <Link to="/profiles" className="btn btn-light mb-3 float-left">
-                  Back To Profiles
-                </Link>
-              </div>
-              <div className="col-6" />
-            </div>
-            {profileContent}
-          </div>
-        </div>
+        <div className="wrapper wrapper-content profile">{profileContent}</div>
       </Main>
     );
   }

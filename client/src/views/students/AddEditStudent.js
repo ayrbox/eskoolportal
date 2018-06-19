@@ -33,6 +33,12 @@ class AddEditStudent extends Component {
         errors: nextProps.errors
       });
     }
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    console.log("Submit Click");
   }
 
   render() {
@@ -44,7 +50,7 @@ class AddEditStudent extends Component {
       formContent = <Spinner />;
     } else {
       formContent = (
-        <form className="form-horizontal">
+        <form className="form-horizontal" onSubmit={this.onSubmit}>
           <div className="form-group">
             <label className="col-sm-2 control-label">Name</label>
             <div className="col-sm-10">

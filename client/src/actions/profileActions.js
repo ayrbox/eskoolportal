@@ -151,31 +151,6 @@ export const getProfiles = () => dispatch => {
         payload: []
       })
     );
-
-  axios
-    .get("/api/students")
-    .then(res => {
-      console.log(res.data);
-    })
-    .catch(err => {
-      console.log(err.response.data);
-    });
-
-  axios
-    .post("api/students/", {
-      name: "Bean",
-      dateOfBirth: "2012-04-23T18:25:43.511Z",
-      gender: "Male",
-      address: "London",
-      contactNo: "0759283293892",
-      email: "beans.dan@hotmail.com"
-    })
-    .then(res => {
-      console.log(res.data);
-    })
-    .catch(err => {
-      console.error(err.response);
-    });
 };
 
 //Get profile by handle

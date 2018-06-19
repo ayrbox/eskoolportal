@@ -2,6 +2,8 @@ const express = require("express");
 const Student = require("../../models/Student");
 const passport = require("passport");
 
+const validateStudentInput = require("../../validation/student");
+
 const router = express.Router();
 
 // @route GET api/students/
@@ -56,7 +58,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     console.log(req.body);
-    //const { errros, isValid } = validateStudentInput(req.body);
+    const { errros, isValid } = validateStudentInput(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
     const studentProfile = {};
     studentProfile.name = req.body.name;
@@ -65,8 +71,6 @@ router.post(
     studentProfile.address = req.body.address;
     studentProfile.contactNo = req.body.contactNo;
     studentProfile.email = req.body.email;
-
-    console.log(studentProfile);
 
     new Student(studentProfile).save().then(studnet => res.json(student));
   }

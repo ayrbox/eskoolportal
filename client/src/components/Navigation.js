@@ -83,6 +83,12 @@ class Navigation extends Component {
               <i className="fa fa-list" /> Post Feed
             </Link>
           </li>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/students">
+              <i className="fa fa-user" /> Students
+            </Link>
+          </li>
         </ul>
       </nav>
     );

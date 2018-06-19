@@ -17,3 +17,11 @@ export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
+
+export const GET_STUDENTS = "GET_STUDENTS";
+export const GET_STUDENT = "GET_STUDENT";
+export const ADD_STUDENT = "ADD_STUDENT";
+export const UPDATE_STUDENT = "UPDATE_STUDENT";
+export const DELETE_STUDENT = "DELETE_STUDENT";
+export const CLEAR_STUDENTS = "CLEAR_STUDENTS";
+export const LOADING_STUDENTS = "LOADING_STUDENTS";

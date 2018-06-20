@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaGroup from "./TextAreaGroup";
-import { addPost } from "../actions/postActions";
+import TextAreaGroup from "../../components/TextAreaGroup";
+import { addPost } from "../../actions/postActions";
 
 class PostForm extends Component {
   constructor(props) {
@@ -47,25 +47,23 @@ class PostForm extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="post-form mb-3 container">
-        <div className="card card-info">
-          <div className="card-header bg-info text-white">Say Somthing...</div>
-          <div className="card-body">
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <TextAreaGroup
-                  placeholder="Create a post"
-                  name="text"
-                  value={this.state.text}
-                  onChange={this.onChange}
-                  error={errors.text}
-                />
-              </div>
-              <button type="submit" className="btn btn-dark">
-                Submit
-              </button>
-            </form>
-          </div>
+      <div className="ibox post-form mb-3">
+        <div className="ibox-content">
+          <h2>Write post</h2>
+          <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <TextAreaGroup
+                placeholder="Create a post"
+                name="text"
+                value={this.state.text}
+                onChange={this.onChange}
+                error={errors.text}
+              />
+            </div>
+            <button type="submit" className="btn btn-dark">
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     );

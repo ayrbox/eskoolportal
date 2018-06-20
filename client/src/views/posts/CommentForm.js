@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaGroup from "./TextAreaGroup";
-import { addComment } from "../actions/postActions";
+import TextAreaGroup from "../../components/TextAreaGroup";
+import { addComment } from "../../actions/postActions";
+import { Link } from "react-router-dom";
 
 class CommentForm extends Component {
   constructor(props) {
@@ -49,26 +50,27 @@ class CommentForm extends Component {
 
   render() {
     const { errors } = this.state;
+    const { user } = this.props.auth;
     return (
-      <div className="post-form mb-3 container">
-        <div className="card card-info">
-          <div className="card-header bg-info text-white">Make comment...</div>
-          <div className="card-body">
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <TextAreaGroup
-                  placeholder="Make comment"
-                  name="text"
-                  value={this.state.text}
-                  onChange={this.onChange}
-                  error={errors.text}
-                />
-              </div>
-              <button type="submit" className="btn btn-dark">
-                Submit
-              </button>
-            </form>
-          </div>
+      <div className="social-comment">
+        <div href="" className="pull-left">
+          <img alt="image" src={user.avatar} />
+        </div>
+        <div class="media-body">
+          <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <TextAreaGroup
+                placeholder="Make comment"
+                name="text"
+                value={this.state.text}
+                onChange={this.onChange}
+                error={errors.text}
+              />
+            </div>
+            <button type="submit" className="btn btn-dark btn-sm">
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     );

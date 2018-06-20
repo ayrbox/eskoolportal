@@ -13,14 +13,14 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
 import AddEditExperience from "./components/create-profile/AddEditExperience";
 import AddEditEducation from "./components/create-profile/AddEditEducation";
-import Posts from "./components/Posts";
-import Post from "./components/Post";
 
 //Views
 import Profiles from "./views/profiles";
 import Profile from "./views/profiles/Profile";
 import Students from "./views/students/";
 import AddEditStudent from "./views/students/AddEditStudent";
+import PostsIndex from "./views/posts/";
+import Post from "./views/posts/Post";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -88,7 +88,7 @@ class App extends Component {
             <Route exact path="/profiles" component={Profiles} />
             <Route exact path="/profile/:handle" component={Profile} />
             <Switch>
-              <PrivateRoute exact path="/feed" component={Posts} />
+              <PrivateRoute exact path="/feed" component={PostsIndex} />
             </Switch>
             <Switch>
               <PrivateRoute exact path="/post/:id" component={Post} />

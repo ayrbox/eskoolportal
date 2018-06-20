@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "./Spinner";
+import Spinner from "../../components/Spinner";
 import PostItem from "./PostItem";
-import { getPost } from "../actions/postActions";
+import { getPost } from "../../actions/postActions";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import CommentFeed from "./CommentFeed";
+
+import Main from "../layouts/Main";
 
 class Post extends Component {
   componentDidMount() {
@@ -21,26 +23,28 @@ class Post extends Component {
     } else {
       postContent = (
         <div>
-          <PostItem post={post} showActions={false} />
-          <CommentForm postId={post._id} />
-          <CommentFeed postId={post._id} comments={post.comments} />
+          <div className="social-body">
+            <PostItem post={post} showActions={false} />
+          </div>
+          <div className="social-footer">
+            <CommentForm postId={post._id} />
+            <CommentFeed postId={post._id} comments={post.comments} />
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="post">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <Link to="/feed" className="btn btn-light mb-3">
-                Back to feed
-              </Link>
-            </div>
+      <Main>
+        <div className="ibox">
+          <div className="ibox-content post">
+            <Link to="/feed" className="btn btn-light mb-3">
+              Back to feed
+            </Link>
             {postContent}
           </div>
         </div>
-      </div>
+      </Main>
     );
   }
 }

@@ -19,6 +19,7 @@ import Profiles from "./views/profiles";
 import Profile from "./views/profiles/Profile";
 import Students from "./views/students/";
 import AddEditStudent from "./views/students/AddEditStudent";
+import StudentProfile from "./views/students/StudentProfile";
 import PostsIndex from "./views/posts/";
 import Post from "./views/posts/Post";
 
@@ -96,6 +97,11 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/students" component={Students} />
             </Switch>
+            <PrivateRoute
+              exact
+              path="/students/:id"
+              component={StudentProfile}
+            />
             <Switch>
               <PrivateRoute
                 exact

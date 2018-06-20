@@ -23,9 +23,7 @@ class Post extends Component {
     } else {
       postContent = (
         <div>
-          <div className="social-body">
-            <PostItem post={post} showActions={false} />
-          </div>
+          <PostItem post={post} showActions={false} />
           <div className="social-footer">
             <CommentForm postId={post._id} />
             <CommentFeed postId={post._id} comments={post.comments} />

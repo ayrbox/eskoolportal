@@ -10,11 +10,11 @@ module.exports = function validateStudent(data) {
   data.address = !isEmpty(data.address) ? data.address : "";
 
   if (validator.isEmpty(data.name)) {
-    errors.handle = "Name is required";
+    errors.name = "Name is required";
   }
 
   if (!validator.isLength(data.name, { min: 5, max: 100 })) {
-    errors.handle = "Name needs to be between 5 to 100 characters";
+    errors.name = "Name needs to be between 5 to 100 characters";
   }
 
   if (validator.isEmpty(data.dateOfBirth)) {

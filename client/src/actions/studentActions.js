@@ -57,3 +57,39 @@ export const getStudent = id => dispatch => {
       })
     );
 };
+
+export const insertStudent = student => dispatch => {
+  dispatch(loadingStudents());
+  axios
+    .post("/api/students/")
+    .then(res =>
+      dispatch({
+        type: GET_STUDENT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const updateStudent = (id, student) => dispatch => {
+  dispatch(loadingStudents());
+  axios
+    .put(`/api/students/${id}`, student)
+    .then(res =>
+      dispatch({
+        type: GET_STUDENT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

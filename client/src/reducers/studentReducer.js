@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
     case LOADING_STUDENTS:
       return {
         ...state,
-        laoding: true
+        loading: true
       };
     case CLEAR_STUDENTS:
       return initialState;

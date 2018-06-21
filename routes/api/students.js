@@ -36,7 +36,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     let errors = {};
-    Student.findOne()
+    Student.findOne({ _id: req.params.id })
       .then(student => {
         if (!student) {
           errors.student = "Student not found";
@@ -57,8 +57,7 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.body);
-    const { errros, isValid } = validateStudentInput(req.body);
+    const { errors, isValid } = validateStudentInput(req.body);
 
     if (!isValid) {
       return res.status(400).json(errors);
@@ -73,6 +72,42 @@ router.post(
     studentProfile.email = req.body.email;
 
     new Student(studentProfile).save().then(studnet => res.json(student));
+  }
+);
+
+router.put(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateStudentInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    const studentProfile = {
+      name: req.body.name,
+      dateOfBirth: req.body.dateOfBirth,
+      gender: req.body.gender,
+      address: req.body.address,
+      contactNo: req.body.contactNo,
+      email: req.body.email,
+      joinDate: req.body.joinDate,
+      class: req.body.class,
+      section: req.body.section
+    };
+
+    //check for unique student code
+    Student.findOne({ _id: req.params.id }).then(student => {
+      if (!student) {
+        return req.status(404).json({ msg: "Not found" });
+      }
+
+      Student.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: studentProfile },
+        { new: true }
+      ).then(updatedStudent => res.json(updatedStudent));
+    });
   }
 );
 

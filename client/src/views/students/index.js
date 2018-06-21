@@ -110,7 +110,7 @@ class StudentsIndex extends Component {
 }
 
 StudentsIndex.propTypes = {
-  students: PropTypes.array.isRequired,
+  students: PropTypes.array,
   getStudents: PropTypes.func.isRequired
 };
 

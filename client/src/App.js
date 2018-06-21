@@ -97,11 +97,13 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/students" component={Students} />
             </Switch>
-            <PrivateRoute
-              exact
-              path="/students/:id"
-              component={StudentProfile}
-            />
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/students/:id"
+                component={StudentProfile}
+              />
+            </Switch>
             <Switch>
               <PrivateRoute
                 exact

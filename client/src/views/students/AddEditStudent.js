@@ -2,19 +2,40 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { getStudent } from "../../actions/studentActions";
+import {
+  getStudent,
+  insertStudent,
+  updateStudent
+} from "../../actions/studentActions";
 
 import Main from "../layouts/Main";
 import Spinner from "../../components/Spinner";
 import isEmpty from "../../utils/is-empty";
+
+import TextFieldGroup from "../../components/TextFieldGroup";
 
 class AddEditStudent extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       addMode: true,
-      id: undefined
+      id: undefined,
+      errors: {},
+      student: {
+        name: "",
+        gender: "",
+        dateOfBirth: "",
+        contactNo: "",
+        email: "",
+        address: "",
+        class: "",
+        section: "",
+        joinDate: ""
+      }
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -33,17 +54,52 @@ class AddEditStudent extends Component {
         errors: nextProps.errors
       });
     }
-    this.onSubmit = this.onSubmit.bind(this);
+
+    if (nextProps.student.student) {
+      const student = nextProps.student.student;
+      student.name = !isEmpty(student.name) ? student.name : "";
+      student.address = !isEmpty(student.address) ? student.address : "";
+      student.gender = !isEmpty(student.gender) ? student.gender : "";
+      student.dateOfBirth = !isEmpty(student.dateOfBirth)
+        ? student.dateOfBirth
+        : "";
+      student.email = !isEmpty(student.email) ? student.email : "";
+      student.contactNo = !isEmpty(student.contactNo) ? student.contactNo : "";
+      student.joinDate = !isEmpty(student.joinDate) ? student.joinDate : "";
+      student.class = !isEmpty(student.class) ? student.class : "";
+      student.section = !isEmpty(student.section) ? student.section : "";
+
+      this.setState({
+        student
+      });
+    }
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log("Submit Click");
+
+    const { addMode, id, student } = this.state;
+    if (addMode) {
+      this.props.insertStudent(student);
+    } else {
+      this.props.updateStudent(id, student);
+    }
+  }
+
+  onChange(e) {
+    this.setState({
+      student: {
+        ...this.state.student,
+        [e.target.name]: e.target.value
+      }
+    });
   }
 
   render() {
-    const { addMode } = this.state;
-    const { student, loading } = this.props.student;
+    const { addMode, errors, student } = this.state;
+
+    //const { student, loading } = this.props.student;
+    const loading = false;
 
     let formContent;
     if (!student || loading) {
@@ -51,26 +107,77 @@ class AddEditStudent extends Component {
     } else {
       formContent = (
         <form className="form-horizontal" onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label className="col-sm-2 control-label">Name</label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                className="form-control"
-                value={student.name}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="col-sm-2 control-label">Date of Birth: </label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                className="form-control"
-                value={student.dateOfBirth}
-              />
-            </div>
-          </div>
+          <TextFieldGroup
+            name="name"
+            label="Name"
+            placeholder="Student name"
+            error={errors.name}
+            value={this.state.student.name}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="gender"
+            placeholder="Gender"
+            error={errors.gender}
+            value={student.gender}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="dateOfBirth"
+            placeholder="Date of Birth"
+            error={errors.dateOfBirth}
+            value={student.dateOfBirth}
+            type="date"
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="contactNo"
+            placeholder="Contact No"
+            error={errors.contactNo}
+            value={student.contactNo}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="email"
+            placeholder="Email"
+            error={errors.email}
+            value={student.email}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="address"
+            placeholder="Address"
+            error={errors.address}
+            value={student.address}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="joinDate"
+            placeholder="Join Date"
+            error={errors.joinDate}
+            value={student.joinDate}
+            onChange={this.onChange}
+            type="date"
+          />
+          <TextFieldGroup
+            name="class"
+            placeholder="Class"
+            error={errors.class}
+            value={student.class}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="section"
+            placeholder="Section"
+            error={errors.section}
+            value={student.section}
+            onChange={this.onChange}
+          />
+          <input
+            type="submit"
+            value="Save"
+            className="btn btn-info btn-block mb-4"
+          />
         </form>
       );
     }
@@ -117,5 +224,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getStudent }
+  { getStudent, insertStudent, updateStudent }
 )(AddEditStudent);

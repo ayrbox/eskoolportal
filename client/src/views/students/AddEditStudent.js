@@ -120,22 +120,24 @@ class AddEditStudent extends Component {
             value={student.name}
             onChange={this.onChange}
           />
-          <div className="form-group">
-            <FormControl>
-              <InputLabel htmlFor="gender">Gender</InputLabel>
-              <Select
-                value={student.gender}
-                onChange={this.onChange}
-                inputProps={{
-                  name: "gender",
-                  id: "gender",
-                  label: "gender"
-                }}
-              >
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-              </Select>
-            </FormControl>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">Gender</label>
+            <div className="col-sm-10">
+              <FormControl>
+                <InputLabel htmlFor="gender">Gender</InputLabel>
+                <Select
+                  value={student.gender}
+                  onChange={this.onChange}
+                  inputProps={{
+                    name: "gender",
+                    id: "gender"
+                  }}
+                >
+                  <MenuItem value="Male">Male</MenuItem>
+                  <MenuItem value="Female">Female</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
           <TextFieldGroup
             id="dateOfBirth"

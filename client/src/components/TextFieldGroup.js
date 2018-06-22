@@ -15,20 +15,23 @@ const TextFieldGroup = ({
   defaultValue
 }) => {
   return (
-    <div className="form-group">
-      <input
-        type={type}
-        className={classnames("form-control form-control-sm", {
-          "is-invalid": error
-        })}
-        label={label}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        disabled={disabled}
-      />
+    <div className="form-group row">
+      <label className="col-sm-2 col-form-label">{label}</label>
+      <div className="col-sm-10">
+        <input
+          type={type}
+          className={classnames("form-control form-control-sm", {
+            "is-invalid": error
+          })}
+          label={label}
+          placeholder={placeholder}
+          name={name}
+          value={value}
+          defaultValue={defaultValue}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      </div>
 
       {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}

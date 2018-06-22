@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import {
   getStudent,
@@ -13,6 +14,11 @@ import Spinner from "../../components/Spinner";
 import isEmpty from "../../utils/is-empty";
 
 import TextFieldGroup from "../../components/TextFieldGroup";
+
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 class AddEditStudent extends Component {
   constructor(props, context) {
@@ -111,63 +117,81 @@ class AddEditStudent extends Component {
             label="Name"
             placeholder="Student name"
             error={errors.name}
-            value={this.state.student.name}
+            value={student.name}
             onChange={this.onChange}
           />
+          <div className="form-group">
+            <FormControl>
+              <InputLabel htmlFor="gender">Gender</InputLabel>
+              <Select
+                value={student.gender}
+                onChange={this.onChange}
+                inputProps={{
+                  name: "gender",
+                  id: "gender",
+                  label: "gender"
+                }}
+              >
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           <TextFieldGroup
-            name="gender"
-            placeholder="Gender"
-            error={errors.gender}
-            value={student.gender}
-            onChange={this.onChange}
-          />
-          <TextFieldGroup
+            id="dateOfBirth"
             name="dateOfBirth"
-            placeholder="Date of Birth"
-            error={errors.dateOfBirth}
-            value={student.dateOfBirth}
-            type="text"
+            label="Date of Birth"
+            type="date"
+            defaultValue={moment(student.dateOfBirth).format("YYYY-MM-DD")}
+            className="form-control"
+            InputLabelProps={{
+              shrink: true
+            }}
             onChange={this.onChange}
           />
           <TextFieldGroup
             name="contactNo"
-            placeholder="Contact No"
+            label="Contact No"
             error={errors.contactNo}
             value={student.contactNo}
             onChange={this.onChange}
           />
           <TextFieldGroup
             name="email"
-            placeholder="Email"
+            label="Email"
             error={errors.email}
             value={student.email}
             onChange={this.onChange}
           />
           <TextFieldGroup
             name="address"
-            placeholder="Address"
+            label="Address"
             error={errors.address}
             value={student.address}
             onChange={this.onChange}
           />
           <TextFieldGroup
+            id="joinDate"
             name="joinDate"
-            placeholder="Join Date"
-            error={errors.joinDate}
-            value={student.joinDate}
+            label="Join Date"
+            type="date"
+            defaultValue={moment(student.joinDate).format("YYYY-MM-DD")}
+            className="form-control"
+            InputLabelProps={{
+              shrink: true
+            }}
             onChange={this.onChange}
-            type="text"
           />
           <TextFieldGroup
             name="class"
-            placeholder="Class"
+            label="Class"
             error={errors.class}
             value={student.class}
             onChange={this.onChange}
           />
           <TextFieldGroup
             name="section"
-            placeholder="Section"
+            label="Section"
             error={errors.section}
             value={student.section}
             onChange={this.onChange}

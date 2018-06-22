@@ -11,10 +11,6 @@ import Spinner from "../../components/Spinner";
 import { getStudents } from "../../actions/studentActions";
 
 class StudentsIndex extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
-
   componentDidMount() {
     this.props.getStudents();
   }

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextAreaGroup from "../../components/TextAreaGroup";
 import { addComment } from "../../actions/postActions";
-import { Link } from "react-router-dom";
 
 class CommentForm extends Component {
   constructor(props) {
@@ -54,7 +53,7 @@ class CommentForm extends Component {
     return (
       <div className="social-comment">
         <div href="" className="pull-left">
-          <img alt="image" src={user.avatar} />
+          <img src={user.avatar} alt="User profile" />
         </div>
         <div class="media-body">
           <form onSubmit={this.onSubmit}>

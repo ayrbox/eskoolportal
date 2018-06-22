@@ -1,43 +1,9 @@
 import React, { Component } from "react";
 import isEmpty from "../../utils/is-empty";
-import ProfileIconLink from "./ProfileIconLink";
 
 class ProfileHeader extends Component {
   render() {
     const { profile } = this.props;
-
-    const links = [
-      {
-        key: "website",
-        link: profile.website,
-        icon: "fas fa-globe"
-      },
-      {
-        key: "twitter",
-        link: profile.social.twitter,
-        icon: "fab fa-twitter"
-      },
-      {
-        key: "youtube",
-        link: profile.social.youtube,
-        icon: "fab fa-youtube"
-      },
-      {
-        key: "linkedin",
-        link: profile.social.linkedin,
-        icon: "fab fa-linkedin"
-      },
-      {
-        key: "facebook",
-        link: profile.social.facebook,
-        icon: "fab fa-facebook"
-      },
-      {
-        key: "instagram",
-        link: profile.social.instagram,
-        icon: "fab fa-instagram"
-      }
-    ];
 
     return (
       <div className="row row m-b-lg m-t-lg">

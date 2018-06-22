@@ -63,15 +63,19 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    const studentProfile = {};
-    studentProfile.name = req.body.name;
-    studentProfile.dateOfBirth = req.body.dateOfBirth;
-    studentProfile.gender = req.body.gender;
-    studentProfile.address = req.body.address;
-    studentProfile.contactNo = req.body.contactNo;
-    studentProfile.email = req.body.email;
+    const studentProfile = {
+      name: req.body.name,
+      dateOfBirth: req.body.dateOfBirth,
+      gender: req.body.gender,
+      address: req.body.address,
+      contactNo: req.body.contactNo,
+      email: req.body.email,
+      joinDate: req.body.joinDate,
+      class: req.body.class,
+      section: req.body.section
+    };
 
-    new Student(studentProfile).save().then(studnet => res.json(student));
+    new Student(studentProfile).save().then(student => res.json(student));
   }
 );
 

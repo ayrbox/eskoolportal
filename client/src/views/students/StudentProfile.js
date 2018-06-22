@@ -10,9 +10,6 @@ import Main from "../layouts/Main";
 import Moment from "react-moment";
 
 class StudentProfile extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
   componentDidMount() {
     const { id } = this.props.match.params;
 
@@ -82,18 +79,19 @@ class StudentProfile extends Component {
                   <dd className="col-sm-8">{student.address}</dd>
                 </dl>
               </div>
-              {/* 
-                TODO: Add Join date/ Class and Section on student collection
+
               <div className="col-lg-5" id="cluster_info">
                 <dl className="row">
                   <dt className="col-sm-4">Join Date:</dt>
-                  <dd className="col-sm-8">25/10/2012</dd>
+                  <dd className="col-sm-8">
+                    <Moment format="DD/MM/YYYY">{student.joinDate}</Moment>
+                  </dd>
                   <dt className="col-sm-4">Class:</dt>
-                  <dd className="col-sm-8">10</dd>
+                  <dd className="col-sm-8">{student.class}</dd>
                   <dt className="col-sm-4">Section:</dt>
-                  <dd className="col-sm-4">C</dd>
+                  <dd className="col-sm-4">{student.section}</dd>
                 </dl>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

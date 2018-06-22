@@ -15,16 +15,25 @@ const StudentSchema = new Schema({
     required: true,
     enum: ["Male", "Female"]
   },
-  address:  {
+  address: {
     type: String,
-    required: true    
+    required: true
   },
   contactNo: {
     type: String,
     required: true
-  }, 
+  },
   email: {
-    type: String    
+    type: String
+  },
+  joinDate: {
+    type: Date
+  },
+  class: {
+    type: String
+  },
+  section: {
+    type: String
   },
   contactPerson: [
     {

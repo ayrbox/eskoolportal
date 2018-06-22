@@ -80,9 +80,9 @@ class AddEditStudent extends Component {
 
     const { addMode, id, student } = this.state;
     if (addMode) {
-      this.props.insertStudent(student);
+      this.props.insertStudent(student, this.props.history);
     } else {
-      this.props.updateStudent(id, student);
+      this.props.updateStudent(id, student, this.props.history);
     }
   }
 
@@ -98,8 +98,7 @@ class AddEditStudent extends Component {
   render() {
     const { addMode, errors, student } = this.state;
 
-    //const { student, loading } = this.props.student;
-    const loading = false;
+    const { loading } = this.props.student;
 
     let formContent;
     if (!student || loading) {
@@ -127,7 +126,7 @@ class AddEditStudent extends Component {
             placeholder="Date of Birth"
             error={errors.dateOfBirth}
             value={student.dateOfBirth}
-            type="date"
+            type="text"
             onChange={this.onChange}
           />
           <TextFieldGroup
@@ -157,7 +156,7 @@ class AddEditStudent extends Component {
             error={errors.joinDate}
             value={student.joinDate}
             onChange={this.onChange}
-            type="date"
+            type="text"
           />
           <TextFieldGroup
             name="class"
@@ -193,7 +192,7 @@ class AddEditStudent extends Component {
                   <a href="/dashboard">Home</a>
                 </li>
                 <li className="breadcrumb-item" aria-current="page">
-                  Students
+                  <a href="/students">Students</a>
                 </li>
                 <li className="breadcrumb-item">{addMode ? "Add" : "Edit"}</li>
               </ol>
@@ -219,7 +218,8 @@ AddEditStudent.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  student: state.student
+  student: state.student,
+  errors: state.errors
 });
 
 export default connect(

@@ -100,19 +100,17 @@ class App extends Component {
             <Switch>
               <PrivateRoute
                 exact
-                path="/students/:id"
-                component={StudentProfile}
-              />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path="/students/:id/edit"
+                path="/students/add"
                 component={AddEditStudent}
               />
               <PrivateRoute
                 exact
-                path="/students/add"
+                path="/students/:id"
+                component={StudentProfile}
+              />
+              <PrivateRoute
+                exact
+                path="/students/:id/edit"
                 component={AddEditStudent}
               />
             </Switch>

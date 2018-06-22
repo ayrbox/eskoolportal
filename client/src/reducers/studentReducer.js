@@ -3,7 +3,6 @@ import {
   GET_STUDENT,
   ADD_STUDENT,
   UPDATE_STUDENT,
-  DELETE_STUDENT,
   CLEAR_STUDENTS,
   LOADING_STUDENTS
 } from "../actions/types";
@@ -11,7 +10,8 @@ import {
 const initialState = {
   students: [],
   student: undefined,
-  loading: true
+  loading: true,
+  errors: {}
 };
 
 export default function(state = initialState, action) {
@@ -30,6 +30,18 @@ export default function(state = initialState, action) {
         loading: false
       };
     case GET_STUDENT:
+      return {
+        ...state,
+        student: action.payload,
+        loading: false
+      };
+    case UPDATE_STUDENT:
+      return {
+        ...state,
+        student: action.payload,
+        loading: false
+      };
+    case ADD_STUDENT:
       return {
         ...state,
         student: action.payload,

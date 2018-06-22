@@ -3,8 +3,6 @@ import {
   GET_STUDENTS,
   GET_STUDENT,
   ADD_STUDENT,
-  UPDATE_STUDENT,
-  DELETE_STUDENT,
   CLEAR_STUDENTS,
   LOADING_STUDENTS,
   GET_ERRORS
@@ -58,34 +56,27 @@ export const getStudent = id => dispatch => {
     );
 };
 
-export const insertStudent = student => dispatch => {
-  dispatch(loadingStudents());
+export const insertStudent = (student, history) => dispatch => {
+  // dispatch(loadingStudents());
   axios
-    .post("/api/students/")
-    .then(res =>
-      dispatch({
-        type: GET_STUDENT,
-        payload: res.data
-      })
-    )
+    .post("/api/students/", student)
+    .then(res => {
+      const id = res.data._id;
+      return history.push(`/students/${id}`);
+    })
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: ADD_STUDENT,
         payload: err.response.data
       })
     );
 };
 
-export const updateStudent = (id, student) => dispatch => {
-  dispatch(loadingStudents());
+export const updateStudent = (id, student, history) => dispatch => {
+  // dispatch(loadingStudents());
   axios
     .put(`/api/students/${id}`, student)
-    .then(res =>
-      dispatch({
-        type: GET_STUDENT,
-        payload: res.data
-      })
-    )
+    .then(res => history.push(`/students/${id}`))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

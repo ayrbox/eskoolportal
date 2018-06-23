@@ -6,6 +6,7 @@ import Moment from "react-moment";
 
 import Main from "../layouts/Main";
 import Spinner from "../../components/Spinner";
+import axios from "axios";
 
 //actions
 import { getStudents } from "../../actions/studentActions";
@@ -18,7 +19,18 @@ class StudentsIndex extends Component {
   }
 
   handleDownloadList() {
-    window.open("/api/students/list/pdf");
+    axios({
+      url: "/api/students/list/pdf",
+      method: "GET",
+      responseType: "blob"
+    }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "student_list.pdf");
+      document.body.appendChild(link);
+      link.click();
+    });
   }
 
   render() {

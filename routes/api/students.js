@@ -4,6 +4,8 @@ const passport = require("passport");
 
 const validateStudentInput = require("../../validation/student");
 
+const pdfGenerator = require("../../utils/pdfGenerator");
+
 const router = express.Router();
 
 // @route GET api/students/
@@ -17,7 +19,7 @@ router.get(
     Student.find()
       .then(students => {
         if (!students) {
-          errors.students = "There are no studnet records";
+          errors.students = "There are no student records found";
           return res.status(404).json(errors);
         }
         res.json(students);
@@ -114,5 +116,73 @@ router.put(
     });
   }
 );
+
+// passport.authenticate("jwt", { session: false }),
+// Prints all students list in pdf
+router.get("/list/pdf", (req, res) => {
+  Student.find()
+    .then(students => {
+      if (!students) {
+        errors.students = "There are no student records found";
+        return res.status(404).json(errors);
+      }
+      pdfGenerator(
+        "Student List",
+        {
+          columns: [
+            {
+              id: "name",
+              header: "Name",
+              align: "left",
+              width: 150
+            },
+            {
+              id: "class",
+              header: "Class",
+              width: 50
+            },
+            {
+              id: "section",
+              header: "Section",
+              width: 50
+            },
+            {
+              id: "gender",
+              header: "Gender",
+              width: 50
+            },
+            {
+              id: "dateOfBirth",
+              header: "DOB",
+              width: 50
+            },
+            {
+              id: "contactNo",
+              header: "Contact No",
+              width: 100
+            },
+            {
+              id: "email",
+              header: "Email",
+              width: 120
+            }
+          ],
+          data: students.map(s => ({
+            name: s.name,
+            class: s.class,
+            section: s.section,
+            gender: s.gender,
+            contactNo: s.contactNo,
+            email: s.email,
+            dateOfBirth: s.dateOfBirth.getFullYear()
+          }))
+        },
+        res
+      );
+    })
+    .catch(err => {
+      res.status(500).json({ studnets: "Error getting students" });
+    });
+});
 
 module.exports = router;

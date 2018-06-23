@@ -13,6 +13,12 @@ import { getStudents } from "../../actions/studentActions";
 class StudentsIndex extends Component {
   componentDidMount() {
     this.props.getStudents();
+
+    this.handleDownloadList = this.handleDownloadList.bind(this);
+  }
+
+  handleDownloadList() {
+    window.open("/api/students/list/pdf");
   }
 
   render() {
@@ -92,9 +98,16 @@ class StudentsIndex extends Component {
             <div className="ibox-title">
               <h5>List of all students</h5>
               <div className="ibox-tools">
-                <Link to={`/students/add`} className="btn btn-primary btn-xs">
+                <Link to={`/students/add`} className="btn btn-primary btn-sm">
                   New Student
                 </Link>
+
+                <button
+                  className="btn btn-dark btn-sm ml-2"
+                  onClick={this.handleDownloadList}
+                >
+                  Download List
+                </button>
               </div>
             </div>
             <div className="ibox-content">{studentsList}</div>

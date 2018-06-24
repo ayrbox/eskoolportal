@@ -102,7 +102,8 @@ Navigation.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  ui: state.ui
 });
 
 export default connect(

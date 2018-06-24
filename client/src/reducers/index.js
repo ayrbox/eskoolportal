@@ -7,6 +7,7 @@ import profileReducer from "./profileReducer";
 import githubReducer from "./githubReducer";
 import postReducer from "./postReducer";
 import studentReducer from "./studentReducer";
+import uiReducer from "./uiReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   profile: profileReducer,
   github: githubReducer,
   post: postReducer,
-  student: studentReducer
+  student: studentReducer,
+  ui: uiReducer
 });

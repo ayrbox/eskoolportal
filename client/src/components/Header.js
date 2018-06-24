@@ -4,12 +4,24 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 import { clearCurrentProfile } from "../actions/profileActions";
+import { toogleMenu } from "../actions/uiActions";
 
 class Header extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.toggleNavigation = this.toggleNavigation.bind(this);
+  }
+
   toggleNavigation(e) {
     e.preventDefault();
     // $("body").toggleClass("mini-navbar");
     // smoothlyMenu();
+    const { menuState } = this.props.ui;
+    const nextMenuState = menuState === "open" ? "close" : "open"; //need to switch if there are may states
+
+    document.body.classList.toggle("mini-navbar", nextMenuState === "open");
+
+    this.props.toogleMenu(nextMenuState);
   }
 
   onLogout(e) {
@@ -54,10 +66,11 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  ui: state.ui
 });
 
 export default connect(
   mapStateToProps,
-  { logoutUser, clearCurrentProfile }
+  { logoutUser, clearCurrentProfile, toogleMenu }
 )(Header);

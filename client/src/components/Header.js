@@ -9,13 +9,13 @@ import { toogleMenu } from "../actions/uiActions";
 class Header extends React.Component {
   constructor(props, context) {
     super(props, context);
+
     this.toggleNavigation = this.toggleNavigation.bind(this);
+    this.handleWindowResize = this.handleWindowResize.bind(this);
   }
 
   toggleNavigation(e) {
     e.preventDefault();
-    // $("body").toggleClass("mini-navbar");
-    // smoothlyMenu();
     const { menuState } = this.props.ui;
     const nextMenuState = menuState === "open" ? "close" : "open"; //need to switch if there are may states
 
@@ -28,6 +28,24 @@ class Header extends React.Component {
     e.preventDefault();
     this.props.clearCurrentProfile();
     this.props.logoutUser();
+  }
+
+  handleWindowResize() {
+    const winWidth = window.innerWidth;
+    if (winWidth < 769) {
+      document.body.classList.add("body-small");
+    } else {
+      document.body.classList.remove("body-small");
+    }
+  }
+
+  componentDidMount() {
+    this.handleWindowResize();
+    window.addEventListener("resize", this.handleWindowResize);
+  }
+
+  componentWillUpmount() {
+    this.removeEventListner("resize", this.handleWindowResize);
   }
 
   render() {

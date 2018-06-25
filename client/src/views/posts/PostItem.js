@@ -48,7 +48,7 @@ class PostItem extends Component {
 
               <div className="media-body">
                 <Link to={`/profile/${auth.user.id}`}>{auth.user.name}</Link>
-                <small class="text-muted" />
+                <small className="text-muted" />
               </div>
             </div>
             <div className="social-body">

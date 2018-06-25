@@ -80,13 +80,15 @@ class Navigation extends Component {
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/feed">
-              <i className="fa fa-list" /> Post Feed
+              <i className="fa fa-list" />{" "}
+              <span className="nav-label">Post Feed</span>
             </Link>
           </li>
 
           <li className="nav-item">
             <Link className="nav-link" to="/students">
-              <i className="fa fa-user" /> Students
+              <i className="fa fa-user" />
+              <span className="nav-label">Students</span>
             </Link>
           </li>
         </ul>

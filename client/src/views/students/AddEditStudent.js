@@ -113,6 +113,14 @@ class AddEditStudent extends Component {
       formContent = (
         <form className="form-horizontal" onSubmit={this.onSubmit}>
           <TextFieldGroup
+            name="referenceCode"
+            label="Reference Code"
+            placeholder="Unique Reference code"
+            vlaue={errors.referenceCode}
+            value={student.referenceCode}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
             name="name"
             label="Name"
             placeholder="Student name"
@@ -196,6 +204,13 @@ class AddEditStudent extends Component {
             label="Section"
             error={errors.section}
             value={student.section}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            name="classRollNo"
+            label="Class Roll No:"
+            error={errors.section}
+            value={student.classRollNo}
             onChange={this.onChange}
           />
           <input

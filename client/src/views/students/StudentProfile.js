@@ -56,6 +56,8 @@ class StudentProfile extends Component {
             <div className="row">
               <div className="col-md-6">
                 <dl className="row">
+                  <dt className="col-sm-4">Reference Code:</dt>
+                  <dd className="col-sm-8">{student.referenceCode}</dd>
                   <dt className="col-sm-4">Name:</dt>
                   <dd className="col-sm-8">{student.name}</dd>
                   <dt className="col-sm-4">Gender:</dt>
@@ -89,7 +91,9 @@ class StudentProfile extends Component {
                   <dt className="col-sm-4">Class:</dt>
                   <dd className="col-sm-8">{student.class}</dd>
                   <dt className="col-sm-4">Section:</dt>
-                  <dd className="col-sm-4">{student.section}</dd>
+                  <dd className="col-sm-8">{student.section}</dd>
+                  <dt className="col-sm-4">Roll No:</dt>
+                  <dd className="col-sm-8">{student.classRollNo}</dd>
                 </dl>
               </div>
             </div>

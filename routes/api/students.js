@@ -74,7 +74,9 @@ router.post(
       email: req.body.email,
       joinDate: req.body.joinDate,
       class: req.body.class,
-      section: req.body.section
+      section: req.body.section,
+      classRollNo: req.body.classRollNo,
+      referenceCode: req.body.referenceCode
     };
 
     new Student(studentProfile).save().then(student => res.json(student));
@@ -99,7 +101,9 @@ router.put(
       email: req.body.email,
       joinDate: req.body.joinDate,
       class: req.body.class,
-      section: req.body.section
+      section: req.body.section,
+      classRollNo: req.body.classRollNo,
+      referenceCode: req.body.referenceCode
     };
 
     //check for unique student code

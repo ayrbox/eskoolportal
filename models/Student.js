@@ -35,6 +35,12 @@ const StudentSchema = new Schema({
   section: {
     type: String
   },
+  classRollNo: {
+    type: Number
+  },
+  referenceCode: {
+    type: String
+  },
   contactPerson: [
     {
       name: {

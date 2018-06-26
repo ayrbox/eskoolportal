@@ -99,6 +99,17 @@ class StudentProfile extends Component {
             </div>
           </div>
         </div>
+
+        <div className="ibox">
+          <div className="ibox-content">
+            <Link
+              to={`/students/${student._id}/contactperson`}
+              className="btn btn-white btn-sm pull-right"
+            >
+              Add Contact Persion
+            </Link>
+          </div>
+        </div>
       </Main>
     );
   }

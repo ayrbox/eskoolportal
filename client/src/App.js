@@ -19,6 +19,7 @@ import Profiles from "./views/profiles";
 import Profile from "./views/profiles/Profile";
 import Students from "./views/students/";
 import AddEditStudent from "./views/students/AddEditStudent";
+import AddEditContactPerson from "./views/students/AddEditContactPerson";
 import StudentProfile from "./views/students/StudentProfile";
 import PostsIndex from "./views/posts/";
 import Post from "./views/posts/Post";
@@ -112,6 +113,13 @@ class App extends Component {
                 exact
                 path="/students/:id/edit"
                 component={AddEditStudent}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/students/:id/contactperson"
+                component={AddEditContactPerson}
               />
             </Switch>
           </div>

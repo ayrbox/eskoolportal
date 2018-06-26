@@ -15,6 +15,13 @@ class Navigation extends Component {
     };
 
     this.onToggleDropdown = this.onToggleDropdown.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout(e) {
+    e.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logoutUser();
   }
 
   onToggleDropdown(e) {
@@ -60,7 +67,9 @@ class Navigation extends Component {
                   <a className="dropdown-item">Profile</a>
                   <a className="dropdown-item">Change password</a>
                   <div className="dropdown-divider" />
-                  <a className="dropdown-item">Logout</a>
+                  <a className="dropdown-item" onClick={this.handleLogout}>
+                    Logout
+                  </a>
                 </div>
               </div>
             </div>

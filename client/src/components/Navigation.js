@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
-import { clearCurrentProfile } from "../actions/profileActions";
+import {
+  getCurrentProfile,
+  clearCurrentProfile
+} from "../actions/profileActions";
 import classnames from "classnames";
 
 class Navigation extends Component {
@@ -16,6 +19,10 @@ class Navigation extends Component {
 
     this.onToggleDropdown = this.onToggleDropdown.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
   }
 
   handleLogout(e) {
@@ -33,6 +40,7 @@ class Navigation extends Component {
 
   render() {
     const { user } = this.props.auth;
+    const { profile } = this.props.profile;
 
     return (
       <nav className="navbar-default navbar-static-side">
@@ -64,7 +72,14 @@ class Navigation extends Component {
                   })}
                   aria-labelledby="dropdownMenuLink"
                 >
-                  <a className="dropdown-item">Profile</a>
+                  {profile ? (
+                    <Link
+                      to={`/profile/${profile.handle}`}
+                      className="dropdown-item"
+                    >
+                      Profile
+                    </Link>
+                  ) : null}
                   <a className="dropdown-item">Change password</a>
                   <div className="dropdown-divider" />
                   <a className="dropdown-item" onClick={this.handleLogout}>
@@ -114,10 +129,11 @@ Navigation.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  ui: state.ui
+  ui: state.ui,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { logoutUser, clearCurrentProfile }
+  { logoutUser, clearCurrentProfile, getCurrentProfile }
 )(Navigation);

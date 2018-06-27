@@ -84,3 +84,15 @@ export const updateStudent = (id, student, history) => dispatch => {
       })
     );
 };
+
+export const addContactPerson = (id, contactPerson, history) => dispatch => {
+  axios
+    .post(`/api/students/${id}/contactperson`, contactPerson)
+    .then(res => history.push(`/students/${id}`))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

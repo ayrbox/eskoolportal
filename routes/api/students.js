@@ -3,6 +3,7 @@ const Student = require("../../models/Student");
 const passport = require("passport");
 
 const validateStudentInput = require("../../validation/student");
+const validateContactPersonInput = require("../../validation/contactPerson");
 
 const pdfGenerator = require("../../utils/pdfGenerator");
 
@@ -83,6 +84,9 @@ router.post(
   }
 );
 
+// @route PUT /api/students
+// @desc update new student profile
+// @desc Private
 router.put(
   "/:id",
   passport.authenticate("jwt", { session: false }),
@@ -188,5 +192,34 @@ router.get("/list/pdf", (req, res) => {
       res.status(500).json({ studnets: "Error getting students" });
     });
 });
+
+// @route PUT /api/students
+// @desc update new student profile
+// @desc Private
+router.post(
+  "/:id/contactperson",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.body);
+    const { errors, isValid } = validateContactPersonInput(req.body);
+
+    if (!isValid) {
+      res.status(400).json(errors);
+    }
+
+    Student.findOne({ _id: req.params.id }).then(student => {
+      const newContactPerson = {
+        name: req.body.name,
+        relation: req.body.relation,
+        email: req.body.email,
+        contactNo: req.body.contactNo
+      };
+
+      //Add to exprience array
+      student.contactPerson.unshift(newContactPerson);
+      student.save().then(student => res.json(student));
+    });
+  }
+);
 
 module.exports = router;

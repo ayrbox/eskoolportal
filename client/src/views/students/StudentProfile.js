@@ -108,6 +108,14 @@ class StudentProfile extends Component {
             >
               Add Contact Persion
             </Link>
+
+            <ul>
+              {student.contactPerson.map(c => (
+                <li key={c._id}>
+                  {c.name} - {c.relation}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </Main>

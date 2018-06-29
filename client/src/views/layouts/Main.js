@@ -13,7 +13,11 @@ class Main extends React.Component {
         <Navigation />
         <Layout>
           <LayoutHeader />
-          <Content>{this.props.children}</Content>
+          <Content>
+            <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
+              {this.props.children}
+            </div>
+          </Content>
           <LayoutFooter />
         </Layout>
       </Layout>

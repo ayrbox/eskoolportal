@@ -90,21 +90,18 @@ class StudentsIndex extends Component {
 
     return (
       <Main>
-        <div className="row wrapper border-bottom white-bg page-heading">
-          <div className="col-lg-9 pb-3 pt-3">
-            <h2>Students</h2>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <a href="/dashboard">Home</a>
-                </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Students
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
+        <h2>Students</h2>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <a href="/dashboard">Home</a>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Students
+            </li>
+          </ol>
+        </nav>
+
         <div className="wrapper wrapper-content">
           <div className="ibox">
             <div className="ibox-title">

@@ -60,3 +60,11 @@
     margin: 0;
   }
 }
+
+@import "~antd/dist/antd.css";
+
+#root,
+.App,
+.App > .ant-layout {
+  min-height: 100vh;
+}

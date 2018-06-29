@@ -1,19 +1,28 @@
 import React from "react";
 import Navigation from "../../components/Navigation";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
+import LayoutFooter from "../../components/LayoutFooter";
+// import Header from "../../components/Header";
+
+import { Layout, Icon } from "antd";
+const { Header, Content } = Layout;
 
 class Main extends React.Component {
   render() {
     return (
-      <div id="wrapper">
-        <Navigation location={this.props.location} />
-        <div id="page-wrapper" className="gray-bg">
-          <Header />
-          {this.props.children}
-          <Footer />
-        </div>
-      </div>
+      <Layout>
+        <Navigation />
+        <Layout>
+          <Header style={{ background: "#fff", padding: 0 }}>
+            <Icon
+              className="trigger"
+              // type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+              // onClick={this.toggle}
+            />
+          </Header>
+          <Content>{this.props.children}</Content>
+          <LayoutFooter />
+        </Layout>
+      </Layout>
     );
   }
 }

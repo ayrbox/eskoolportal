@@ -6,7 +6,7 @@ import { logoutUser } from "../actions/authActions";
 import { clearCurrentProfile } from "../actions/profileActions";
 import { toogleMenu } from "../actions/uiActions";
 
-import { Layout, Icon } from "antd";
+import { Layout, Icon, Menu } from "antd";
 const { Header } = Layout;
 
 class LayoutHeader extends React.Component {
@@ -40,13 +40,18 @@ class LayoutHeader extends React.Component {
           }
           onClick={this.toggleNavigation}
         />
-        <ul className="nav navbar-top-links navbar-right">
-          <li>
-            <a onClick={this.onLogout.bind(this)}>
-              <i className="fa fa-sign-out" /> Log out
-            </a>
-          </li>
-        </ul>
+
+        <div className="pageheader-right">
+          <Menu mode="horizontal" style={{ lineHeight: "64px" }}>
+            <Menu.Item />
+            <Menu.Item key="3">
+              <a onClick={this.onLogout.bind(this)}>
+                <Icon type="logout" />
+                Log out
+              </a>
+            </Menu.Item>
+          </Menu>
+        </div>
       </Header>
     );
   }

@@ -49,18 +49,14 @@ class Navigation extends Component {
       <Menu>
         {profile ? (
           <Menu.Item>
-            <Link to={`/profile/${profile.handle}`} className="dropdown-item">
-              Profile
-            </Link>
+            <Link to={`/profile/${profile.handle}`}>Profile</Link>
           </Menu.Item>
         ) : null}
         <Menu.Item>
-          <a className="dropdown-item">Change password</a>
+          <a>Change passord</a>
         </Menu.Item>
         <Menu.Item>
-          <a className="dropdown-item" onClick={this.handleLogout}>
-            Logout
-          </a>
+          <a onClick={this.handleLogout}>Logout</a>
         </Menu.Item>
       </Menu>
     );

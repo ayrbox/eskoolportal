@@ -68,3 +68,16 @@
 .App > .ant-layout {
   min-height: 100vh;
 }
+
+.profile-area {
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.sidebar-trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}

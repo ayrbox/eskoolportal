@@ -9,7 +9,7 @@ import {
 } from "../actions/profileActions";
 import classnames from "classnames";
 
-import { Menu, Layout, Icon } from "antd";
+import { Menu, Layout, Icon, Dropdown } from "antd";
 const { Sider } = Layout;
 
 class Navigation extends Component {
@@ -45,9 +45,33 @@ class Navigation extends Component {
     const { user } = this.props.auth;
     const { profile } = this.props.profile;
 
+    const userProfileMenu = (
+      <Menu>
+        {profile ? (
+          <Menu.Item>
+            <Link to={`/profile/${profile.handle}`} className="dropdown-item">
+              Profile
+            </Link>
+          </Menu.Item>
+        ) : null}
+        <Menu.Item>
+          <a className="dropdown-item">Change password</a>
+        </Menu.Item>
+        <Menu.Item>
+          <a className="dropdown-item" onClick={this.handleLogout}>
+            Logout
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
-      <Sider>
-        <div className="text-center profile-element">
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={this.props.ui.menuState === "close"}
+      >
+        <div className="text-center profile-area">
           <span>
             <img
               src={user.avatar}
@@ -57,61 +81,40 @@ class Navigation extends Component {
               className="rounded-circle"
             />
           </span>
-
-          <div className="dropdown">
-            <a
-              className="btn btn-link dropdown-toggle"
-              role="button"
-              onClick={this.onToggleDropdown}
-            >
-              {user.name}
+          <br />
+          <Dropdown
+            overlay={userProfileMenu}
+            trigger={["click"]}
+            placement="bottomCenter"
+          >
+            <a className="ant-dropdown-link" href="#">
+              {user.name} <Icon type="down" />
             </a>
-
-            <div
-              className={classnames("dropdown-menu", {
-                show: this.state.profileDropdown
-              })}
-              aria-labelledby="dropdownMenuLink"
-            >
-              {profile ? (
-                <Link
-                  to={`/profile/${profile.handle}`}
-                  className="dropdown-item"
-                >
-                  Profile
-                </Link>
-              ) : null}
-              <a className="dropdown-item">Change password</a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" onClick={this.handleLogout}>
-                Logout
-              </a>
-            </div>
-          </div>
+          </Dropdown>
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1">
-            <Link to="/dashboard" className="nav-link">
-              <Icon type="home" />
-              <span className="nav-label">Dashboard</span>
+            <Link to="/dashboard">
+              <Icon type="desktop" />
+              <span className="nav-label"> Dashboard</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/profiles" className="nav-link">
-              <i className="fa fa-th-large" />
-              <span className="nav-label">Teachers</span>
+            <Link to="/profiles">
+              <Icon type="profile" />
+              <span className="nav-label"> Teachers</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link className="nav-link" to="/feed">
-              <i className="fa fa-list" />{" "}
-              <span className="nav-label">Post Feed</span>
+            <Link to="/feed">
+              <Icon type="file-text" />
+              <span className="nav-label"> Post Feed</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="4">
-            <Link className="nav-link" to="/students">
-              <i className="fa fa-user" />
-              <span className="nav-label">Students</span>
+            <Link to="/students">
+              <Icon type="user" />
+              <span className="nav-label"> Students</span>
             </Link>
           </Menu.Item>
         </Menu>

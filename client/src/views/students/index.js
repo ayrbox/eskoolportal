@@ -68,6 +68,10 @@ class StudentsIndex extends Component {
               key="dateOfBirth"
               render={text => <Moment format="DD MMM YYYY">{text}</Moment>}
             />
+            <Column title="Reference No" dataIndex="referenceCode" />
+            <Column title="Clas" dataIndex="class" />
+            <Column title="Section" dataIndex="section" />
+            <Column title="Roll No" dataIndex="classRollNo" />
             <Column
               title="Status"
               render={() => <span className="label label-primary">Active</span>}

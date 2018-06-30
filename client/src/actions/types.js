@@ -27,3 +27,4 @@ export const CLEAR_STUDENTS = "CLEAR_STUDENTS";
 export const LOADING_STUDENTS = "LOADING_STUDENTS";
 
 export const TOGGLE_MENU = "TOGGLE_MENU";
+export const SELECT_MENU = "SELECT_MENU";

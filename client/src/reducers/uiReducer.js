@@ -1,7 +1,8 @@
-import { TOGGLE_MENU } from "../actions/types";
+import { TOGGLE_MENU, SELECT_MENU } from "../actions/types";
 
 const initialState = {
-  menuState: "close"
+  menuState: "open",
+  navigationSelected: undefined
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         menuState: action.payload
+      };
+    case SELECT_MENU:
+      return {
+        ...state,
+        navigationSelected: action.payload
       };
     default:
       return state;

@@ -9,8 +9,11 @@ import { getProfiles } from "../../actions/profileActions";
 
 import Main from "../layouts/Main";
 
+import { selectMenu } from "../../actions/uiActions";
+
 class Profiles extends Component {
   componentDidMount() {
+    this.props.selectMenu("menu-teacher-profiles");
     this.props.getProfiles();
   }
   render() {
@@ -68,5 +71,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfiles }
+  { getProfiles, selectMenu }
 )(Profiles);

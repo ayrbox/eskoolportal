@@ -7,7 +7,6 @@ import {
   getCurrentProfile,
   clearCurrentProfile
 } from "../actions/profileActions";
-import classnames from "classnames";
 
 import { Menu, Layout, Icon, Dropdown } from "antd";
 const { Sider } = Layout;
@@ -17,11 +16,17 @@ class Navigation extends Component {
     super(props, context);
 
     this.state = {
-      profileDropdown: false
+      profileDropdown: false,
+      navigationSelected: undefined
     };
 
     this.onToggleDropdown = this.onToggleDropdown.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.ui.navigationSelected)
+      this.setState({ navigationSelected: nextProps.ui.navigationSelected });
   }
 
   componentDidMount() {
@@ -83,36 +88,59 @@ class Navigation extends Component {
             trigger={["click"]}
             placement="bottomCenter"
           >
-            <a className="ant-dropdown-link" href="#">
+            <a className="ant-dropdown-link">
               {user.name} <Icon type="down" />
             </a>
           </Dropdown>
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[this.state.navigationSelected]}
+        >
+          <Menu.Item key="menu-dashboard">
             <Link to="/dashboard">
               <Icon type="desktop" />
-              <span className="nav-label"> Dashboard</span>
+              <span className="nav-label">Dashboard</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key="menu-teacher-profiles">
             <Link to="/profiles">
               <Icon type="profile" />
               <span className="nav-label"> Teachers</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="menu-post-feed">
             <Link to="/feed">
               <Icon type="file-text" />
               <span className="nav-label"> Post Feed</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="4">
-            <Link to="/students">
-              <Icon type="user" />
-              <span className="nav-label"> Students</span>
-            </Link>
-          </Menu.Item>
+
+          <Menu.SubMenu
+            key="menu-students-group"
+            title={
+              <span>
+                <Icon type="setting" />
+                <span>Students</span>
+              </span>
+            }
+          >
+            <Menu.Item key="menu-students">
+              <Link to="/students">
+                <Icon type="user" />
+                <span className="nav-label"> Students List</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="10">
+              <Icon type="search" />
+              <span className="nav-label">Searcn Student</span>
+            </Menu.Item>
+            <Menu.Item key="11">
+              <Icon type="setting" />
+              <span className="nav-label">Settings</span>
+            </Menu.Item>
+          </Menu.SubMenu>
         </Menu>
       </Sider>
     );

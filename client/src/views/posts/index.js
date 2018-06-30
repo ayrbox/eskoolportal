@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getPosts } from "../../actions/postActions";
+import { selectMenu } from "../../actions/uiActions";
 
 import PostForm from "./PostForm";
 import Spinner from "../../components/Spinner";
@@ -11,6 +12,7 @@ import Main from "../layouts/Main";
 class PostsIndex extends Component {
   componentDidMount() {
     this.props.getPosts();
+    this.props.selectMenu("menu-post-feed");
   }
 
   render() {
@@ -47,5 +49,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getPosts }
+  { getPosts, selectMenu }
 )(PostsIndex);

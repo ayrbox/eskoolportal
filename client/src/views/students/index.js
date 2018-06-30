@@ -10,12 +10,17 @@ import axios from "axios";
 
 //actions
 import { getStudents } from "../../actions/studentActions";
+import { selectMenu } from "../../actions/uiActions";
 
 class StudentsIndex extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleDownloadList = this.handleDownloadList.bind(this);
+  }
+
   componentDidMount() {
     this.props.getStudents();
-
-    this.handleDownloadList = this.handleDownloadList.bind(this);
+    this.props.selectMenu("menu-students");
   }
 
   handleDownloadList() {
@@ -139,6 +144,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getStudents
+    getStudents,
+    selectMenu
   }
 )(StudentsIndex);

@@ -10,6 +10,8 @@ import Education from "../../components/Education";
 
 import Main from "../layouts/Main";
 
+import { selectMenu } from "../../actions/uiActions";
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    this.props.selectMenu("menu-dashboard");
     this.props.getCurrentProfile();
   }
 
@@ -99,5 +102,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, deleteAccount }
+  { getCurrentProfile, deleteAccount, selectMenu }
 )(Dashboard);

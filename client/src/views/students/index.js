@@ -12,6 +12,10 @@ import axios from "axios";
 import { getStudents } from "../../actions/studentActions";
 import { selectMenu } from "../../actions/uiActions";
 
+import { Button, Table, Breadcrumb, Icon, Divider, Alert } from "antd";
+
+const { Column } = Table;
+
 class StudentsIndex extends Component {
   constructor(props, context) {
     super(props, context);
@@ -46,85 +50,84 @@ class StudentsIndex extends Component {
       studentsList = <Spinner />;
     } else {
       if (students.length === 0) {
-        studentsList = (
-          <p className="alert alert-warning">No students found.</p>
-        );
+        studentsList = <Alert message="No students found." type="warning" />;
       } else {
         studentsList = (
-          <div className="project-list">
-            <table className="table table-hover">
-              <tbody>
-                {students.map(student => (
-                  <tr key={student._id}>
-                    <td className="project-title">
-                      <Link to={`/students/${student._id}`}>
-                        {student.name}
-                      </Link>
-                    </td>
-                    <td className="project-completion">
-                      <Moment format="DD MMM YYYY">
-                        {student.dateOfBirth}
-                      </Moment>
-                    </td>
-                    <td className="project-people" />
-                    <td className="project-status">
-                      <span className="label label-primary">Active</span>
-                    </td>
-                    <td className="project-actions">
-                      <Link
-                        to={`/students/${student._id}`}
-                        className="btn btn-white btn-sm"
-                      >
-                        <i className="fa fa-folder" /> View
-                      </Link>
-                      <Link
-                        to={`/students/${student._id}/edit`}
-                        className="btn btn-white btn-sm"
-                      >
-                        <i className="fa fa-pencil" /> Edit
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table dataSource={students}>
+            <Column
+              title="Name"
+              dataIndex="name"
+              key="name"
+              render={(text, record) => (
+                <Link to={`/students/${record._id}`}>{text}</Link>
+              )}
+            />
+            <Column
+              title="Date Of Birth"
+              dataIndex="dateOfBirth"
+              key="dateOfBirth"
+              render={text => <Moment format="DD MMM YYYY">{text}</Moment>}
+            />
+            <Column
+              title="Status"
+              render={() => <span className="label label-primary">Active</span>}
+            />
+            <Column
+              title=""
+              key="action"
+              render={record => (
+                <span>
+                  <Link to={`/students/${record._id}`}>
+                    <Icon type="eye" /> View
+                  </Link>
+                  <Divider type="vertical" />
+                  <Link to={`/students/${record._id}/edit`}>
+                    <Icon type="edit" /> Edit
+                  </Link>
+                </span>
+              )}
+            />
+          </Table>
         );
       }
     }
 
     return (
       <Main>
-        <h2>Students</h2>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="/dashboard">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Students
-            </li>
-          </ol>
-        </nav>
+        <div className="page-header">
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>
+              <Link to={"dashboard"}>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Students</Breadcrumb.Item>
+          </Breadcrumb>
+          <h2>Students</h2>
+        </div>
+        <div
+          style={{
+            margin: "24px 16px",
+            padding: "24px",
+            background: "#fff",
+            minHeight: 360
+          }}
+        >
+          <div className="table-list-container">
+            <Button
+              type="primary"
+              shape="circle"
+              icon="user-add"
+              href={`/students/add`}
+              style={{ marginRight: "8px" }}
+            />
 
-        <div className="wrapper wrapper-content">
-          <div className="ibox">
-            <div className="ibox-title">
-              <h5>List of all students</h5>
-              <div className="ibox-tools">
-                <Link to={`/students/add`} className="btn btn-primary btn-sm">
-                  New Student
-                </Link>
+            <Button
+              type="primary"
+              shape="circle"
+              icon="download"
+              onClick={this.handleDownloadList}
+            />
 
-                <button
-                  className="btn btn-dark btn-sm ml-2"
-                  onClick={this.handleDownloadList}
-                >
-                  Download List
-                </button>
-              </div>
-            </div>
-            <div className="ibox-content">{studentsList}</div>
+            {studentsList}
           </div>
         </div>
       </Main>

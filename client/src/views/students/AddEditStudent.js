@@ -20,6 +20,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
+import { Button, Table, Breadcrumb, Icon, Divider, Alert } from "antd";
+import { Link } from "react-router-dom";
+
 class AddEditStudent extends Component {
   constructor(props, context) {
     super(props, context);
@@ -224,29 +227,27 @@ class AddEditStudent extends Component {
 
     return (
       <Main>
-        <div className="row wrapper border-bottom white-bg page-heading">
-          <div className="col-lg-9 pb-3 pt-3">
-            <h2>{addMode ? "Add" : "Edit"} Student</h2>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <a href="/dashboard">Home</a>
-                </li>
-                <li className="breadcrumb-item" aria-current="page">
-                  <a href="/students">Students</a>
-                </li>
-                <li className="breadcrumb-item">{addMode ? "Add" : "Edit"}</li>
-              </ol>
-            </nav>
-          </div>
+        <div className="page-header">
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>
+              <Link to={"dashboard"}>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to={"students"}>Students</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>{addMode ? "Add" : "Edit"}</Breadcrumb.Item>
+          </Breadcrumb>
+          <h2>{addMode ? "Add" : "Edit"} Student</h2>
         </div>
-        <div className="wrapper wrapper-content">
-          <div className="ibox float-e-margins">
-            <div className="ibox-title">
-              <h5>Details</h5>
-            </div>
-            <div className="ibox-content">{formContent}</div>
-          </div>
+        <div
+          style={{
+            margin: "24px 16px",
+            padding: "24px",
+            background: "#fff",
+            minHeight: 360
+          }}
+        >
+          {formContent}
         </div>
       </Main>
     );

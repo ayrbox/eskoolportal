@@ -15,13 +15,29 @@ import isEmpty from "../../utils/is-empty";
 
 import TextFieldGroup from "../../components/TextFieldGroup";
 
-import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
-import { Button, Table, Breadcrumb, Icon, Divider, Alert } from "antd";
+import {
+  Breadcrumb,
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete
+} from "antd";
 import { Link } from "react-router-dom";
+
+const FormItem = Form.Item;
+const Option = Select.Option;
+const AutoCompleteOption = AutoComplete.Option;
 
 class AddEditStudent extends Component {
   constructor(props, context) {
@@ -109,28 +125,33 @@ class AddEditStudent extends Component {
 
     const { loading } = this.props.student;
 
+    const formItemLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 14 }
+    };
+
     let formContent;
     if (!student || loading) {
       formContent = <Spinner />;
     } else {
       formContent = (
-        <form className="form-horizontal" onSubmit={this.onSubmit}>
-          <TextFieldGroup
-            name="referenceCode"
-            label="Reference Code"
-            placeholder="Unique Reference code"
-            vlaue={errors.referenceCode}
-            value={student.referenceCode}
-            onChange={this.onChange}
-          />
-          <TextFieldGroup
-            name="name"
-            label="Name"
-            placeholder="Student name"
-            error={errors.name}
-            value={student.name}
-            onChange={this.onChange}
-          />
+        <Form onSubmit={this.onSubmit} layout="horizontal">
+          <FormItem label="Reference Code" {...formItemLayout}>
+            <Input
+              name="referenceCode"
+              placeholder="Unique Reference code"
+              value={student.referenceCode}
+              onChange={this.onChange}
+            />
+          </FormItem>
+          <FormItem label="Name" {...formItemLayout}>
+            <Input
+              name="name"
+              placeholder="Student Name"
+              value={student.name}
+              onChange={this.onChange}
+            />
+          </FormItem>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">Gender</label>
             <div className="col-sm-10">
@@ -221,7 +242,7 @@ class AddEditStudent extends Component {
             value="Save"
             className="btn btn-info btn-block mb-4"
           />
-        </form>
+        </Form>
       );
     }
 

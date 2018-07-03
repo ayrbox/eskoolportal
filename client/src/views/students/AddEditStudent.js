@@ -15,6 +15,7 @@ import isEmpty from "../../utils/is-empty";
 
 import TextFieldGroup from "../../components/TextFieldGroup";
 import SelectItem from "../../components/SelectItem";
+import DatePickerItem from "../../components/DatePickerItem";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -177,12 +178,21 @@ class AddEditStudent extends Component {
             ]}
             onChange={this.handleGenderChange}
           />
+          <DatePickerItem
+            id="dateOfBirth"
+            name="dateOfBirth"
+            label="Date of Birth"
+            type="date"
+            defaultValue={moment(student.dateOfBirth)}
+            error={errors.dateOfBirth}
+            onChange={this.onChange}
+          />
           <TextFieldGroup
             id="dateOfBirth"
             name="dateOfBirth"
             label="Date of Birth"
             type="date"
-            defaultValue={moment(student.dateOfBirth).format("YYYY-MM-DD")}
+            defaultValue={moment(student.dateOfBirth)}
             error={errors.dateOfBirth}
             onChange={this.onChange}
           />

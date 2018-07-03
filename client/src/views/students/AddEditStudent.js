@@ -136,22 +136,24 @@ class AddEditStudent extends Component {
     } else {
       formContent = (
         <Form onSubmit={this.onSubmit} layout="horizontal">
-          <FormItem label="Reference Code" {...formItemLayout}>
-            <Input
-              name="referenceCode"
-              placeholder="Unique Reference code"
-              value={student.referenceCode}
-              onChange={this.onChange}
-            />
-          </FormItem>
-          <FormItem label="Name" {...formItemLayout}>
-            <Input
-              name="name"
-              placeholder="Student Name"
-              value={student.name}
-              onChange={this.onChange}
-            />
-          </FormItem>
+          <TextFieldGroup
+            id="referenceCode"
+            name="referenceCode"
+            label="Ref Code"
+            value={student.referenceCode}
+            placeholder="Reference Code"
+            error={errors.referenceCode}
+            onChange={this.onChange}
+          />
+          <TextFieldGroup
+            id="name"
+            name="name"
+            label="Name"
+            placeholder="Student Name"
+            value={student.name}
+            onChange={this.onChange}
+            error={errors.name}
+          />
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">Gender</label>
             <div className="col-sm-10">
@@ -177,10 +179,7 @@ class AddEditStudent extends Component {
             label="Date of Birth"
             type="date"
             defaultValue={moment(student.dateOfBirth).format("YYYY-MM-DD")}
-            className="form-control"
-            InputLabelProps={{
-              shrink: true
-            }}
+            error={errors.dateOfBirth}
             onChange={this.onChange}
           />
           <TextFieldGroup

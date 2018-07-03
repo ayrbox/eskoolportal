@@ -14,6 +14,7 @@ import Spinner from "../../components/Spinner";
 import isEmpty from "../../utils/is-empty";
 
 import TextFieldGroup from "../../components/TextFieldGroup";
+import SelectItem from "../../components/SelectItem";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -35,10 +36,6 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 
-const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
-
 class AddEditStudent extends Component {
   constructor(props, context) {
     super(props, context);
@@ -48,7 +45,7 @@ class AddEditStudent extends Component {
       errors: {},
       student: {
         name: "",
-        gender: "",
+        gender: "Male",
         dateOfBirth: "",
         contactNo: "",
         email: "",
@@ -61,6 +58,7 @@ class AddEditStudent extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleGenderChange = this.handleGenderChange.bind(this);
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -120,6 +118,15 @@ class AddEditStudent extends Component {
     });
   }
 
+  handleGenderChange(value) {
+    this.setState({
+      student: {
+        ...this.state.student,
+        gender: value
+      }
+    });
+  }
+
   render() {
     const { addMode, errors, student } = this.state;
 
@@ -154,25 +161,22 @@ class AddEditStudent extends Component {
             onChange={this.onChange}
             error={errors.name}
           />
-          <div className="form-group row">
-            <label className="col-sm-2 col-form-label">Gender</label>
-            <div className="col-sm-10">
-              <FormControl>
-                <InputLabel htmlFor="gender">Gender</InputLabel>
-                <Select
-                  value={student.gender}
-                  onChange={this.onChange}
-                  inputProps={{
-                    name: "gender",
-                    id: "gender"
-                  }}
-                >
-                  <MenuItem value="Male">Male</MenuItem>
-                  <MenuItem value="Female">Female</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
+          <SelectItem
+            name="gender"
+            id="gender"
+            defaultValue={student.gender}
+            value={student.gender}
+            label="Gender"
+            placeholder="Male/Female"
+            options={[
+              {
+                text: "Male",
+                value: "Male"
+              },
+              { text: "Female", value: "Female" }
+            ]}
+            onChange={this.handleGenderChange}
+          />
           <TextFieldGroup
             id="dateOfBirth"
             name="dateOfBirth"

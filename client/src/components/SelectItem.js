@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Form, Select } from "antd";
 
-import { Form, Input } from "antd";
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 14 }
 };
 
-const TextFieldGroup = ({
+const SelectItem = ({
   name,
   placeholder,
   value,
@@ -19,7 +20,8 @@ const TextFieldGroup = ({
   type,
   onChange,
   disabled,
-  defaultValue
+  defaultValue,
+  options
 }) => {
   return (
     <FormItem
@@ -28,17 +30,19 @@ const TextFieldGroup = ({
       validateStatus={error ? "error" : undefined}
       help={error}
     >
-      <Input
+      <Select
         name={name}
         placeholder={placeholder}
-        value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
-      />
+      >
+        {options.map(o => <Option value={o.value}>{o.text}</Option>)}
+      </Select>
     </FormItem>
   );
 };
 
-TextFieldGroup.propTypes = {
+SelectItem.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -46,11 +50,12 @@ TextFieldGroup.propTypes = {
   error: PropTypes.string,
   type: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.string
+  disabled: PropTypes.string,
+  options: PropTypes.array.isRequired
 };
 
-TextFieldGroup.defaultProps = {
+SelectItem.defaultProps = {
   type: "text"
 };
 
-export default TextFieldGroup;
+export default SelectItem;

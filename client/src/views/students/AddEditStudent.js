@@ -188,15 +188,6 @@ class AddEditStudent extends Component {
             onChange={this.onChange}
           />
           <TextFieldGroup
-            id="dateOfBirth"
-            name="dateOfBirth"
-            label="Date of Birth"
-            type="date"
-            defaultValue={moment(student.dateOfBirth)}
-            error={errors.dateOfBirth}
-            onChange={this.onChange}
-          />
-          <TextFieldGroup
             name="contactNo"
             label="Contact No"
             error={errors.contactNo}
@@ -217,16 +208,13 @@ class AddEditStudent extends Component {
             value={student.address}
             onChange={this.onChange}
           />
-          <TextFieldGroup
+          <DatePickerItem
             id="joinDate"
             name="joinDate"
             label="Join Date"
             type="date"
-            defaultValue={moment(student.joinDate).format("YYYY-MM-DD")}
-            className="form-control"
-            InputLabelProps={{
-              shrink: true
-            }}
+            defaultValue={moment(student.joinDate)}
+            error={errors.joinDate}
             onChange={this.onChange}
           />
           <TextFieldGroup
@@ -250,11 +238,22 @@ class AddEditStudent extends Component {
             value={student.classRollNo}
             onChange={this.onChange}
           />
-          <input
-            type="submit"
-            value="Save"
-            className="btn btn-info btn-block mb-4"
-          />
+          <Form.Item
+            wrapperCol={{
+              xs: {
+                span: 24,
+                offset: 0
+              },
+              sm: {
+                offset: 4,
+                span: 14
+              }
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Save
+            </Button>
+          </Form.Item>
         </Form>
       );
     }

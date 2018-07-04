@@ -32,7 +32,9 @@ const DatePickerItem = ({
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        onChange={onChange}
+        onChange={(date, dateString) => {
+          if (date) onChange({ target: { name, value: date.toDate() } });
+        }}
       />
     </FormItem>
   );

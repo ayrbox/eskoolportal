@@ -33,6 +33,7 @@ const TextFieldGroup = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        type={type}
       />
     </FormItem>
   );

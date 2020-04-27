@@ -88,7 +88,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { addComment }
-)(CommentForm);
+export default connect(mapStateToProps, { addComment })(CommentForm);

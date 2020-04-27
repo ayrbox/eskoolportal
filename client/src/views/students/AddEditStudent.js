@@ -297,7 +297,8 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { getStudent, insertStudent, updateStudent }
-)(AddEditStudent);
+export default connect(mapStateToProps, {
+  getStudent,
+  insertStudent,
+  updateStudent
+})(AddEditStudent);

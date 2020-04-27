@@ -117,7 +117,6 @@ const mapStateToProps = state => ({
   student: state.student
 });
 
-export default connect(
-  mapStateToProps,
-  { addContactPerson }
-)(AddEditContactPerson);
+export default connect(mapStateToProps, { addContactPerson })(
+  AddEditContactPerson
+);

@@ -47,7 +47,4 @@ const mapStateToProps = state => ({
   post: state.post
 });
 
-export default connect(
-  mapStateToProps,
-  { getPosts, selectMenu }
-)(PostsIndex);
+export default connect(mapStateToProps, { getPosts, selectMenu })(PostsIndex);

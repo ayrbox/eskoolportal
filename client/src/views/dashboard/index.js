@@ -100,7 +100,8 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile, deleteAccount, selectMenu }
-)(Dashboard);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+  selectMenu
+})(Dashboard);

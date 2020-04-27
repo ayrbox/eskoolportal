@@ -148,10 +148,7 @@ const mapStateToProps = state => ({
   student: state.student
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    getStudents,
-    selectMenu
-  }
-)(StudentsIndex);
+export default connect(mapStateToProps, {
+  getStudents,
+  selectMenu
+})(StudentsIndex);

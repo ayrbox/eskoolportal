@@ -64,7 +64,4 @@ const mapStateToPros = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToPros,
-  { getProfileByHandle }
-)(Profile);
+export default connect(mapStateToPros, { getProfileByHandle })(Profile);

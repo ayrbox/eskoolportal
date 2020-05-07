@@ -1,8 +1,15 @@
-version: 3.5
+version: "3.5"
 
-service:
-  db:
-    image: postgress:latest
-  app:
-
-  api:
+services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - eskoolportaldb:/var/lib/postgresql/data
+    ports:
+      - "5466:5432"
+    environment:
+      - POSTGRES_DB=eskoolportal
+      - POSTGRES_USER=eskuser
+      - POSTGRES_PASSWORD=eskpassword
+volumes:
+  eskoolportaldb:

@@ -12,6 +12,7 @@ const DB_PWD = 'eskpassword';
 const PORT = 5466;
 
 const userPopulator = require('./userPopulator');
+const studentPopulator = require('./studentPopulator');
 
 const dbConnection = new Sequelize(DB, DB_USER, DB_PWD, {
   dialect: 'postgres',
@@ -24,7 +25,7 @@ async function start() {
   await dbConnection;
   console.log('Database connected successfully');
 
-  const { User } = models(dbConnection);
+  const { User, Student } = models(dbConnection);
 
   await dbConnection.sync();
 
@@ -35,6 +36,7 @@ async function start() {
   });
 
   await userPopulator(User);
+  await studentPopulator(Student);
 }
 
 start()

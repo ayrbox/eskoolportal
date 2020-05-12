@@ -1,66 +1,47 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const Sequelize = require('sequelize');
 
-const StudentSchema = new Schema({
-  name: {
-    type: String,
-    require: true
-  },
-  dateOfBirth: {
-    type: Date,
-    required: true
-  },
-  gender: {
-    type: String,
-    required: true,
-    enum: ["Male", "Female"]
-  },
-  address: {
-    type: String,
-    required: true
-  },
-  contactNo: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String
-  },
-  joinDate: {
-    type: Date
-  },
-  class: {
-    type: String
-  },
-  section: {
-    type: String
-  },
-  classRollNo: {
-    type: Number
-  },
-  referenceCode: {
-    type: String
-  },
-  contactPerson: [
-    {
-      name: {
-        type: String,
-        required: true
-      },
-      relation: {
-        type: String,
-        required: true
-      },
-      contactNo: {
-        type: String,
-        required: true
-      },
-      email: {
-        type: String,
-        required: true
-      }
-    }
-  ]
-});
-
-module.exports = Student = mongoose.model("students", StudentSchema);
+module.exports = conn => {
+  return conn.define('student', {
+    id: {
+      type: Sequelize.UUID,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
+    },
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    dateOfBirth: {
+      type: Sequelize.DATEONLY,
+      allowNull: false,
+    },
+    gender: {
+      type: Sequelize.ENUM('Male', 'Female', 'Unknown'),
+      allowNull: false,
+    },
+    address: {
+      type: Sequelize.STRING,
+    },
+    contactNo: {
+      type: Sequelize.STRING,
+    },
+    email: {
+      type: Sequelize.STRING,
+    },
+    joinDate: {
+      type: Sequelize.DATE,
+    },
+    class: {
+      type: Sequelize.STRING,
+    },
+    section: {
+      type: Sequelize.STRING,
+    },
+    classRollNo: {
+      type: Sequelize.INTEGER,
+    },
+    referenceCode: {
+      type: Sequelize.STRING,
+    },
+  });
+};

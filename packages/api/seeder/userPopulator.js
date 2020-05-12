@@ -4,7 +4,6 @@ const faker = require('faker');
 const { name, internet, random } = faker;
 
 const userFactory = new Factory().attrs({
-  uuid: () => random.uuid(),
   name: () => name.findName(),
   email: () => internet.email(),
   avatar: () => internet.avatar(),

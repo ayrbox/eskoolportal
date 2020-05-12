@@ -5,13 +5,17 @@
  */
 
 const UserModel = require('./User');
+const StudentModel = require('./Student');
 
 module.exports = function (connection) {
   const User = UserModel(connection);
+
+  const Student = StudentModel(connection);
 
   // Map assications here
 
   return {
     User,
+    Student,
   };
 };

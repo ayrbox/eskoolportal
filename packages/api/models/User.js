@@ -1,28 +1,27 @@
-const mongoose = require("mongoose");
+const Sequelize = require('sequelize');
 
-const Schema = mongoose.Schema;
-
-// Create Schema
-const UserSchema = new Schema({
-  name: {
-    type: String,
-    require: true
-  },
-  email: {
-    type: String,
-    require: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  avatar: {
-    type: String
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = connection => {
+  return connection.define('user', {
+    uuid: {
+      type: Sequelize.UUID,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
+    },
+    name: {
+      type: Sequelize.STRING,
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Data Error: Email can not be null',
+        },
+        isEmail: true,
+      },
+    },
+    avatar: {
+      type: Sequelize.STRING,
+    },
+  });
+};

@@ -31,12 +31,6 @@ module.exports = conn => {
     joinDate: {
       type: Sequelize.DATE,
     },
-    class: {
-      type: Sequelize.STRING,
-    },
-    section: {
-      type: Sequelize.STRING,
-    },
     classRollNo: {
       type: Sequelize.INTEGER,
     },

@@ -11,24 +11,24 @@ const studentFactory = new Factory().attrs({
   contactNo: () => phone.phoneNumber(),
   email: () => internet.email(),
   joinDate: () => date.past(),
-  class: '-',
-  section: '-',
+  class_id: -1,
+  section_id: -1,
   classRollNo: () => random.number(),
   referenceCode: () => random.alphaNumeric(),
 });
 
 const CLASS_SIZE = 30;
-const CLASS_NAMES = ['Nursery', 'JKG', 'SKG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const CLASS_SECTIONS = ['A', 'B', 'C'];
 
-async function studentPopulator(userModel) {
+async function studentPopulator(userModel, classModel, sectionModel) {
+  const classes = await classModel.findAll();
+  const sections = await sectionModel.findAll();
+
   const saveStudents = [];
-
-  CLASS_NAMES.forEach(class_ => {
-    CLASS_SECTIONS.forEach(section => {
+  classes.forEach(class_ => {
+    sections.forEach(section => {
       const students = studentFactory.buildList(CLASS_SIZE, {
-        class: class_,
-        section,
+        class_id: class_.id,
+        section_id: section.id,
       });
       students.forEach(student => {
         const studentData = userModel.build(student);

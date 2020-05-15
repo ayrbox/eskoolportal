@@ -14,6 +14,9 @@ const PORT = 5466;
 const userPopulator = require('./userPopulator');
 const studentPopulator = require('./studentPopulator');
 
+const classPopulator = require('./classPopulator');
+const sectionPopulator = require('./sectionPopulator');
+
 const dbConnection = new Sequelize(DB, DB_USER, DB_PWD, {
   dialect: 'postgres',
   host: HOST,
@@ -25,9 +28,11 @@ async function start() {
   await dbConnection;
   console.log('Database connected successfully');
 
-  const { User, Student } = models(dbConnection);
+  const { User, Student, Class, Section } = models(dbConnection);
 
-  await dbConnection.sync();
+  await dbConnection.sync({
+    force: true,
+  });
 
   // Admin user
   await User.create({
@@ -36,7 +41,9 @@ async function start() {
   });
 
   await userPopulator(User);
-  await studentPopulator(Student);
+  await classPopulator(Class);
+  await sectionPopulator(Section);
+  await studentPopulator(Student, Class, Section);
 }
 
 start()

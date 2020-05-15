@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = connection => {
-  return connection.define('class', {
+  return connection.define('section', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,

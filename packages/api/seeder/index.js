@@ -2,14 +2,11 @@
  * Temporary seeder file.
  */
 
+require('dotenv').config();
 const Sequelize = require('sequelize');
 const models = require('../models');
 
-const HOST = 'localhost';
-const DB = 'eskoolportal';
-const DB_USER = 'eskuser';
-const DB_PWD = 'eskpassword';
-const PORT = 5466;
+const { DB_HOST, DB, DB_USER, DB_PASSWORD, DB_PORT } = process.env;
 
 const userPopulator = require('./userPopulator');
 const studentPopulator = require('./studentPopulator');
@@ -17,10 +14,10 @@ const studentPopulator = require('./studentPopulator');
 const classPopulator = require('./classPopulator');
 const sectionPopulator = require('./sectionPopulator');
 
-const dbConnection = new Sequelize(DB, DB_USER, DB_PWD, {
+const dbConnection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
   dialect: 'postgres',
-  host: HOST,
-  port: PORT,
+  host: DB_HOST,
+  port: DB_PORT,
   logging: false,
 });
 

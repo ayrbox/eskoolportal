@@ -1,0 +1,32 @@
+{
+  "name": "next",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "ayrbox <srdx7@hotmail.com>",
+  "homepage": "https://github.com/ayrbox/eskoolportal#readme",
+  "license": "ISC",
+  "main": "lib/next.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayrbox/eskoolportal.git"
+  },
+  "scripts": {
+    "dev": "nodemon ./server.js",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/ayrbox/eskoolportal/issues"
+  },
+  "dependencies": {
+    "@eskoolportal/api": "^1.0.0",
+    "axios": "^0.19.2",
+    "next": "^9.4.1"
+  }
+}

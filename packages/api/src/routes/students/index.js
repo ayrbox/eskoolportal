@@ -2,13 +2,13 @@ const { studentList, getStudent } = require('../../handlers/students');
 
 module.exports = [
   {
-    path: '/students',
+    path: '/api/students',
     method: 'get',
     handler: studentList,
     secure: true,
   },
   {
-    path: '/student/:id',
+    path: '/api/student/:id',
     method: 'get',
     handler: getStudent,
     secure: true,

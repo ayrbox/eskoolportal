@@ -2,7 +2,7 @@
   "name": "@eskoolportal/api",
   "version": "1.0.0",
   "description": "School students management applications",
-  "main": "server.js",
+  "main": "./src/app.js",
   "scripts": {
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"

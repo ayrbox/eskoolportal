@@ -1,7 +1,10 @@
+require('dotenv').config();
 const next = require('next');
 const api = require('@eskoolportal/api');
 
-const dev = process.env.NODE_ENV !== 'production';
+const { NODE_ENV, APP_PORT } = process.env;
+
+const dev = NODE_ENV !== 'production';
 const nextApp = next({ dev });
 
 const handler = nextApp.getRequestHandler();
@@ -11,8 +14,8 @@ nextApp.prepare().then(() => {
     return handler(req, res);
   });
 
-  api.listen(3000, err => {
+  api.listen(APP_PORT, err => {
     if (err) throw err;
-    console.log('Ready on http://localhost:3000');
+    console.log(`Ready on http://localhost:${APP_PORT}`);
   });
 });

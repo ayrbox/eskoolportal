@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Link from 'next/link';
 
+import '../scss/style.scss';
+
 const Index = ({ students }) => {
   return (
     <main>

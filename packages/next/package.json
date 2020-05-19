@@ -26,7 +26,10 @@
   },
   "dependencies": {
     "@eskoolportal/api": "^1.0.0",
+    "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
-    "next": "^9.4.1"
+    "bootstrap": "^4.5.0",
+    "next": "^9.4.1",
+    "node-sass": "^4.14.1"
   }
 }

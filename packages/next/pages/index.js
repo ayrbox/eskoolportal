@@ -1,11 +1,10 @@
 import axios from 'axios';
 import Link from 'next/link';
-
-import '../scss/style.scss';
+import Layout from '../components/Layout';
 
 const Index = ({ students }) => {
   return (
-    <main>
+    <Layout>
       <h1>Get all students</h1>
       <ol>
         {students.map(({ id, name }) => (
@@ -16,7 +15,7 @@ const Index = ({ students }) => {
           </li>
         ))}
       </ol>
-    </main>
+    </Layout>
   );
 };
 

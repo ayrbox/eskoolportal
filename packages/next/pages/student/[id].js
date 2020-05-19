@@ -1,13 +1,14 @@
 import axios from 'axios';
 import Link from 'next/link';
+import Layout from '../../components/Layout';
 
 const Index = ({ student }) => {
   const { name } = student;
   return (
-    <main>
-      <h1>Students - {name}</h1>
+    <Layout>
+      <h1>{name}</h1>
       <pre>{JSON.stringify(student, null, 4)}</pre>
-    </main>
+    </Layout>
   );
 };
 

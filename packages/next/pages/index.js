@@ -2,13 +2,13 @@ import axios from 'axios';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 
-const Index = ({ students }) => {
+const Index = ({ students, classes }) => {
   return (
     <Layout>
       <h1>Students</h1>
       <div className="ibox ">
         <div className="ibox-title">
-          <h5>Custom responsive table </h5>
+          <h5>Students Result</h5>
           <div className="ibox-tools">
             <a className="collapse-link">
               <i className="fa fa-chevron-up"></i>
@@ -37,11 +37,10 @@ const Index = ({ students }) => {
           <div className="row">
             <div className="col-sm-5 m-b-xs">
               <select className="form-control-sm form-control input-s-sm inline">
-                <option value="0">Class: 1</option>
-                <option value="0">Class: 2</option>
-                <option value="0">Class: 3</option>
-                <option value="0">Class: 4</option>
-                <option value="0">Class: 5</option>
+                <option value='ALL'>All</option>
+                {classes.map(({ id, name }) => (
+                  <option key={id} value={id}>{name}</option>
+                ))}
               </select>
             </div>
             <div className="col-sm-4 m-b-xs">
@@ -51,7 +50,7 @@ const Index = ({ students }) => {
                     type="radio"
                     name="options"
                     id="option1"
-                    autocomplete="off"
+                    autoComplete="off"
                     checked
                   />{' '}
                   All
@@ -61,7 +60,7 @@ const Index = ({ students }) => {
                     type="radio"
                     name="options"
                     id="option2"
-                    autocomplete="off"
+                    autoComplete="off"
                   />{' '}
                   A
                 </label>
@@ -70,7 +69,7 @@ const Index = ({ students }) => {
                     type="radio"
                     name="options"
                     id="option3"
-                    autocomplete="off"
+                    autoComplete="off"
                   />{' '}
                   B
                 </label>
@@ -79,7 +78,7 @@ const Index = ({ students }) => {
                     type="radio"
                     name="options"
                     id="option4"
-                    autocomplete="off"
+                    autoComplete="off"
                   />{' '}
                   C
                 </label>
@@ -167,8 +166,10 @@ const Index = ({ students }) => {
 
 Index.getInitialProps = async () => {
   const res = await axios.get('http://localhost:3000/api/students');
+  const classRes = await axios.get('http://localhost:3000/api/classes');
   return {
     students: res.data,
+    classes: classRes.data,
   };
 };
 

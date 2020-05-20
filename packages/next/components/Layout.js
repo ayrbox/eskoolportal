@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <div id="wrapper">
       <Navigation />
-      <div id="page-wrapper" class="gray-bg">
+      <div id="page-wrapper" className="gray-bg">
         {children}
       </div>
     </div>

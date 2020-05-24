@@ -1,6 +1,6 @@
-import axios from 'axios';
-import Link from 'next/link';
-import Layout from '../../components/Layout';
+import axios from "axios";
+import Link from "next/link";
+import Layout from "../../components/Layout";
 
 const Index = ({ student }) => {
   const {
@@ -16,7 +16,7 @@ const Index = ({ student }) => {
     contactNo,
     referenceCode,
     class: studentClass,
-    section,
+    section
   } = student;
   return (
     <Layout>
@@ -56,12 +56,12 @@ const Index = ({ student }) => {
           <h2>Student Detail</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link href="/">
+              <Link href="/" as="/">
                 <a>Home</a>
               </Link>
             </li>
             <li className="breadcrumb-item">
-              <Link href="/students">
+              <Link href="/students" as="/students">
                 <a>Students</a>
               </Link>
             </li>
@@ -105,7 +105,7 @@ const Index = ({ student }) => {
                       <div className="col-sm-8 text-sm-left">
                         <dd className="mb-1">
                           <a href={`mailto:${email}`} className="text-navy">
-                            {' '}
+                            {" "}
                             {email}
                           </a>
                         </dd>
@@ -214,7 +214,7 @@ const Index = ({ student }) => {
                         <dd>
                           <div className="progress m-b-1">
                             <div
-                              style={{ width: '90%' }}
+                              style={{ width: "90%" }}
                               className="progress-bar progress-bar-striped progress-bar-animated"
                             ></div>
                           </div>
@@ -255,7 +255,7 @@ const Index = ({ student }) => {
               <div className="text-center m-t-md">
                 <a href="#" className="btn btn-xs btn-primary">
                   Add Medical Detail
-                </a>{' '}
+                </a>{" "}
                 <a href="#" className="btn btn-xs btn-primary">
                   Report contact
                 </a>
@@ -270,10 +270,10 @@ const Index = ({ student }) => {
 
 Index.getInitialProps = async ({ query }) => {
   const { id } = query;
-
+  console.log("Fetching data ...............");
   const res = await axios.get(`http://localhost:3000/api/student/${id}`);
   return {
-    student: res.data,
+    student: res.data
   };
 };
 

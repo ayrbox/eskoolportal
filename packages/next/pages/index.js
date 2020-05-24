@@ -1,8 +1,15 @@
-import axios from 'axios';
-import Link from 'next/link';
-import Layout from '../components/Layout';
+import axios from "axios";
+import Link from "next/link";
+import Layout from "../components/Layout";
+import Router from "next/router";
 
 const Index = ({ students, classes }) => {
+  const handleClassChange = e => {
+    e.preventDefault();
+    const classId = e.target.value;
+    Router.push(`/?class=${classId}`, `/?class=${classId}`);
+  };
+
   return (
     <Layout>
       <h1>Students</h1>
@@ -36,10 +43,15 @@ const Index = ({ students, classes }) => {
         <div className="ibox-content">
           <div className="row">
             <div className="col-sm-5 m-b-xs">
-              <select className="form-control-sm form-control input-s-sm inline">
-                <option value='ALL'>All</option>
+              <select
+                className="form-control-sm form-control input-s-sm inline"
+                onChange={handleClassChange}
+              >
+                <option value="ALL">All</option>
                 {classes.map(({ id, name }) => (
-                  <option key={id} value={id}>{name}</option>
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -52,7 +64,7 @@ const Index = ({ students, classes }) => {
                     id="option1"
                     autoComplete="off"
                     checked
-                  />{' '}
+                  />{" "}
                   All
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -61,7 +73,7 @@ const Index = ({ students, classes }) => {
                     name="options"
                     id="option2"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   A
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -70,7 +82,7 @@ const Index = ({ students, classes }) => {
                     name="options"
                     id="option3"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   B
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -79,7 +91,7 @@ const Index = ({ students, classes }) => {
                     name="options"
                     id="option4"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   C
                 </label>
               </div>
@@ -92,10 +104,10 @@ const Index = ({ students, classes }) => {
                   className="form-control form-control-sm"
                 />
                 <span className="input-group-append">
-                  {' '}
+                  {" "}
                   <button type="button" className="btn btn-sm btn-primary">
                     Go!
-                  </button>{' '}
+                  </button>{" "}
                 </span>
               </div>
             </div>
@@ -128,11 +140,11 @@ const Index = ({ students, classes }) => {
                     email,
                     joinDate,
                     class: studentClass,
-                    section,
+                    section
                   }) => (
                     <tr key={id}>
                       <td>
-                        <Link href={`/student/${id}`}>
+                        <Link href="/student/[id]" as={`/student/${id}`}>
                           <a>{name}</a>
                         </Link>
                       </td>
@@ -153,7 +165,7 @@ const Index = ({ students, classes }) => {
                         </Link>
                       </td>
                     </tr>
-                  ),
+                  )
                 )}
               </tbody>
             </table>
@@ -164,12 +176,21 @@ const Index = ({ students, classes }) => {
   );
 };
 
-Index.getInitialProps = async () => {
-  const res = await axios.get('http://localhost:3000/api/students');
-  const classRes = await axios.get('http://localhost:3000/api/classes');
+Index.getInitialProps = async ({ query }) => {
+  const { class: classQuery } = query;
+
+  const baseApiUrl = "http://localhost:3000/api";
+
+  const classRes = await axios.get(`${baseApiUrl}/classes`);
+  // const sectionRes = await axios.get(`${baseApiUrl}/sections`);
+
+  const classId = classQuery || classRes.data[0]["id"];
+
+  const res = await axios.get(`${baseApiUrl}/students?class=${classId}`);
+
   return {
     students: res.data,
-    classes: classRes.data,
+    classes: classRes.data
   };
 };
 

@@ -9,6 +9,7 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "yarn workspace next run start"
+    "start": "yarn workspace next run start",
+    "heroku-postbuild": "yarn workspace next run build"
   }
 }

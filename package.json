@@ -4,5 +4,11 @@
   "devDependencies": {
     "lerna": "^3.16.4"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "yarn workspace next run start"
+  }
 }

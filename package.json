@@ -9,6 +9,9 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "yarn workspace next run start"
+    "bootstrap": "lerna boostrap",
+    "clean": "lerna clean",
+    "start": "yarn workspace next run start",
+    "postinstall": "npm run bootstrap"
   }
 }

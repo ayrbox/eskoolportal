@@ -12,6 +12,6 @@
     "bootstrap": "lerna boostrap",
     "clean": "lerna clean",
     "start": "yarn workspace next run start",
-    "postinstall": "npm run bootstrap"
+    "postinstall": "yarn bootstrap"
   }
 }

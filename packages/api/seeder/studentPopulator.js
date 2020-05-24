@@ -1,20 +1,20 @@
-const { Factory } = require('rosie');
-const faker = require('faker');
+const { Factory } = require("rosie");
+const faker = require("faker");
 
 const { name, internet, random, date, address, phone } = faker;
 
 const studentFactory = new Factory().attrs({
   name: () => name.findName(),
   dateOfBirth: () => date.past(4),
-  gender: () => random.arrayElement(['Male', 'Female']),
+  gender: () => random.arrayElement(["Male", "Female"]),
   address: () => address.streetName(),
   contactNo: () => phone.phoneNumber(),
   email: () => internet.email(),
   joinDate: () => date.past(),
-  class_id: -1,
-  section_id: -1,
+  classId: -1,
+  sectionId: -1,
   classRollNo: () => random.number(),
-  referenceCode: () => random.alphaNumeric(),
+  referenceCode: () => random.alphaNumeric()
 });
 
 const CLASS_SIZE = 30;
@@ -27,8 +27,8 @@ async function studentPopulator(userModel, classModel, sectionModel) {
   classes.forEach(class_ => {
     sections.forEach(section => {
       const students = studentFactory.buildList(CLASS_SIZE, {
-        class_id: class_.id,
-        section_id: section.id,
+        classId: class_.id,
+        sectionId: section.id
       });
       students.forEach(student => {
         const studentData = userModel.build(student);

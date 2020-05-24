@@ -1,16 +1,16 @@
-const { studentList, getStudent } = require('../../handlers/students');
+const { studentList, getStudent } = require("../../handlers/students");
 
 module.exports = [
   {
-    path: '/api/students',
-    method: 'get',
+    path: "/api/students",
+    method: "get",
     handler: studentList,
-    secure: true,
+    secure: true
   },
   {
-    path: '/api/student/:id',
-    method: 'get',
+    path: "/api/student/:id",
+    method: "get",
     handler: getStudent,
-    secure: true,
-  },
+    secure: true
+  }
 ];

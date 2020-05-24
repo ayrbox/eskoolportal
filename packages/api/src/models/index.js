@@ -29,18 +29,21 @@ const Section = SectionModel(connection);
 Student.belongsTo(Class, {
   foreignKey: { name: 'class_id', allowNull: false },
 });
+
 Class.hasMany(Student, {
   foreignKey: {
     name: 'class_id',
     allowNull: false,
   },
 });
+
 Student.belongsTo(Section, {
   foreignKey: {
     name: 'section_id',
     allowNull: false,
   },
 });
+
 Section.hasMany(Student, {
   foreignKey: {
     name: 'section_id',
@@ -53,4 +56,5 @@ module.exports = {
   Student,
   Class,
   Section,
+  Connection: connection,
 };

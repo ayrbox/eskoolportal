@@ -1,12 +1,8 @@
 /**
  * Temporary seeder file.
  */
-
-require('dotenv').config();
 const Sequelize = require('sequelize');
-const models = require('../models');
-
-const { DB_HOST, DB, DB_USER, DB_PASSWORD, DB_PORT } = process.env;
+const { Connection, User, Student, Class, Section } = require('../src/models');
 
 const userPopulator = require('./userPopulator');
 const studentPopulator = require('./studentPopulator');
@@ -14,20 +10,9 @@ const studentPopulator = require('./studentPopulator');
 const classPopulator = require('./classPopulator');
 const sectionPopulator = require('./sectionPopulator');
 
-const dbConnection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
-  dialect: 'postgres',
-  host: DB_HOST,
-  port: DB_PORT,
-  logging: false,
-});
-
 async function start() {
-  await dbConnection;
-  console.log('Database connected successfully');
 
-  const { User, Student, Class, Section } = models(dbConnection);
-
-  await dbConnection.sync({
+  await Connection.sync({
     force: true,
   });
 
@@ -51,5 +36,5 @@ start()
     console.log('ERROR: Seeding database.', err);
   })
   .finally(() => {
-    dbConnection.close();
+    Connection.close();
   });

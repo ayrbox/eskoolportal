@@ -12,13 +12,25 @@ const StudentModel = require("./Student");
 const ClassModel = require("./Class");
 const SectionModel = require("./Section");
 
-const { DB_HOST, DB, DB_USER, DB_PASSWORD, DB_PORT } = process.env;
+const {
+  DATABASE_URL,
+  DB_HOST,
+  DB,
+  DB_USER,
+  DB_PASSWORD,
+  DB_PORT,
+} = process.env;
 
-const connection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
-  dialect: "postgres",
-  host: DB_HOST,
-  port: DB_PORT
-});
+let connection;
+if (DATABASE_URL) {
+  connection = new Sequelize(DATABASE_URL, { dialect: "postgres" });
+} else {
+  connection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
+    dialect: "postgres",
+    host: DB_HOST,
+    port: DB_PORT
+  });
+}
 
 const User = UserModel(connection);
 const Student = StudentModel(connection);

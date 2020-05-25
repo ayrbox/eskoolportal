@@ -268,12 +268,15 @@ const Index = ({ student }) => {
   );
 };
 
-Index.getInitialProps = async ({ query }) => {
+export async function getServerSideProps({ req, query }) {
   const { id } = query;
   console.log("Fetching data ...............");
-  const res = await axios.get(`http://localhost:3000/api/student/${id}`);
+  const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : ''; // REVISIT: not ideal but could be passed into via context.
+  const res = await axios.get(`${baseUrl}/api/student/${id}`);
   return {
-    student: res.data
+    props: {
+      student: res.data
+    },
   };
 };
 

@@ -176,22 +176,25 @@ const Index = ({ students, classes }) => {
   );
 };
 
-Index.getInitialProps = async ({ query }) => {
+export async function getServerSideProps({ req, query }) {
   const { class: classQuery } = query;
 
-  const baseApiUrl = "http://localhost:3000/api";
+  const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : ''; // REVISIT: not ideal but could be passed into via context.
 
-  const classRes = await axios.get(`${baseApiUrl}/classes`);
-  // const sectionRes = await axios.get(`${baseApiUrl}/sections`);
+  const classRes = await axios.get(`${baseUrl}/api/classes`);
+  // const sectionRes = await axios.get(`${baseUrl}/sections`);
 
   const classId = classQuery || classRes.data[0]["id"];
 
-  const res = await axios.get(`${baseApiUrl}/students?class=${classId}`);
+  const res = await axios.get(`${baseUrl}/api/students?class=${classId}`);
 
   return {
-    students: res.data,
-    classes: classRes.data
+    props: {
+      students: res.data,
+      classes: classRes.data
+    },
   };
 };
+
 
 export default Index;

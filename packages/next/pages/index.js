@@ -179,22 +179,30 @@ const Index = ({ students, classes }) => {
 export async function getServerSideProps({ req, query }) {
   const { class: classQuery } = query;
 
-  const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : ''; // REVISIT: not ideal but could be passed into via context.
+  const baseUrl = req ? `${req.protocol}://${req.get("Host")}` : ""; // REVISIT: not ideal but could be passed into via context.
 
-  const classRes = await axios.get(`${baseUrl}/api/classes`);
-  // const sectionRes = await axios.get(`${baseUrl}/sections`);
+  // REVISIT: fetcher should be provided by context
+  const classRes = await axios({
+    method: "get",
+    url: `${baseUrl}/api/classes`,
+    headers: req ? { cookie: req.headers.cookie } : undefined
+  });
 
   const classId = classQuery || classRes.data[0]["id"];
 
-  const res = await axios.get(`${baseUrl}/api/students?class=${classId}`);
+  // REVISIT: fetcher should be provided by context +1
+  const res = await axios({
+    url: `${baseUrl}/api/students?class=${classId}`,
+    method: "get",
+    headers: req ? { cookie: req.headers.cookie } : undefined
+  });
 
   return {
     props: {
       students: res.data,
       classes: classRes.data
-    },
+    }
   };
-};
-
+}
 
 export default Index;

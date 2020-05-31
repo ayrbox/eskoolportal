@@ -1,5 +1,5 @@
-const { Factory } = require('rosie');
-const faker = require('faker');
+const { Factory } = require("rosie");
+const faker = require("faker");
 
 const { name, internet, random } = faker;
 
@@ -7,6 +7,7 @@ const userFactory = new Factory().attrs({
   name: () => name.findName(),
   email: () => internet.email(),
   avatar: () => internet.avatar(),
+  password: () => "Passw0rd1!"
 });
 
 async function userPopulator(userModel) {

@@ -1,4 +1,4 @@
-const { login } = require("../../handlers/auth");
+const { login, logout } = require("../../handlers/auth");
 
 module.exports = [
   {
@@ -6,5 +6,11 @@ module.exports = [
     method: "post",
     handler: login,
     secure: false
+  },
+  {
+    path: "/api/auth/logout",
+    method: "post",
+    handler: logout,
+    secure: true
   }
 ];

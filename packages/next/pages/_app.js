@@ -1,32 +1,38 @@
 import App from "next/app";
-// import { StoreProvider } from "easy-peasy";
-// import store from "../store";
 
-function MyApp({ Component, pageProps, user }) {
-  // if(user ) {
-  //     store.getActions().user.setUser(user);
-  // }
-  // return (
-  // <StoreProvider store={store}>
-  //   <Component {...pageProps} />
-  // </StoreProvider>
-  // );
+const EXCLUDE_SECURE_REDIRECT = ["/login"];
+
+function Main({ Component, pageProps, user }) {
   return <Component {...pageProps} />;
 }
 
-MyApp.getInitialProps = async appContext => {
+const isSecurityExcluded = request =>
+  EXCLUDE_SECURE_REDIRECT.includes(request.path);
+
+Main.getInitialProps = async appContext => {
   const appProps = await App.getInitialProps(appContext);
 
-  let user = null;
-  if (
-    appContext.ctx.req &&
-    appContext.ctx.req.session &&
-    appContext.ctx.req.session.passport &&
-    appContext.ctx.req.session.passport.user
-  ) {
-    user = appContext.ctx.req.session.passport.user;
+  const {
+    ctx: { req, res }
+  } = appContext;
+
+  // User exists
+  if (req && req.session && req.session.passport && req.session.passport.user) {
+    const user = req.session.passport.user;
+
+    return { ...appProps, user };
   }
-  return { ...appProps, user };
+
+  // Do not redirect if excluded
+  if (isSecurityExcluded(req)) {
+    return { ...appProps };
+  }
+
+  // redirect
+  res.writeHead(302, {
+    Location: "/login?redirected=true"
+  });
+  res.end();
 };
 
-export default MyApp;
+export default Main;

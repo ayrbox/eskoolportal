@@ -19,6 +19,7 @@ const {
   DB_USER,
   DB_PASSWORD,
   DB_PORT,
+  SHOW_DB_LOG
 } = process.env;
 
 let connection;
@@ -28,7 +29,8 @@ if (DATABASE_URL) {
   connection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
     dialect: "postgres",
     host: DB_HOST,
-    port: DB_PORT
+    port: DB_PORT,
+    logging: !!SHOW_DB_LOG || false
   });
 }
 

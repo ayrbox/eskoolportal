@@ -178,8 +178,7 @@ const Index = ({ students, classes }) => {
 
 export async function getServerSideProps({ req, query }) {
   const { class: classQuery } = query;
-
-  const baseUrl = req ? `${req.protocol}://${req.get("Host")}` : ""; // REVISIT: not ideal but could be passed into via context.
+  const { baseUrl } = req;
 
   // REVISIT: fetcher should be provided by context
   const classRes = await axios({

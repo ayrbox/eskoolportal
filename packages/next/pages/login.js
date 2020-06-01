@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
-import Layout from "../components/ExternalLayout";
 import Router from "next/router";
+import axios from "axios";
+
+import Layout from "../components/ExternalLayout";
 
 const Login = ({ message }) => {
   const [email, setEmail] = useState("admin@eskoolportal.com");
@@ -15,7 +16,8 @@ const Login = ({ message }) => {
         email,
         password
       });
-      alert("Login successful.");
+      console.info("Login successful.");
+      Router.push("/");
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -62,22 +64,17 @@ const Login = ({ message }) => {
   );
 };
 
-export async function getServerSideProps({ req, query }) {
-  // const { class: classQuery } = query;
-
-  // const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : ''; // REVISIT: not ideal but could be passed into via context.
-
-  // const classRes = await axios.get(`${baseUrl}/api/classes`);
-  // // const sectionRes = await axios.get(`${baseUrl}/sections`);
-
-  // const classId = classQuery || classRes.data[0]["id"];
-
-  // const res = await axios.get(`${baseUrl}/api/students?class=${classId}`);
+export async function getServerSideProps({ req, res }) {
+  if (req.user) {
+    // redirect if user exists
+    res.writeHead(302, {
+      Location: "/"
+    });
+    return res.end();
+  }
 
   return {
-    props: {
-      message: "Hello"
-    }
+    props: {}
   };
 }
 

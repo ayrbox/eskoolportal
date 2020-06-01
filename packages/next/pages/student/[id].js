@@ -270,14 +270,20 @@ const Index = ({ student }) => {
 
 export async function getServerSideProps({ req, query }) {
   const { id } = query;
-  console.log("Fetching data ...............");
-  const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : ''; // REVISIT: not ideal but could be passed into via context.
-  const res = await axios.get(`${baseUrl}/api/student/${id}`);
+  const { baseUrl } = req;
+
+  // REVISIT: fetcher should be provided by context +1
+  const res = await axios({
+    url: `${baseUrl}/api/student/${id}`,
+    method: "get",
+    headers: req ? { cookie: req.headers.cookie } : undefined
+  });
+
   return {
     props: {
       student: res.data
-    },
+    }
   };
-};
+}
 
 export default Index;

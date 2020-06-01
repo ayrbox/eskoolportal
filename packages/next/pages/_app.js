@@ -2,30 +2,31 @@ import App from "next/app";
 
 const EXCLUDE_SECURE_REDIRECT = ["/login"];
 
-function Main({ Component, pageProps, user }) {
+function Main({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
 
 const isSecurityExcluded = request =>
   EXCLUDE_SECURE_REDIRECT.includes(request.path);
 
-Main.getInitialProps = async appContext => {
-  const appProps = await App.getInitialProps(appContext);
+const getBaseUrl = request => `${request.protocol}://${request.get("Host")}`;
 
-  const {
-    ctx: { req, res }
-  } = appContext;
+const getIntitalProps = async appContext => {};
+
+Main.getInitialProps = async appContext => {
+  const { ctx } = appContext;
+  const { req, res } = ctx;
+
+  appContext.ctx.req.baseUrl = getBaseUrl(req);
 
   // User exists
   if (req && req.session && req.session.passport && req.session.passport.user) {
-    const user = req.session.passport.user;
-
-    return { ...appProps, user };
+    return await App.getInitialProps(appContext); // perhaps required
   }
 
   // Do not redirect if excluded
   if (isSecurityExcluded(req)) {
-    return { ...appProps };
+    return await App.getInitialProps(appContext);
   }
 
   // redirect

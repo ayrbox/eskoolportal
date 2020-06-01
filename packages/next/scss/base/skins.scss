@@ -30,7 +30,7 @@ $skin-1-page-bg: #f4f6fa;
 
 .skin-1 .nav-header {
   background-color: $skin-1-color;
-  background-image: url('patterns/header-profile-skin-1.png');
+  // background-image: url('patterns/header-profile-skin-1.png');
 }
 
 .skin-1.mini-navbar .nav-second-level {
@@ -93,7 +93,8 @@ body.skin-1 {
   background: $skin-1-page-bg;
 }
 
-.skin-1 .ibox-title, .skin-1 .ibox-content {
+.skin-1 .ibox-title,
+.skin-1 .ibox-content {
   border-width: 1px;
 }
 
@@ -127,7 +128,8 @@ body.skin-1 {
   border-radius: 5px;
 }
 
-.skin-1 .navbar-default .nav > li > a:hover, .skin-1 .navbar-default .nav > li > a:focus {
+.skin-1 .navbar-default .nav > li > a:hover,
+.skin-1 .navbar-default .nav > li > a:focus {
   background: darken($skin-1-nav-bg, 2%);
   color: #fff;
 }
@@ -172,7 +174,7 @@ body.skin-2 {
 
 .skin-2 .nav-header {
   background-color: $skin-2-color;
-  background-image: url('patterns/header-profile-skin-2.png');
+  // background-image: url('patterns/header-profile-skin-2.png');
 }
 
 .skin-2.mini-navbar .nav-second-level {
@@ -204,7 +206,8 @@ body.skin-2 {
   padding: 17px 0;
 }
 
-.skin-2 .nav > li > a, .skin-2 .welcome-message {
+.skin-2 .nav > li > a,
+.skin-2 .welcome-message {
   color: #edf6ff;
 }
 
@@ -213,7 +216,8 @@ body.skin-2 {
   opacity: 0.5;
 }
 
-.skin-2 #side-menu > li > a, .skin-2 .nav.nav-second-level > li > a {
+.skin-2 #side-menu > li > a,
+.skin-2 .nav.nav-second-level > li > a {
   color: #586b7d;
 }
 
@@ -283,14 +287,34 @@ body.skin-2 #wrapper {
 
 .skin-2 #page-wrapper {
   background: rgba(246, 246, 246, 1);
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(246, 246, 246, 1) 20%, rgba(213, 213, 213, 1) 100%);
-  background: -o-radial-gradient(center, ellipse cover, rgba(246, 246, 246, 1) 20%, rgba(213, 213, 213, 1) 100%);
-  background: -ms-radial-gradient(center, ellipse cover, rgba(246, 246, 246, 1) 20%, rgba(213, 213, 213, 1) 100%);
-  background: radial-gradient(ellipse at center, rgba(246, 246, 246, 1) 20%, rgba(213, 213, 213, 1) 100%);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#f6f6f6, endColorstr=#d5d5d5)";
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    rgba(246, 246, 246, 1) 20%,
+    rgba(213, 213, 213, 1) 100%
+  );
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    rgba(246, 246, 246, 1) 20%,
+    rgba(213, 213, 213, 1) 100%
+  );
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    rgba(246, 246, 246, 1) 20%,
+    rgba(213, 213, 213, 1) 100%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    rgba(246, 246, 246, 1) 20%,
+    rgba(213, 213, 213, 1) 100%
+  );
+  -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr=#f6f6f6, endColorstr=#d5d5d5)';
 }
 
-.skin-2 .ibox-title, .skin-2 .ibox-content {
+.skin-2 .ibox-title,
+.skin-2 .ibox-content {
   border-width: 1px;
 }
 
@@ -316,11 +340,13 @@ body.skin-2 #wrapper {
   border-radius: 10px;
 }
 
-.skin-2 .nav.navbar-top-links > li > a:hover, .skin-2 .nav.navbar-top-links > li > a:focus {
+.skin-2 .nav.navbar-top-links > li > a:hover,
+.skin-2 .nav.navbar-top-links > li > a:focus {
   background: darken($skin-2-nav-top-bg, 5%);
 }
 
-.skin-2 .navbar-default .nav > li > a:hover, .skin-2 .navbar-default .nav > li > a:focus {
+.skin-2 .navbar-default .nav > li > a:hover,
+.skin-2 .navbar-default .nav > li > a:focus {
   background: #e0e0e0;
   color: #213a53;
 }
@@ -369,7 +395,7 @@ body.boxed-layout.skin-3 #wrapper {
 
 .skin-3 .nav-header {
   background-color: $skin-3-color;
-  background-image: url('patterns/header-profile-skin-3.png');
+  // background-image: url('patterns/header-profile-skin-3.png');
 }
 
 .skin-3.mini-navbar .nav-second-level {
@@ -432,7 +458,8 @@ body.skin-3 {
   background: $skin-3-page-bg;
 }
 
-.skin-3 .ibox-title, .skin-3 .ibox-content {
+.skin-3 .ibox-title,
+.skin-3 .ibox-content {
   border-width: 1px;
 }
 
@@ -466,7 +493,8 @@ body.skin-3 {
   border-radius: 5px;
 }
 
-.skin-3 .navbar-default .nav > li > a:hover, .skin-3 .navbar-default .nav > li > a:focus {
+.skin-3 .navbar-default .nav > li > a:hover,
+.skin-3 .navbar-default .nav > li > a:focus {
   background: darken($skin-3-nav-bg, 2%);
   color: #fff;
 }
@@ -479,7 +507,6 @@ body.skin-3 {
   background: transparent;
 }
 
-
 /*
  *
  *   SKIN 4 - INSPINIA - Responsive Admin Theme
@@ -489,10 +516,9 @@ body.skin-3 {
 
 // Main colors
 $skin-4-bg: #f9f9f9;
-$skin-4-box-shadow: 0 1px 8px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
-$skin-4-a-color-active: #384D6C;
+$skin-4-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+$skin-4-a-color-active: #384d6c;
 $skin-4-a-color: #7c899a;
-
 
 body.light-skin {
   background-color: $skin-4-bg;
@@ -500,16 +526,22 @@ body.light-skin {
 }
 
 .light-skin {
-
-  .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single .select2-selection__arrow {
+  .select2-container--default .select2-selection--single,
+  .select2-container--default .select2-selection--multiple,
+  .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
     height: 2.05rem;
   }
 
-  .select2-container--default .select2-selection--single .select2-selection__rendered {
+  .select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
     line-height: 32px;
   }
 
-  .navbar-fixed-top, .navbar-static-top {
+  .navbar-fixed-top,
+  .navbar-static-top {
     background-color: transparent;
   }
 
@@ -519,13 +551,14 @@ body.light-skin {
   .mailbox\.email_view nav.navbar,
   .mailbox\.email_compose nav.navbar,
   .dashboards\.dashboard_4_1 nav.navbar,
-  .metrics nav.navbar, .metrics\.index nav.navbar,
+  .metrics nav.navbar,
+  .metrics\.index nav.navbar,
   .dashboards\.dashboard_5 nav.navbar {
     background: transparent;
   }
 
   &.fixed-nav .navbar-fixed-top {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 
   &.mini-navbar .nav .nav-second-level {
@@ -533,7 +566,8 @@ body.light-skin {
     box-shadow: $skin-4-box-shadow;
   }
 
-  &.fixed-sidebar.mini-navbar .nav .nav-second-level, &.canvas-menu.mini-navbar .nav .nav-second-level {
+  &.fixed-sidebar.mini-navbar .nav .nav-second-level,
+  &.canvas-menu.mini-navbar .nav .nav-second-level {
     box-shadow: none;
   }
 
@@ -553,15 +587,16 @@ body.light-skin {
     background-color: $skin-4-bg;
   }
 
-  #page-wrapper.gray-bg, #page-wrapper.bg-muted {
+  #page-wrapper.gray-bg,
+  #page-wrapper.bg-muted {
     background-color: $skin-4-bg;
   }
 
   .logo-element {
-    color: $skin-4-a-color
+    color: $skin-4-a-color;
   }
 
-  nav > .sidebar-collapse > ul > li  a {
+  nav > .sidebar-collapse > ul > li a {
     color: $skin-4-a-color;
     padding-top: 9px;
     padding-bottom: 9px;
@@ -581,7 +616,8 @@ body.light-skin {
     color: $skin-4-a-color-active;
   }
 
-  .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+  .navbar-default .nav > li > a:hover,
+  .navbar-default .nav > li > a:focus {
     background-color: inherit;
     color: $skin-4-a-color-active;
     font-weight: 700;
@@ -643,7 +679,7 @@ body.light-skin {
     right: 5px;
 
     a {
-      color: $skin-4-a-color !important
+      color: $skin-4-a-color !important;
     }
   }
 
@@ -656,7 +692,7 @@ body.light-skin {
     box-shadow: $skin-4-box-shadow;
     border-radius: 4px;
     border: none;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 
   .breadcrumb {
@@ -676,12 +712,13 @@ body.light-skin {
     background-color: #fff;
   }
 
-  #page-wrapper > .border-bottom, .ibox.border-bottom {
+  #page-wrapper > .border-bottom,
+  .ibox.border-bottom {
     border-bottom: transparent !important;
   }
 
   .fh-breadcrumb {
-    height: calc(100% - 176px) ;
+    height: calc(100% - 176px);
   }
 
   &.top-navigation #page-wrapper > .border-bottom {
@@ -692,11 +729,11 @@ body.light-skin {
   }
 
   .ibox-tools a.btn-primary {
-    color: #FFFFFF !important;
+    color: #ffffff !important;
   }
 
   .chat-discussion {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 
   .ibox-footer {
@@ -706,14 +743,15 @@ body.light-skin {
     border-radius: 4px;
   }
 
-  .contact-box, .social-feed-box, .vertical-timeline-content {
+  .contact-box,
+  .social-feed-box,
+  .vertical-timeline-content {
     box-shadow: $skin-4-box-shadow;
     border: none;
   }
 
   .navbar-default .landing_link a,
   .navbar-default .special_link a {
-    color: #FFFFFF;
+    color: #ffffff;
   }
-
 }

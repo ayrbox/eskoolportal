@@ -63,7 +63,7 @@ const Index = ({ students, classes }) => {
                     name="options"
                     id="option1"
                     autoComplete="off"
-                    checked
+                    defaultChecked
                   />{" "}
                   All
                 </label>

@@ -1,8 +1,15 @@
 import App from "next/app";
 
+import "../scss/style.scss";
+
 const EXCLUDE_SECURE_REDIRECT = ["/login"];
 
-function Main({ Component, pageProps }) {
+function Main(props) {
+  if (!props) {
+    return () => null;
+  }
+
+  const { Component, pageProps } = props;
   return <Component {...pageProps} />;
 }
 
@@ -34,6 +41,7 @@ Main.getInitialProps = async appContext => {
     Location: "/login?redirected=true"
   });
   res.end();
+  return;
 };
 
 export default Main;

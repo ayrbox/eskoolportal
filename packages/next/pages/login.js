@@ -31,32 +31,32 @@ const Login = ({ message }) => {
   return (
     <Layout>
       <div>
-        <h1 class="logo-name">esk+</h1>
+        <h1 className="logo-name">esk+</h1>
       </div>
       <h3>Welcome to eskoolPortal</h3>
       <p>Please enter email and password.</p>
-      <form class="m-t" role="form" onSubmit={handleLogin}>
-        <div class="form-group">
+      <form className="m-t" role="form" onSubmit={handleLogin}>
+        <div className="form-group">
           <input
             type="email"
-            class="form-control"
+            className="form-control"
             placeholder="Email"
             value={email}
             required
             onChange={handleInputChange(setEmail)}
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             placeholder="Password"
             value={password}
             required
             onChange={handleInputChange(setPassword)}
           />
         </div>
-        <button type="submit" class="btn btn-primary block full-width m-b">
+        <button type="submit" className="btn btn-primary block full-width m-b">
           Login
         </button>
       </form>

@@ -1,9 +1,10 @@
 import axios from "axios";
 import Link from "next/link";
-import Layout from "../../components/Layout";
+import StudentProfileLayout from "../../../components/PageLayouts/StudentProfileLayout";
 
 const Index = ({ student }) => {
   const {
+    id,
     name,
     createdAt,
     updatedAt,
@@ -19,58 +20,7 @@ const Index = ({ student }) => {
     section
   } = student;
   return (
-    <Layout>
-      <div className="row border-bottom">
-        <nav
-          className="navbar navbar-static-top  "
-          role="navigation"
-          style={{ marginBottom: 0 }}
-        >
-          <div className="navbar-header">
-            <a
-              className="navbar-minimalize minimalize-styl-2 btn btn-primary "
-              href="#"
-            >
-              <i className="fa fa-bars"></i> Search Icon
-            </a>
-            <form
-              role="search"
-              className="navbar-form-custom"
-              action="search_results.html"
-            >
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="Search for something..."
-                  className="form-control"
-                  name="top-search"
-                  id="top-search"
-                />
-              </div>
-            </form>
-          </div>
-        </nav>
-      </div>
-      <div className="row wrapper border-bottom white-bg page-heading">
-        <div className="col-sm-4">
-          <h2>Student Detail</h2>
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link href="/" as="/">
-                <a>Home</a>
-              </Link>
-            </li>
-            <li className="breadcrumb-item">
-              <Link href="/students" as="/students">
-                <a>Students</a>
-              </Link>
-            </li>
-            <li className="breadcrumb-item active">
-              <strong>{name}</strong>
-            </li>
-          </ol>
-        </div>
-      </div>
+    <StudentProfileLayout>
       <div className="wrapper wrapper-content animated fadeInUp">
         <div className="row">
           <div className="col-lg-9">
@@ -79,9 +29,15 @@ const Index = ({ student }) => {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="m-b-md">
-                      <a href="#" className="btn btn-white btn-xs float-right">
-                        Edit Detail
-                      </a>
+                      <Link href="" href="/student/[id]" as={`/student/${id}`}>
+                        <a className="btn btn-white btn-xs float-right">Back</a>
+                      </Link>
+                      <button
+                        className="btn btn-white btn-xs float-right"
+                        type="button"
+                      >
+                        Save
+                      </button>
                       <h2>{name}</h2>
                     </div>
                   </div>
@@ -254,7 +210,7 @@ const Index = ({ student }) => {
           </div>
         </div>
       </div>
-    </Layout>
+    </StudentProfileLayout>
   );
 };
 

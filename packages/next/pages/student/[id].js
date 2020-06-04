@@ -90,16 +90,6 @@ const Index = ({ student }) => {
                   <div className="col-lg-6">
                     <dl className="row mb-0">
                       <div className="col-sm-4 text-sm-right">
-                        <dt>Status:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">
-                          <span className="label label-primary">Active</span>
-                        </dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
                         <dt>Email:</dt>
                       </div>
                       <div className="col-sm-8 text-sm-left">

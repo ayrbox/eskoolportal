@@ -1,23 +1,40 @@
-import axios from "axios";
-import Link from "next/link";
-import Layout from "../../components/Layout";
+import axios from 'axios';
+import Link from 'next/link';
+import Layout from '../../components/Layout';
+import { Formik } from 'formik';
+import { object, string, date, mixed, number } from 'yup';
+
+const formInitialValue = {
+  name: 'new name',
+  dateOfBirth: '2020-01-20',
+  gender: 'Female',
+  address: '20 test',
+  email: 'test@hotmail.com',
+  joinDate: '20/07/2020',
+  classRollNo: 'tes2832',
+  contactNo: '2020373837',
+  referenceCode: '203402834',
+  studentClass: 1,
+  section: 'A',
+};
+
+const formSchema = object().shape({
+  name: string().min(3).required('Name is required.'),
+  dateOfBirth: date().required('Date of birth is required.'),
+  gender: mixed().oneOf(['male', 'female']).required('Gender is requried.'),
+  address: string().required('Address is required.'),
+  email: string().email().required('Email is required to contact you.'),
+  joinDate: date(),
+  classRollNo: string(),
+  contactNo: string().required(
+    'Phone or any other contact number is required.'
+  ),
+  referenceCode: string(),
+  studentClass: number().required('Please specify student class.'),
+  section: number().required('Please specify student section.'),
+});
 
 const Enroll = ({ classes, sections }) => {
-  // const {
-  //   name,
-  //   createdAt,
-  //   updatedAt,
-  //   dateOfBirth,
-  //   gender,
-  //   address,
-  //   email,
-  //   joinDate,
-  //   classRollNo,
-  //   contactNo,
-  //   referenceCode,
-  //   class: studentClass,
-  //   section
-  // } = student;
   return (
     <Layout>
       <div className="row border-bottom">
@@ -76,136 +93,19 @@ const Enroll = ({ classes, sections }) => {
           <div className="col-lg-9">
             <div className="ibox">
               <div className="ibox-content">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="m-b-md">
-                      <a href="#" className="btn btn-white btn-xs float-right">
-                        Edit Detail
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-6">
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Status:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">
-                          <span className="label label-primary">Active</span>
-                        </dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Email:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">
-                          <input type="text" name="name" />
-                        </dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Gender:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <input type="text" name="name" />
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Date Of Birth:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <h1>ODB</h1>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Class:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <h1>Dropdown for classes</h1>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Section:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <h1>Dropdown of sections</h1>
-                      </div>
-                    </dl>
-
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Roll No:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">'roelno'</dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Address</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">address</dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Contact No.</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">contactNo</dd>
-                      </div>
-                    </dl>
-                  </div>
-                  <div className="col-lg-6" id="cluster_info">
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Joined Date:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">joinDate</dd>
-                      </div>
-                    </dl>
-                    <dl className="row mb-0">
-                      <div className="col-sm-4 text-sm-right">
-                        <dt>Reference Code:</dt>
-                      </div>
-                      <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">referenceCode</dd>
-                      </div>
-                    </dl>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-12">
-                    <dl className="row mb-0">
-                      <div className="col-sm-2 text-sm-right">
-                        <dt>Attendance:</dt>
-                      </div>
-                      <div className="col-sm-10 text-sm-left">
-                        <dd>
-                          <div className="progress m-b-1">
-                            <div
-                              style={{ width: "90%" }}
-                              className="progress-bar progress-bar-striped progress-bar-animated"
-                            ></div>
-                          </div>
-                          <small>
-                            Attendance of student is <strong>90%</strong>.
-                          </small>
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
-                </div>
+                <Formik
+                  initialValues={formInitialValue}
+                  validationSchema={formSchema}
+                >
+                  {({
+                    values,
+                    handleChange,
+                    handleBlur,
+                    isSubmitting,
+                    handleSubmit,
+                    errors,
+                  }) => <pre>{JSON.stringify(values, null, 2)}</pre>}
+                </Formik>
               </div>
             </div>
           </div>
@@ -235,7 +135,7 @@ const Enroll = ({ classes, sections }) => {
               <div className="text-center m-t-md">
                 <a href="#" className="btn btn-xs btn-primary">
                   Add Medical Detail
-                </a>{" "}
+                </a>{' '}
                 <a href="#" className="btn btn-xs btn-primary">
                   Report contact
                 </a>
@@ -256,8 +156,8 @@ export async function getServerSideProps({ req, query }) {
   return {
     props: {
       classes: [],
-      sections: []
-    }
+      sections: [],
+    },
   };
 }
 

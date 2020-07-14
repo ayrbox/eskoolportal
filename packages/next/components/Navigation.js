@@ -5,11 +5,19 @@ const Navigation = () => {
     <nav className="navbar-default navbar-static-side" role="navigation">
       <div className="sidebar-collapse">
         <ul className="nav metismenu" id="side-menu">
-          <li className="active">
+          <li>
             <Link href="/">
               <a>
                 <i className="fa fa-th-large"></i>{' '}
-                <span className="nav-label">Dashboards</span>{' '}
+                <span className="nav-label">Dashboards</span>
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/students">
+              <a>
+                <i className="fa fa-th-large"></i>{' '}
+                <span className="nav-label">Students</span>
               </a>
             </Link>
           </li>

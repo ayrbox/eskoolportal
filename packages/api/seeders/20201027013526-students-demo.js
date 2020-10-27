@@ -2,7 +2,6 @@
 
 const { Factory } = require("rosie");
 const faker = require("faker");
-const { v4: uuidv4 } = require("uuid");
 
 const { name, internet, random, date, address, phone } = faker;
 
@@ -19,8 +18,8 @@ const studentFactory = new Factory().attrs({
   sectionId: undefined,
   rollno: () => random.number(),
   referenceCode: () => random.alphaNumeric(5),
-  createdAt: new Date(),
-  updatedAt: new Date()
+  createdAt: () => new Date(),
+  updatedAt: () => new Date()
 });
 
 const CLASS_SIZE = 30;

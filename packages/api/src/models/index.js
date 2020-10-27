@@ -1,73 +1,44 @@
-/**
- * Exports a function that takes connection as paramenters
- * Loads all the models and map associations and returns the model instances
- *
- */
+"use strict";
 
-require("dotenv").config();
-
+const fs = require("fs");
+const path = require("path");
 const Sequelize = require("sequelize");
-const UserModel = require("./User");
-const StudentModel = require("./Student");
-const ClassModel = require("./Class");
-const SectionModel = require("./Section");
 
-const {
-  DATABASE_URL,
-  DB_HOST,
-  DB,
-  DB_USER,
-  DB_PASSWORD,
-  DB_PORT,
-  SHOW_DB_LOG
-} = process.env;
+const basename = path.basename(__filename);
 
-let connection;
-if (DATABASE_URL) {
-  connection = new Sequelize(DATABASE_URL, { dialect: "postgres" });
-} else {
-  connection = new Sequelize(DB, DB_USER, DB_PASSWORD, {
-    dialect: "postgres",
-    host: DB_HOST,
-    port: DB_PORT,
-    logging: !!SHOW_DB_LOG || false
+const db_config = require("../db-config");
+
+const db = {};
+
+let sequelize;
+sequelize = new Sequelize(
+  db_config.database,
+  db_config.username,
+  db_config.password,
+  db_config
+);
+
+fs.readdirSync(__dirname)
+  .filter(file => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
+    db[model.name] = model;
   });
-}
 
-const User = UserModel(connection);
-const Student = StudentModel(connection);
-const Class = ClassModel(connection);
-const Section = SectionModel(connection);
-
-Student.belongsTo(Class, {
-  foreignKey: { name: "classId", allowNull: false }
-});
-
-Class.hasMany(Student, {
-  foreignKey: {
-    name: "classId",
-    allowNull: false
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
   }
 });
 
-Student.belongsTo(Section, {
-  foreignKey: {
-    name: "sectionId",
-    allowNull: false
-  }
-});
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-Section.hasMany(Student, {
-  foreignKey: {
-    name: "sectionId",
-    allowNull: false
-  }
-});
-
-module.exports = {
-  User,
-  Student,
-  Class,
-  Section,
-  Connection: connection
-};
+module.exports = db;

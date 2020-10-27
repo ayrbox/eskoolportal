@@ -3,17 +3,16 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const { Connection, User } = require("./models");
+const db = require("./models");
 
 const session = require("./middlewares/session");
 const passportMiddleware = require("./middlewares/passport");
 
 const routes = require("./routes");
 
-const passport = passportMiddleware(User);
-
+const passport = passportMiddleware(db.User);
 app.use(bodyParser.json());
-app.use(session(Connection, true));
+app.use(session(db, true));
 
 // app.use(passportInit());
 app.use(passport.initialize());

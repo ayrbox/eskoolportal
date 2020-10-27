@@ -7,7 +7,7 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "db:clear": "sequelize db:seed:undo:all",
-    "db:seed": "sequelize db:seed:all"
+    "db:seed": "yarn db:clear && sequelize db:seed:all"
   },
   "repository": {
     "type": "git",

@@ -6,5 +6,5 @@ module.exports = {
   database: config.get("db.name"),
   host: config.get("db.host"),
   dialect: "postgres",
-  logging: false
+  logging: true
 };

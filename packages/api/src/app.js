@@ -13,7 +13,7 @@ const routes = require("./routes");
 const passport = passportMiddleware(User);
 
 app.use(bodyParser.json());
-app.use(session(Connection));
+app.use(session(Connection, true));
 
 // app.use(passportInit());
 app.use(passport.initialize());

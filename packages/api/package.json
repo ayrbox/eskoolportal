@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^3.5.1",
+    "config": "^3.3.2",
     "connect-session-sequelize": "^6.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
@@ -40,6 +41,7 @@
     "pg-hstore": "^2.3.3",
     "rosie": "^2.0.1",
     "sequelize": "^5.21.7",
+    "uuid": "^8.3.1",
     "validator": "^10.2.0",
     "voilab-pdf-table": "^0.4.0"
   },

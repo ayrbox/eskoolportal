@@ -1,16 +1,32 @@
-const Sequelize = require('sequelize');
+"use strict";
 
-module.exports = connection => {
-  return connection.define('class', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+const { v4: uuidv4 } = require("uuid");
+
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class Class extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  Class.init(
+    {
+      name: DataTypes.STRING,
+      order: DataTypes.INTEGER
     },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-    },
-  });
+    {
+      sequelize,
+      modelName: "Class",
+      tableName: "classes"
+    }
+  );
+
+  Class.beforeCreate(m => (m.id = uuidv4()));
+
+  return Class;
 };

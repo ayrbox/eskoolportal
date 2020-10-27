@@ -5,7 +5,9 @@
   "main": "./src/app.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "db:clear": "sequelize db:seed:undo:all",
+    "db:seed": "sequelize db:seed:all"
   },
   "repository": {
     "type": "git",

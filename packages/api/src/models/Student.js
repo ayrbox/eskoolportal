@@ -1,41 +1,33 @@
-const Sequelize = require('sequelize');
-
-module.exports = conn => {
-  return conn.define('student', {
-    id: {
-      type: Sequelize.UUID,
-      primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
+"use strict";
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class Student extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  Student.init(
+    {
+      name: DataTypes.STRING,
+      dateOfBirth: DataTypes.DATEONLY,
+      gender: DataTypes.STRING,
+      address: DataTypes.STRING,
+      contactNo: DataTypes.STRING,
+      email: DataTypes.STRING,
+      joinDate: DataTypes.DATE,
+      rollno: DataTypes.INTEGER,
+      referenceCode: DataTypes.STRING
     },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    dateOfBirth: {
-      type: Sequelize.DATEONLY,
-      allowNull: false,
-    },
-    gender: {
-      type: Sequelize.ENUM('Male', 'Female', 'Unknown'),
-      allowNull: false,
-    },
-    address: {
-      type: Sequelize.STRING,
-    },
-    contactNo: {
-      type: Sequelize.STRING,
-    },
-    email: {
-      type: Sequelize.STRING,
-    },
-    joinDate: {
-      type: Sequelize.DATE,
-    },
-    classRollNo: {
-      type: Sequelize.INTEGER,
-    },
-    referenceCode: {
-      type: Sequelize.STRING,
-    },
-  });
+    {
+      sequelize,
+      modelName: "Student",
+      tableName: "students"
+    }
+  );
+  return Student;
 };

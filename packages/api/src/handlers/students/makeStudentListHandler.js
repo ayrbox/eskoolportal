@@ -1,7 +1,7 @@
 const Op = require("sequelize").Op;
 
 module.exports = ({ Student, Class, Section }) => {
-  return function ({ query }, res) {
+  return function({ query }, res) {
     const { class: classId, section: sectionId, name } = query;
 
     const clauses = {};
@@ -20,7 +20,10 @@ module.exports = ({ Student, Class, Section }) => {
     }
 
     Student.findAll({
-      include: [Class, Section],
+      include: [
+        { model: Class, as: "class" },
+        { model: Section, as: "section" }
+      ],
       where: clauses
     }).then(students => {
       res.json(students);

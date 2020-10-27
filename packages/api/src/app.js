@@ -12,9 +12,8 @@ const routes = require("./routes");
 
 const passport = passportMiddleware(db.User);
 app.use(bodyParser.json());
-app.use(session(db, true));
+app.use(session(db.sequelize, true));
 
-// app.use(passportInit());
 app.use(passport.initialize());
 app.use(passport.session());
 

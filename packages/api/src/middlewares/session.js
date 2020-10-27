@@ -3,7 +3,7 @@ const SequelizeSessionConnector = require("connect-session-sequelize");
 
 const SequelizeSessionStore = SequelizeSessionConnector(session.Store);
 
-const sessionMiddleware = function (sequelizeConnection, sync = false) {
+const sessionMiddleware = function(sequelizeConnection, sync = false) {
   const sessionStore = new SequelizeSessionStore({
     db: sequelizeConnection
   });
@@ -13,7 +13,7 @@ const sessionMiddleware = function (sequelizeConnection, sync = false) {
   }
 
   return session({
-    secret: "d}*kKiVJo$wkQAD7wUpzqe3HKqsK)bPjynjDsvT6Lar3Fk>LifCKPdogLPxgDHud", //enter a random string here
+    secret: "d}*kKiVJo$wkQAD7wUpzqe3HKqsK)bPjynjDsvT6Lar3Fk>LifCKPdogLPxgDHud", //TODO: read from env
     resave: false,
     saveUninitialized: true,
     name: "eskoolportal",

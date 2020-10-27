@@ -1,14 +1,14 @@
 const passport = require("passport");
 const strategy = require("passport-local").Strategy;
 
-const passportMiddleware = function (User) {
+const passportMiddleware = function(User) {
   passport.use(
     new strategy(
       {
         usernameField: "email",
         passwordField: "password"
       },
-      async function (email, password, done) {
+      async function(email, password, done) {
         if (!email || !password) {
           done("Email and password required", null);
           return;

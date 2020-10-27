@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    async isPasswordValid(password) {
+      return await bcrypt.compare(password, this.password);
+    }
   }
   User.init(
     {
@@ -29,16 +33,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.beforeCreate(user => {
+  User.beforeCreate(async user => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     user.id = uuidv4();
   });
-
-  User.prototype.isPasswordValid = async password => {
-    return await bcrypt.compare(password, this.password);
-  };
 
   return User;
 };

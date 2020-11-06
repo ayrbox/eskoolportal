@@ -1,14 +1,14 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-const db = require("./models");
+const db = require('./models');
 
-const session = require("./middlewares/session");
-const passportMiddleware = require("./middlewares/passport");
+const session = require('./middlewares/session');
+const passportMiddleware = require('./middlewares/passport');
 
-const routes = require("./routes");
+const routes = require('./routes');
 
 const passport = passportMiddleware(db.User);
 app.use(bodyParser.json());

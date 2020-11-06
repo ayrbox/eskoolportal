@@ -16,7 +16,7 @@
     "url": "git+https://github.com/ayrbox/eskoolportal.git"
   },
   "scripts": {
-    "dev": "nodemon ./server.js",
+    "dev": "nodemon --require dotenv/config ./server.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "next build",
     "start": "node ./server.js"

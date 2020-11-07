@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Layout from "../components/Layout";
+import Layout from "../../../components/Layout";
 import Router from "next/router";
 import useSwr from "swr";
 
@@ -8,20 +8,14 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Students = () => {
   const router = useRouter();
+  const classId = router.query.classId;
 
-  const handleClassChange = (e) => {
-    e.preventDefault();
-    const classId = e.target.value;
-    Router.push(`/?class=${classId}`, `/?class=${classId}`);
-  };
-
-  const { data: classes, error: classError } = useSwr(`/api/classes`, fetcher);
-  const { data: students, error: studentError } = useSwr(
-    `/api/students/`,
+  const { data: students, error } = useSwr(
+    `/api/classes/${classId}/students`,
     fetcher
   );
 
-  if (!classes || !students) return <h1>Loading...</h1>;
+  if (!students) return <h1>Loading...</h1>;
 
   return (
     <Layout>
@@ -55,19 +49,6 @@ const Students = () => {
         </div>
         <div className="ibox-content">
           <div className="row">
-            <div className="col-sm-5 m-b-xs">
-              <select
-                className="form-control-sm form-control input-s-sm inline"
-                onChange={handleClassChange}
-              >
-                <option value="ALL">All</option>
-                {classes.map(({ id, name }) => (
-                  <option key={id} value={id}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-            </div>
             <div className="col-sm-4 m-b-xs">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label className="btn btn-sm btn-white active">

@@ -10,7 +10,9 @@
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayrbox/eskoolportal.git"
@@ -31,8 +33,11 @@
     "bootstrap": "^4.5.0",
     "formik": "^2.1.5",
     "next": "^10.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "reactstrap": "^8.5.1",
     "sass": "^1.26.7",
+    "swr": "^0.3.8",
     "yup": "^0.29.1"
   }
 }

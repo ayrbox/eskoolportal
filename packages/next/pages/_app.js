@@ -13,17 +13,17 @@ function Main(props) {
   return <Component {...pageProps} />;
 }
 
-const isSecurityExcluded = request =>
+const isSecurityExcluded = (request) =>
   EXCLUDE_SECURE_REDIRECT.includes(request.path);
 
-const getIntitalProps = async appContext => {};
+const getIntitalProps = async (appContext) => {};
 
-Main.getInitialProps = async appContext => {
+Main.getInitialProps = async (appContext) => {
   const { ctx } = appContext;
   const { req, res } = ctx;
 
   // if (req) {
-  //   appContext.ctx.req.baseUrl = 'http://localhost:3000' //getBaseUrl(req);
+  //   appContext.ctx.req.baseUrl = "http://localhost:8080"; //getBaseUrl(req);
 
   //   // User exists
   //   if (
@@ -42,7 +42,7 @@ Main.getInitialProps = async appContext => {
 
   //   // redirect
   //   res.writeHead(302, {
-  //     Location: "/login?redirected=true"
+  //     Location: "/login?redirected=true",
   //   });
   //   res.end();
   // }

@@ -1,29 +1,28 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Layout from "../components/Layout";
-import useSwr from "swr";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Layout from '../components/Layout';
+import useSwr from 'swr';
 
-import { Class } from "@eskoolportal/api/src/models";
+import { Class } from '@eskoolportal/api/src/models';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Students = ({ classes }) => {
-  const router = useRouter();
+  const [classId, setClassId] = useState('');
 
   const handleClassChange = (e) => {
     e.preventDefault();
-    const classId = e.target.value;
-    router.push(`/?class=${classId}`, `/?class=${classId}`);
+    setClassId(e.target.value);
   };
 
-  const { data: students, error: studentError } = useSwr(
-    `/api/students/`,
+  const { data: students } = useSwr(
+    classId ? `/api/classes/${classId}/students` : null,
     fetcher
   );
 
   return (
     <Layout>
-      <h1>Students</h1>
+      <h1>Students - {classId}</h1>
       <div className="ibox ">
         <div className="ibox-title">
           <h5>Students Result</h5>
@@ -57,8 +56,9 @@ const Students = ({ classes }) => {
               <select
                 className="form-control-sm form-control input-s-sm inline"
                 onChange={handleClassChange}
+                value={classId}
               >
-                <option value="ALL">All</option>
+                <option value="">-</option>
                 {classes.map(({ id, name }) => (
                   <option key={id} value={id}>
                     {name}
@@ -75,7 +75,7 @@ const Students = ({ classes }) => {
                     id="option1"
                     autoComplete="off"
                     defaultChecked
-                  />{" "}
+                  />{' '}
                   All
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -84,7 +84,7 @@ const Students = ({ classes }) => {
                     name="options"
                     id="option2"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   A
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -93,7 +93,7 @@ const Students = ({ classes }) => {
                     name="options"
                     id="option3"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   B
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -102,7 +102,7 @@ const Students = ({ classes }) => {
                     name="options"
                     id="option4"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   C
                 </label>
               </div>
@@ -115,10 +115,10 @@ const Students = ({ classes }) => {
                   className="form-control form-control-sm"
                 />
                 <span className="input-group-append">
-                  {" "}
+                  {' '}
                   <button type="button" className="btn btn-sm btn-primary">
                     Go!
-                  </button>{" "}
+                  </button>{' '}
                 </span>
               </div>
             </div>
@@ -193,15 +193,12 @@ const Students = ({ classes }) => {
 
 export async function getServerSideProps(ctx) {
   const classes = await Class.findAll({ raw: true });
-  const a = JSON.stringify(classes);
-
   ctx.isLogged = true;
   if (!ctx.isLogged) {
     return {
-      redirect: { destination: "/classes", permanent: false },
+      redirect: { destination: '/classes', permanent: false },
     };
   }
-
   return {
     props: {
       classes: JSON.parse(JSON.stringify(classes)),

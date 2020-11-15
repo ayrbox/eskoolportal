@@ -1,6 +1,6 @@
-import axios from "axios";
-import Link from "next/link";
-import StudentProfileLayout from "../../../components/PageLayouts/StudentProfileLayout";
+import Link from 'next/link';
+import StudentProfileLayout from '../../../components/PageLayouts/StudentProfileLayout';
+import { Student } from '@eskoolportal/api/src/models';
 
 const Index = ({ student }) => {
   const {
@@ -17,7 +17,7 @@ const Index = ({ student }) => {
     contactNo,
     referenceCode,
     class: studentClass,
-    section
+    section,
   } = student;
   return (
     <StudentProfileLayout>
@@ -50,7 +50,7 @@ const Index = ({ student }) => {
                       <div className="col-sm-8 text-sm-left">
                         <dd className="mb-1">
                           <a href={`mailto:${email}`} className="text-navy">
-                            {" "}
+                            {' '}
                             {email}
                           </a>
                         </dd>
@@ -77,7 +77,7 @@ const Index = ({ student }) => {
                         <dt>Class:</dt>
                       </div>
                       <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">{studentClass.name}</dd>
+                        <dd className="mb-1">{studentClass?.name}</dd>
                       </div>
                     </dl>
                     <dl className="row mb-0">
@@ -85,7 +85,7 @@ const Index = ({ student }) => {
                         <dt>Section:</dt>
                       </div>
                       <div className="col-sm-8 text-sm-left">
-                        <dd className="mb-1">{section.name}</dd>
+                        <dd className="mb-1">{section?.name}</dd>
                       </div>
                     </dl>
 
@@ -159,7 +159,7 @@ const Index = ({ student }) => {
                         <dd>
                           <div className="progress m-b-1">
                             <div
-                              style={{ width: "90%" }}
+                              style={{ width: '90%' }}
                               className="progress-bar progress-bar-striped progress-bar-animated"
                             ></div>
                           </div>
@@ -200,7 +200,7 @@ const Index = ({ student }) => {
               <div className="text-center m-t-md">
                 <a href="#" className="btn btn-xs btn-primary">
                   Add Medical Detail
-                </a>{" "}
+                </a>{' '}
                 <a href="#" className="btn btn-xs btn-primary">
                   Report contact
                 </a>
@@ -213,21 +213,24 @@ const Index = ({ student }) => {
   );
 };
 
-export async function getServerSideProps({ req, query }) {
-  const { id } = query;
-  const { baseUrl } = req;
+export async function getServerSideProps(ctx) {
+  const { id } = ctx.params;
+  const student = await Student.findByPk(id, { raw: true });
 
-  // REVISIT: fetcher should be provided by context +1
-  const res = await axios({
-    url: `${baseUrl}/api/student/${id}`,
-    method: "get",
-    headers: req ? { cookie: req.headers.cookie } : undefined
-  });
+  ctx.isLoggedIn = true;
+  if (!ctx.isLoggedIn) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
 
   return {
     props: {
-      student: res.data
-    }
+      student: JSON.parse(JSON.stringify(student)),
+    },
   };
 }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 import useSwr from 'swr';
 
 import { Class } from '@eskoolportal/api/src/models';
@@ -156,7 +156,7 @@ const Students = ({ classes }) => {
                     }) => (
                       <tr key={id}>
                         <td>
-                          <Link href="/student/[id]" as={`/student/${id}`}>
+                          <Link href={`/students/${id}`}>
                             <a>{name}</a>
                           </Link>
                         </td>

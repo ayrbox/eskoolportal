@@ -4,13 +4,15 @@
   "devDependencies": {
     "lerna": "^3.16.4"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
     "node": "12.x"
   },
   "scripts": {
     "start": "yarn workspace next run start",
-    "dev": "yarn workspace next run dev",
+    "dev": "yarn workspace next run develop",
     "dev:api": "yarn workspace @eskoolportal/api run dev",
     "heroku-postbuild": "yarn workspace next run build"
   }

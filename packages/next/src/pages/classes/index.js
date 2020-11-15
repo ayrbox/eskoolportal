@@ -14,6 +14,7 @@ const Classes = () => {
   return (
     <Layout>
       <h1>Classes</h1>
+      <Link href={`/students/`}>GO TO STUDENTS</Link>
       <ul>
         {data.map(({ id, name }) => (
           <li key={id}>

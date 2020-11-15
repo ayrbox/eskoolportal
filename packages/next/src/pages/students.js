@@ -1,27 +1,25 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
-import Router from "next/router";
 import useSwr from "swr";
+
+import { Class } from "@eskoolportal/api/src/models";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Students = () => {
+const Students = ({ classes }) => {
   const router = useRouter();
 
   const handleClassChange = (e) => {
     e.preventDefault();
     const classId = e.target.value;
-    Router.push(`/?class=${classId}`, `/?class=${classId}`);
+    router.push(`/?class=${classId}`, `/?class=${classId}`);
   };
 
-  const { data: classes, error: classError } = useSwr(`/api/classes`, fetcher);
   const { data: students, error: studentError } = useSwr(
     `/api/students/`,
     fetcher
   );
-
-  if (!classes || !students) return <h1>Loading...</h1>;
 
   return (
     <Layout>
@@ -125,68 +123,90 @@ const Students = () => {
               </div>
             </div>
           </div>
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>DOB</th>
-                  <th>Gender</th>
-                  <th>Address</th>
-                  <th>Contact no</th>
-                  <th>Email</th>
+          {students ? (
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Contact no</th>
+                    <th>Email</th>
 
-                  <th>Join Date</th>
-                  <th>Class</th>
-                  <th>Section</th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.map(
-                  ({
-                    id,
-                    name,
-                    dateOfBirth,
-                    gender,
-                    address,
-                    contactNo,
-                    email,
-                    joinDate,
-                    class: studentClass,
-                    section,
-                  }) => (
-                    <tr key={id}>
-                      <td>
-                        <Link href="/student/[id]" as={`/student/${id}`}>
-                          <a>{name}</a>
-                        </Link>
-                      </td>
-                      <td>{dateOfBirth}</td>
-                      <td>{gender}</td>
-                      <td>{address}</td>
-                      <td>{contactNo}</td>
-                      <td>{email}</td>
-                      <td>{joinDate}</td>
-                      <td>
-                        <Link href={`/class/${studentClass.id}`}>
-                          <a>{studentClass.name}</a>
-                        </Link>
-                      </td>
-                      <td>
-                        <Link href={`/class/${section.id}`}>
-                          <a>{section.name}</a>
-                        </Link>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
+                    <th>Join Date</th>
+                    <th>Class</th>
+                    <th>Section</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map(
+                    ({
+                      id,
+                      name,
+                      dateOfBirth,
+                      gender,
+                      address,
+                      contactNo,
+                      email,
+                      joinDate,
+                      class: studentClass,
+                      section,
+                    }) => (
+                      <tr key={id}>
+                        <td>
+                          <Link href="/student/[id]" as={`/student/${id}`}>
+                            <a>{name}</a>
+                          </Link>
+                        </td>
+                        <td>{dateOfBirth}</td>
+                        <td>{gender}</td>
+                        <td>{address}</td>
+                        <td>{contactNo}</td>
+                        <td>{email}</td>
+                        <td>{joinDate}</td>
+                        <td>
+                          <Link href={`/class/${studentClass.id}`}>
+                            <a>{studentClass.name}</a>
+                          </Link>
+                        </td>
+                        <td>
+                          <Link href={`/class/${section.id}`}>
+                            <a>{section.name}</a>
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <h1>Loading....</h1>
+          )}
         </div>
       </div>
     </Layout>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const classes = await Class.findAll({ raw: true });
+  const a = JSON.stringify(classes);
+
+  ctx.isLogged = true;
+  if (!ctx.isLogged) {
+    return {
+      redirect: { destination: "/classes", permanent: false },
+    };
+  }
+
+  return {
+    props: {
+      classes: JSON.parse(JSON.stringify(classes)),
+    },
+  };
+}
 
 export default Students;

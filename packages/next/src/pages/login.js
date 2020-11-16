@@ -1,29 +1,28 @@
-import { useState } from "react";
-import Link from "next/link";
-import Router from "next/router";
-import axios from "axios";
+import { useState } from 'react';
+// import Link from 'next/link';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
-import Layout from "../components/ExternalLayout";
+import Layout from '../components/ExternalLayout';
 
 const Login = ({ message }) => {
-  const [email, setEmail] = useState("admin@eskoolportal.com");
-  const [password, setPassword] = useState("Passw0rd1!");
+  const [email, setEmail] = useState('admin@eskoolportal.com');
+  const [password, setPassword] = useState('Passw0rd!23');
+  const router = useRouter();
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", {
-        email,
-        password
-      });
-      console.info("Login successful.");
-      Router.push("/");
+      const res = await axios.post('/api/login', { email, password }); // TODO: verify response for message and status
+      if (res.status === 200) {
+        router.push('/');
+      }
     } catch (err) {
       alert(err.response.data.message);
     }
   };
 
-  const handleInputChange = setValue => e => {
+  const handleInputChange = (setValue) => (e) => {
     e.preventDefault();
     setValue(e.target.value);
   };
@@ -64,18 +63,18 @@ const Login = ({ message }) => {
   );
 };
 
-export async function getServerSideProps({ req, res }) {
-  if (req.user) {
-    // redirect if user exists
-    res.writeHead(302, {
-      Location: "/"
-    });
-    return res.end();
-  }
+// export async function getServerSideProps({ req, res }) {
+//   if (req.user) {
+//     // redirect if user exists
+//     res.writeHead(302, {
+//       Location: '/',
+//     });
+//     return res.end();
+//   }
 
-  return {
-    props: {}
-  };
-}
+//   return {
+//     props: {},
+//   };
+// }
 
 export default Login;

@@ -20,5 +20,5 @@ export default authenticate(async function handler(req, res) {
     where: whereClause,
   });
 
-  res.status(200).json(students);
+  return res.status(200).json(students);
 });

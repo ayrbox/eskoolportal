@@ -2,30 +2,38 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 import useSwr from 'swr';
+import clsx from 'clsx';
 
-import { Class } from '@eskoolportal/api/src/models';
+import { Class, Section } from '@eskoolportal/api/src/models';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Students = ({ classes }) => {
+const Students = ({ classes, sections }) => {
   const [classId, setClassId] = useState('');
+  const [section, setSection] = useState('ALL');
 
   const handleClassChange = (e) => {
     e.preventDefault();
     setClassId(e.target.value);
   };
 
+  const handleSectionChange = (id) => (e) => {
+    e.preventDefault();
+    setSection(id);
+    console.log('Section: ', id);
+  };
+
   const { data: students } = useSwr(
-    classId ? `/api/classes/${classId}/students` : null,
+    classId ? `/api/classes/${classId}/students?section=${section}` : null,
     fetcher
   );
 
   return (
     <Layout>
-      <h1>Students - {classId}</h1>
+      <h1>Students</h1>
       <div className="ibox ">
         <div className="ibox-title">
-          <h5>Students Result</h5>
+          <h5>Students</h5>
           <div className="ibox-tools">
             <a className="collapse-link">
               <i className="fa fa-chevron-up"></i>
@@ -68,62 +76,42 @@ const Students = ({ classes }) => {
             </div>
             <div className="col-sm-4 m-b-xs">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                <label className="btn btn-sm btn-white active">
+                <label
+                  className={clsx('btn btn-sm btn-white', {
+                    active: section === 'ALL',
+                  })}
+                >
                   <input
                     type="radio"
-                    name="options"
-                    id="option1"
+                    name="sections"
+                    id="section-all"
                     autoComplete="off"
-                    defaultChecked
-                  />{' '}
+                    onClick={handleSectionChange('ALL')}
+                  />
                   All
                 </label>
-                <label className="btn btn-sm btn-white">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option2"
-                    autoComplete="off"
-                  />{' '}
-                  A
-                </label>
-                <label className="btn btn-sm btn-white">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option3"
-                    autoComplete="off"
-                  />{' '}
-                  B
-                </label>
-                <label className="btn btn-sm btn-white">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option4"
-                    autoComplete="off"
-                  />{' '}
-                  C
-                </label>
-              </div>
-            </div>
-            <div className="col-sm-3">
-              <div className="input-group">
-                <input
-                  placeholder="Search"
-                  type="text"
-                  className="form-control form-control-sm"
-                />
-                <span className="input-group-append">
-                  {' '}
-                  <button type="button" className="btn btn-sm btn-primary">
-                    Go!
-                  </button>{' '}
-                </span>
+                {sections.map(({ id, name }) => (
+                  <label
+                    className={clsx('btn btn-sm btn-white', {
+                      active: section === id,
+                    })}
+                    key={id}
+                  >
+                    <input
+                      type="radio"
+                      name="sections"
+                      id={`section-${id}`}
+                      autoComplete="off"
+                      onClick={handleSectionChange(id)}
+                    />
+                    {name}
+                  </label>
+                ))}
               </div>
             </div>
           </div>
-          {students ? (
+
+          {students && classId ? (
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
@@ -183,7 +171,7 @@ const Students = ({ classes }) => {
               </table>
             </div>
           ) : (
-            <h1>Loading....</h1>
+            <div>{classId && <h1>Loading....</h1>}</div>
           )}
         </div>
       </div>
@@ -193,6 +181,8 @@ const Students = ({ classes }) => {
 
 export async function getServerSideProps(ctx) {
   const classes = await Class.findAll({ raw: true });
+  const sections = await Section.findAll({ raw: true });
+
   ctx.isLogged = true;
   if (!ctx.isLogged) {
     return {
@@ -202,6 +192,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       classes: JSON.parse(JSON.stringify(classes)),
+      sections: JSON.parse(JSON.stringify(sections)),
     },
   };
 }

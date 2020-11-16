@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '@components/Layout';
 import useSwr from 'swr';
 import clsx from 'clsx';
+import { Button, Table, Input, Col } from 'reactstrap';
 
 // SSR
 import { Class, Section } from '@eskoolportal/api/src/models';
@@ -59,22 +60,24 @@ const Students = ({ classes, sections }) => {
             </a>
           </div>
         </div>
+
         <div className="ibox-content">
           <div className="row">
-            <div className="col-sm-5 m-b-xs">
-              <select
-                className="form-control-sm form-control input-s-sm inline"
+            <Col sm={5}>
+              <Input
+                type="select"
+                name="studentClass"
+                id="studentClass"
                 onChange={handleClassChange}
                 value={classId}
               >
-                <option value="">-</option>
                 {classes.map(({ id, name }) => (
                   <option key={id} value={id}>
                     {name}
                   </option>
                 ))}
-              </select>
-            </div>
+              </Input>
+            </Col>
             <div className="col-sm-4 m-b-xs">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label
@@ -110,11 +113,16 @@ const Students = ({ classes, sections }) => {
                 ))}
               </div>
             </div>
+            <div className="col-sm-3 m-b-xs text-right">
+              <Link href="/students/enroll">
+                <Button color="primary">Enroll New Student</Button>
+              </Link>
+            </div>
           </div>
 
           {students && classId ? (
             <div className="table-responsive">
-              <table className="table table-striped">
+              <Table striped>
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -169,7 +177,7 @@ const Students = ({ classes, sections }) => {
                     )
                   )}
                 </tbody>
-              </table>
+              </Table>
             </div>
           ) : (
             <div>{classId && <h1>Loading....</h1>}</div>

@@ -1,11 +1,10 @@
 import { useState } from 'react';
-// import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import Layout from '../components/ExternalLayout';
+import Layout from '@components/ExternalLayout';
 
-const Login = ({ message }) => {
+const Login = () => {
   const [email, setEmail] = useState('admin@eskoolportal.com');
   const [password, setPassword] = useState('Passw0rd!23');
   const router = useRouter();
@@ -63,6 +62,7 @@ const Login = ({ message }) => {
   );
 };
 
+// TODO: if authenticated redirect to dashboard
 // export async function getServerSideProps({ req, res }) {
 //   if (req.user) {
 //     // redirect if user exists

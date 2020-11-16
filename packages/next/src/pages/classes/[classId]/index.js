@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Layout from "../../../components/Layout";
-import useSwr from "swr";
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Layout from '@components/Layout';
+import useSwr from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 

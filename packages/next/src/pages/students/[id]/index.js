@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import StudentProfileLayout from '../../../components/PageLayouts/StudentProfileLayout';
+import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import { Student } from '@eskoolportal/api/src/models';
 
 const Index = ({ student }) => {

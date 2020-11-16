@@ -14,7 +14,6 @@ handler.post(async (req, res) => {
   });
 
   const isValid = await user.isPasswordValid(password);
-  console.log('Password', isValid);
 
   if (!isValid) {
     return res.status(401).json({ message: 'Invalid user or password.' });
@@ -24,7 +23,13 @@ handler.post(async (req, res) => {
     const secret = config.get('app.secret');
     const cookieName = config.get('app.authCookieName');
 
-    const claims = { sub: user.id, email: user.email };
+    const claims = {
+      sub: user.id,
+      email: user.email,
+      avatar: user.avatar,
+      name: user.name,
+    };
+
     const authToken = sign(claims, secret, { expiresIn: '1h' });
     res.setHeader(
       'Set-Cookie',

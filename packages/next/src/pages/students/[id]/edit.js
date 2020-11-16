@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
-import StudentProfileLayout from '../../../components/PageLayouts/StudentProfileLayout';
+import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 
 const Index = ({ student }) => {
   const {

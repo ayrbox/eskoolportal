@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
-import Layout from '../../components/Layout';
+import Layout from '@components/Layout';
 import { Formik } from 'formik';
 import { object, string, date, mixed, number } from 'yup';
 

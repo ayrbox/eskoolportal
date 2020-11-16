@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import useSwr from "swr";
-import axios from "axios";
+import Link from 'next/link';
+import Layout from '@components/Layout';
+import useSwr from 'swr';
+import axios from 'axios';
 
 // const fetcher = (url) => fetch(url).then((res) => res.json());
 const fetcher = async (url) => axios.get(url).then((res) => res.data);

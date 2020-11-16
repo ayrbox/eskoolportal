@@ -1,7 +1,7 @@
-const { Student, Class, Section } = require('@eskoolportal/api/src/models');
-const Op = require('sequelize').Op;
+import { Student, Class, Section } from '@eskoolportal/api/src/models';
+import authenticate from '@lib/authenticate';
 
-export default async function handler(req, res) {
+export default authenticate(async function handler(req, res) {
   const { classId, section } = req.query;
 
   const whereClause = {
@@ -21,4 +21,4 @@ export default async function handler(req, res) {
   });
 
   res.status(200).json(students);
-}
+});

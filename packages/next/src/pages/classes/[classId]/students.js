@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Layout from "../../../components/Layout";
-import Router from "next/router";
-import useSwr from "swr";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Layout from '@components/Layout';
+import useSwr from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -58,7 +57,7 @@ const Students = () => {
                     id="option1"
                     autoComplete="off"
                     defaultChecked
-                  />{" "}
+                  />{' '}
                   All
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -67,7 +66,7 @@ const Students = () => {
                     name="options"
                     id="option2"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   A
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -76,7 +75,7 @@ const Students = () => {
                     name="options"
                     id="option3"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   B
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -85,7 +84,7 @@ const Students = () => {
                     name="options"
                     id="option4"
                     autoComplete="off"
-                  />{" "}
+                  />{' '}
                   C
                 </label>
               </div>
@@ -98,10 +97,10 @@ const Students = () => {
                   className="form-control form-control-sm"
                 />
                 <span className="input-group-append">
-                  {" "}
+                  {' '}
                   <button type="button" className="btn btn-sm btn-primary">
                     Go!
-                  </button>{" "}
+                  </button>{' '}
                 </span>
               </div>
             </div>

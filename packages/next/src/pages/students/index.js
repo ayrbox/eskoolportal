@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Layout from '../../components/Layout';
+import Layout from '@components/Layout';
 import useSwr from 'swr';
 import clsx from 'clsx';
 
+// SSR
 import { Class, Section } from '@eskoolportal/api/src/models';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());

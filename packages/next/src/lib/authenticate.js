@@ -6,7 +6,7 @@ import { User } from '@eskoolportal/api/src/models';
 const cookieName = config.get('app.authCookieName');
 const secret = config.get('app.secret');
 
-export const authenticate = (fn) => async (req, res) => {
+export const withAuthentication = (fn) => async (req, res) => {
   verify(req.cookies[cookieName], secret, async function (err, decoded) {
     if (!err && decoded) {
       const { email } = decoded;
@@ -24,4 +24,4 @@ export const authenticate = (fn) => async (req, res) => {
   });
 };
 
-export default authenticate;
+export default withAuthentication;

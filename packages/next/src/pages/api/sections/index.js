@@ -1,7 +1,7 @@
 import { Section } from '@eskoolportal/api/src/models';
-import authenticate from '@lib/authenticate';
+import { withAuthentication } from '@lib/authenticate';
 
-export default authenticate(async function handler(req, res) {
+export default withAuthentication(async function handler(req, res) {
   const sections = await Section.findAll();
 
   res.status(200).json(sections);

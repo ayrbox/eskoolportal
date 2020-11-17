@@ -1,7 +1,7 @@
 import { Student, Class, Section } from '@eskoolportal/api/src/models';
-import authenticate from '@lib/authenticate';
+import withAuthenticate, { withAuthentication } from '@lib/authenticate';
 
-export default authenticate(async function handler(req, res) {
+const handler = async function (req, res) {
   const { classId, section } = req.query;
 
   const whereClause = {
@@ -21,4 +21,6 @@ export default authenticate(async function handler(req, res) {
   });
 
   return res.status(200).json(students);
-});
+};
+
+export default withAuthentication(handler);

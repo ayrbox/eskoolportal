@@ -1,7 +1,7 @@
 import { Student, Class, Section } from '@eskoolportal/api/src/models';
-import authenticate from '@lib/authenticate';
+import { withAuthentication } from '@lib/authenticate';
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   const students = await Student.findAll({
     include: [
       { model: Class, as: 'class' },
@@ -10,4 +10,6 @@ export default async function handler(req, res) {
   });
 
   res.status(200).json(students);
-}
+};
+
+export default withAuthentication(handler);

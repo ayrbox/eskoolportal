@@ -71,6 +71,7 @@ const Students = ({ classes, sections }) => {
                 onChange={handleClassChange}
                 value={classId}
               >
+                <option></option>
                 {classes.map(({ id, name }) => (
                   <option key={id} value={id}>
                     {name}
@@ -164,15 +165,11 @@ const Students = ({ classes, sections }) => {
                         <td>{email}</td>
                         <td>{joinDate}</td>
                         <td>
-                          <Link href={`/class/${studentClass.id}`}>
+                          <Link href={`/classes/${studentClass.id}/students`}>
                             <a>{studentClass.name}</a>
                           </Link>
                         </td>
-                        <td>
-                          <Link href={`/class/${section.id}`}>
-                            <a>{section.name}</a>
-                          </Link>
-                        </td>
+                        <td>{section.name}</td>
                       </tr>
                     )
                   )}

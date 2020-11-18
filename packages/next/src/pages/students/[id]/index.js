@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { Row, Col, Button, Form } from 'reactstrap';
+import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
@@ -8,6 +7,7 @@ import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
 import FormSelect from '@components/FormSelect';
 import IBox from '@components/IBox';
+import axios from 'axios';
 
 const studentSchema = object().shape({
   name: string().min(3).required('Name is required.'),
@@ -60,6 +60,11 @@ const Index = ({ student, classes, sections }) => {
     sectionId,
   };
 
+  const handleFormikSubmit = async (values) => {
+    const r = await axios.post(`/api/students/${id}`, values);
+    console.log(r.data);
+  };
+
   return (
     <StudentProfileLayout studentName={name}>
       <Row>
@@ -70,36 +75,26 @@ const Index = ({ student, classes, sections }) => {
                 <h3>Details</h3>
               </Col>
             </Row>
-            <Formik validationSchema={studentSchema} initialValues={data}>
-              {({ values }) => (
-                <Form>
-                  <pre>{JSON.stringify(values, null, 2)}</pre>
+            <Formik
+              validationSchema={studentSchema}
+              initialValues={data}
+              onSubmit={handleFormikSubmit}
+            >
+              {({ handleSubmit }) => (
+                <Form onSubmit={handleSubmit}>
                   <FormItem
                     id="referenceCode"
                     name="referenceCode"
                     label="ReferenceCode"
                     value={referenceCode}
                   />
-                  <FormItem id="name" name="name" label="Name" value={name} />
-                  <FormItem
-                    id="email"
-                    name="email"
-                    label="Email"
-                    value={email}
-                    type="email"
-                  />
-                  <FormItem
-                    id="gender"
-                    name="gender"
-                    label="Gender"
-                    value={gender}
-                  />
-                  <FormItem
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    label="Date Of Birth"
-                    value={dateOfBirth}
-                  />
+                  <FormItem name="name" label="Name" />
+                  <FormItem name="email" label="Email" type="email" />
+                  <FormSelect name="gender" label="Gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </FormSelect>
+                  <FormItem name="dateOfBirth" label="Date Of Birth" />
                   <FormSelect name="classId" label="Class">
                     {classes.map(({ id, name: classDesc }) => (
                       <option key={id} value={id}>
@@ -114,49 +109,20 @@ const Index = ({ student, classes, sections }) => {
                       </option>
                     ))}
                   </FormSelect>
-
-                  <FormItem
-                    id="classRollNo"
-                    name="classRollNo"
-                    label="Roll No"
-                    value={classRollNo}
-                  />
-                  <FormItem
-                    id="address"
-                    name="address"
-                    label="Address"
-                    value={address}
-                    type="textarea"
-                    helpText="Enter full address"
-                  />
-                  <FormItem
-                    id="contactNo"
-                    name="contactNo"
-                    label="Contact No"
-                    value={contactNo}
-                  />
-                  <FormItem
-                    id="joinDate"
-                    name="joinDate"
-                    label="Joined Date"
-                    value={joinDate}
-                  />
+                  <FormItem name="classRollNo" label="Roll No" />
+                  <FormItem name="address" label="Address" type="textarea" />
+                  <FormItem name="contactNo" label="Contact No" />
+                  <FormItem name="joinDate" label="Joined Date" />
+                  <FormGroup row>
+                    <Col sm={{ size: 10, offset: 2 }}>
+                      <Button type="submit" color="primary">
+                        Save
+                      </Button>
+                    </Col>
+                  </FormGroup>
                 </Form>
               )}
             </Formik>
-
-            <Row>
-              <Col lg={12} className="m-b-md">
-                <Link href={`/students/${id}/edit`}>
-                  <a className="btn btn-white btn-xs float-right">
-                    Edit Detail
-                  </a>
-                </Link>
-                <Button color="primary" className="float-right">
-                  Save
-                </Button>
-              </Col>
-            </Row>
             <Row>
               <Col lg={6}>
                 <dl className="row mb-0">

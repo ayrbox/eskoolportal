@@ -11,7 +11,7 @@ import { useField } from 'formik';
 
 const TOTAL_COLUMS = 12;
 
-const FormItem = ({ label, helpText, colSize = 10, ...props }) => {
+const FormSelect = ({ label, helpText, colSize = 10, children, ...props }) => {
   const [field, meta] = useField(props);
   const [didFocus, setDidFocus] = useState(false);
 
@@ -40,7 +40,10 @@ const FormItem = ({ label, helpText, colSize = 10, ...props }) => {
           invalid={meta.error && showFeedback}
           valid={!meta.error && showFeedback}
           onFocus={handleFocus}
-        />
+          type="select"
+        >
+          {children}
+        </Input>
         {helpText && <FormText>{helpText}</FormText>}
         <FormFeedback valid={!meta.error && showFeedback}>
           {meta.error}
@@ -50,4 +53,4 @@ const FormItem = ({ label, helpText, colSize = 10, ...props }) => {
   );
 };
 
-export default FormItem;
+export default FormSelect;

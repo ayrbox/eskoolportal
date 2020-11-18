@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import { Row, Col, Button, Form } from 'reactstrap';
-import { Formik, Field } from 'formik';
-import { object, string, date, mixed, number } from 'yup';
+import { Formik } from 'formik';
+import { object, string, date, mixed } from 'yup';
 
 import { Student, Class, Section } from '@eskoolportal/api/src/models';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
+import FormSelect from '@components/FormSelect';
 import IBox from '@components/IBox';
 
 const studentSchema = object().shape({
@@ -21,11 +21,11 @@ const studentSchema = object().shape({
     'Phone or any other contact number is required.'
   ),
   referenceCode: string(),
-  studentClass: number().required('Please specify student class.'),
-  section: number().required('Please specify student section.'),
+  classId: string().required('Please specify student class.'),
+  sectionId: string().required('Please specify student section.'),
 });
 
-const Index = ({ student }) => {
+const Index = ({ student, classes, sections }) => {
   const {
     id,
     name,
@@ -39,11 +39,11 @@ const Index = ({ student }) => {
     classRollNo,
     contactNo,
     referenceCode,
-    'class.name': studentClass,
-    'section.name': section,
+    classId,
+    sectionId,
   } = student;
 
-  const [data, setData] = useState({
+  const data = {
     id,
     name,
     createdAt,
@@ -56,9 +56,9 @@ const Index = ({ student }) => {
     classRollNo,
     contactNo,
     referenceCode,
-    studentClass,
-    section,
-  });
+    classId,
+    sectionId,
+  };
 
   return (
     <StudentProfileLayout studentName={name}>
@@ -100,18 +100,21 @@ const Index = ({ student }) => {
                     label="Date Of Birth"
                     value={dateOfBirth}
                   />
-                  <FormItem
-                    id="studentClass"
-                    name="studentClass"
-                    label="Class"
-                    value={studentClass}
-                  />
-                  <FormItem
-                    id="section"
-                    name="section"
-                    label="Section"
-                    value={section}
-                  />
+                  <FormSelect name="classId" label="Class">
+                    {classes.map(({ id, name: classDesc }) => (
+                      <option key={id} value={id}>
+                        {classDesc}
+                      </option>
+                    ))}
+                  </FormSelect>
+                  <FormSelect name="sectionId" label="Section">
+                    {sections.map(({ id, name: sectionDesc }) => (
+                      <option key={id} value={id}>
+                        {sectionDesc}
+                      </option>
+                    ))}
+                  </FormSelect>
+
                   <FormItem
                     id="classRollNo"
                     name="classRollNo"
@@ -149,6 +152,9 @@ const Index = ({ student }) => {
                     Edit Detail
                   </a>
                 </Link>
+                <Button color="primary" className="float-right">
+                  Save
+                </Button>
               </Col>
             </Row>
             <Row>
@@ -180,13 +186,10 @@ const Index = ({ student }) => {
 
 export async function getServerSideProps(ctx) {
   const { id } = ctx.params;
-  const student = await Student.findByPk(id, {
-    include: [
-      { model: Class, as: 'class' },
-      { model: Section, as: 'section' },
-    ],
-    raw: true,
-  });
+  const student = await Student.findByPk(id, { raw: true });
+
+  const classes = await Class.findAll({ raw: true });
+  const sections = await Section.findAll({ raw: true });
 
   console.log(student);
 
@@ -203,6 +206,8 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       student: JSON.parse(JSON.stringify(student)),
+      classes: JSON.parse(JSON.stringify(classes)),
+      sections: JSON.parse(JSON.stringify(sections)),
     },
   };
 }

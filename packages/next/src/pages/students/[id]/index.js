@@ -36,7 +36,7 @@ const Index = ({ student, classes, sections }) => {
     address,
     email,
     joinDate,
-    classRollNo,
+    rollno,
     contactNo,
     referenceCode,
     classId,
@@ -53,7 +53,7 @@ const Index = ({ student, classes, sections }) => {
     address,
     email,
     joinDate,
-    classRollNo,
+    rollno,
     contactNo,
     referenceCode,
     classId,
@@ -109,7 +109,7 @@ const Index = ({ student, classes, sections }) => {
                       </option>
                     ))}
                   </FormSelect>
-                  <FormItem name="classRollNo" label="Roll No" />
+                  <FormItem name="rollno" label="Roll No" />
                   <FormItem name="address" label="Address" type="textarea" />
                   <FormItem name="contactNo" label="Contact No" />
                   <FormItem name="joinDate" label="Joined Date" />

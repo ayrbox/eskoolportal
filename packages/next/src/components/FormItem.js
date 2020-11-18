@@ -25,8 +25,7 @@ const FormItem = ({ label, helpText, colSize = 10, ...props }) => {
 
   const handleFocus = () => setDidFocus(true);
 
-  const showFeedback =
-    (!!didFocus && field.value?.trim().length > 2) || meta.touched;
+  const showFeedback = !!didFocus || meta.touched;
 
   return (
     <FormGroup row>

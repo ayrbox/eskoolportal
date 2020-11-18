@@ -13,7 +13,7 @@ const studentSchema = object().shape({
   address: string().required('Address is required.'),
   email: string().email().required('Email is required to contact you.'),
   joinDate: date(),
-  classRollNo: string(),
+  rollno: string(),
   contactNo: string().required(
     'Phone or any other contact number is required.'
   ),
@@ -36,7 +36,7 @@ handler.post(async (req, res) => {
       address,
       email,
       joinDate,
-      classRollNo,
+      rollno,
       contactNo,
       referenceCode,
       classId,
@@ -53,7 +53,7 @@ handler.post(async (req, res) => {
         address,
         email,
         joinDate,
-        classRollNo,
+        rollno,
         contactNo,
         referenceCode,
         classId,
@@ -69,12 +69,10 @@ handler.post(async (req, res) => {
     return res.status(200).json({ message: 'Student data updated' });
   } catch (validationError) {
     if (validationError instanceof ValidationError) {
-      return res
-        .status(400)
-        .json({
-          message: 'Invalid Student information',
-          error: validationError.errors,
-        });
+      return res.status(400).json({
+        message: 'Invalid Student information',
+        error: validationError.errors,
+      });
     } else {
       return res.status(500).json({ message: 'Unexpected error.' });
     }

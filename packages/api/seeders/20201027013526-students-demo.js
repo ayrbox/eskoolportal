@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const { Factory } = require("rosie");
-const faker = require("faker");
+const { Factory } = require('rosie');
+const faker = require('faker');
 
 const { name, internet, random, date, address, phone } = faker;
 
@@ -9,7 +9,7 @@ const studentFactory = new Factory().attrs({
   id: () => random.uuid(),
   name: () => name.findName(),
   dateOfBirth: () => date.past(4),
-  gender: () => random.arrayElement(["Male", "Female"]),
+  gender: () => random.arrayElement(['male', 'female']),
   address: () => address.streetName(),
   contactNo: () => phone.phoneNumber(),
   email: () => internet.email(),
@@ -17,9 +17,9 @@ const studentFactory = new Factory().attrs({
   classId: undefined,
   sectionId: undefined,
   rollno: () => random.number(),
-  referenceCode: () => random.alphaNumeric(5),
+  referenceCode: () => random.alphaNumeric(5).toUpperCase(),
   createdAt: () => new Date(),
-  updatedAt: () => new Date()
+  updatedAt: () => new Date(),
 });
 
 const CLASS_SIZE = 30;
@@ -37,13 +37,13 @@ module.exports = {
     );
 
     const insertPromises = [];
-    classes.forEach(class_ => {
-      sections.forEach(section => {
+    classes.forEach((class_) => {
+      sections.forEach((section) => {
         const students = studentFactory.buildList(CLASS_SIZE, {
           classId: class_.id,
-          sectionId: section.id
+          sectionId: section.id,
         });
-        insertPromises.push(queryInterface.bulkInsert("students", students));
+        insertPromises.push(queryInterface.bulkInsert('students', students));
       });
     });
 
@@ -51,6 +51,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("students", null, {});
-  }
+    await queryInterface.bulkDelete('students', null, {});
+  },
 };

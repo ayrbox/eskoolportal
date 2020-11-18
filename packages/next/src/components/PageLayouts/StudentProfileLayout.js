@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Layout from "../../components/Layout";
+import Link from 'next/link';
+import Layout from '../../components/Layout';
 
-const StudentProfileLayout = ({ children }) => {
+const StudentProfileLayout = ({ children, studentName }) => {
   return (
     <Layout>
       <div className="row border-bottom">
@@ -50,7 +50,7 @@ const StudentProfileLayout = ({ children }) => {
               </Link>
             </li>
             <li className="breadcrumb-item active">
-              <strong>student name</strong>
+              <strong>{studentName}</strong>
             </li>
           </ol>
         </div>

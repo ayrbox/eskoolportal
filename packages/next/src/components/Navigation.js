@@ -8,7 +8,7 @@ const Navigation = () => {
           <li>
             <Link href="/">
               <a>
-                <i className="fa fa-th-large"></i>{' '}
+                <i className="fa fa-th-large"></i>
                 <span className="nav-label">Dashboards</span>
               </a>
             </Link>
@@ -16,7 +16,7 @@ const Navigation = () => {
           <li>
             <Link href="/students">
               <a>
-                <i className="fa fa-th-large"></i>{' '}
+                <i className="fa fa-th-large"></i>
                 <span className="nav-label">Students</span>
               </a>
             </Link>

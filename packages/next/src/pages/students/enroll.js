@@ -1,24 +1,15 @@
-import axios from 'axios';
-import Link from 'next/link';
-import Layout from '@components/Layout';
+import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
-import { object, string, date, mixed, number } from 'yup';
+import { object, string, date, mixed } from 'yup';
 
-const formInitialValue = {
-  name: 'new name',
-  dateOfBirth: '2020-01-20',
-  gender: 'Female',
-  address: '20 test',
-  email: 'test@hotmail.com',
-  joinDate: '20/07/2020',
-  classRollNo: 'tes2832',
-  contactNo: '2020373837',
-  referenceCode: '203402834',
-  studentClass: 1,
-  section: 'A',
-};
+import { Class, Section } from '@eskoolportal/api/src/models';
+import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
+import FormItem from '@components/FormItem';
+import FormSelect from '@components/FormSelect';
+import IBox from '@components/IBox';
+import axios from 'axios';
 
-const formSchema = object().shape({
+const studentSchema = object().shape({
   name: string().min(3).required('Name is required.'),
   dateOfBirth: date().required('Date of birth is required.'),
   gender: mixed().oneOf(['male', 'female']).required('Gender is requried.'),
@@ -30,133 +21,154 @@ const formSchema = object().shape({
     'Phone or any other contact number is required.'
   ),
   referenceCode: string(),
-  studentClass: number().required('Please specify student class.'),
-  section: number().required('Please specify student section.'),
+  classId: string().required('Please specify student class.'),
+  sectionId: string().required('Please specify student section.'),
 });
 
 const Enroll = ({ classes, sections }) => {
+  const {
+    id,
+    name,
+    createdAt,
+    updatedAt,
+    dateOfBirth,
+    gender,
+    address,
+    email,
+    joinDate,
+    rollno,
+    contactNo,
+    referenceCode,
+    classId,
+    sectionId,
+  } = {};
+
+  const data = {
+    id,
+    name,
+    createdAt,
+    updatedAt,
+    dateOfBirth,
+    gender,
+    address,
+    email,
+    joinDate,
+    rollno,
+    contactNo,
+    referenceCode,
+    classId,
+    sectionId,
+  };
+
+  const handleFormikSubmit = async (values) => {
+    const r = await axios.post(`/api/students`, values);
+    console.log(r.data);
+    //TODO: redirect to students detail page
+  };
+
   return (
-    <Layout>
-      <div className="row border-bottom">
-        <nav
-          className="navbar navbar-static-top  "
-          role="navigation"
-          style={{ marginBottom: 0 }}
-        >
-          <div className="navbar-header">
-            <a
-              className="navbar-minimalize minimalize-styl-2 btn btn-primary "
-              href="#"
+    <StudentProfileLayout studentName={name}>
+      <Row>
+        <Col lg={9}>
+          <IBox>
+            <Row>
+              <Col>
+                <h3>Details</h3>
+              </Col>
+            </Row>
+            <Formik
+              validationSchema={studentSchema}
+              initialValues={data}
+              onSubmit={handleFormikSubmit}
             >
-              <i className="fa fa-bars"></i> Search Icon
-            </a>
-            <form
-              role="search"
-              className="navbar-form-custom"
-              action="search_results.html"
-            >
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="Search for something..."
-                  className="form-control"
-                  name="top-search"
-                  id="top-search"
-                />
-              </div>
-            </form>
-          </div>
-        </nav>
-      </div>
-      <div className="row wrapper border-bottom white-bg page-heading">
-        <div className="col-sm-4">
-          <h2>Student Detail</h2>
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link href="/" as="/">
-                <a>Home</a>
-              </Link>
-            </li>
-            <li className="breadcrumb-item">
-              <Link href="/students" as="/students">
-                <a>Students</a>
-              </Link>
-            </li>
-            <li className="breadcrumb-item active">
-              <input type="text" name="name" />
-            </li>
-          </ol>
-        </div>
-      </div>
-      <div className="wrapper wrapper-content animated fadeInUp">
-        <div className="row">
-          <div className="col-lg-9">
-            <div className="ibox">
-              <div className="ibox-content">
-                <Formik
-                  initialValues={formInitialValue}
-                  validationSchema={formSchema}
-                >
-                  {({
-                    values,
-                    handleChange,
-                    handleBlur,
-                    isSubmitting,
-                    handleSubmit,
-                    errors,
-                  }) => <pre>{JSON.stringify(values, null, 2)}</pre>}
-                </Formik>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="wrapper wrapper-content project-manager">
-              <h4>Medical Information:</h4>
-              <p className="small">Student has some medical condition.</p>
-              <p className="small font-bold">
-                <span>
-                  <i className="fa fa-circle text-warning"></i> High priority
-                </span>
-              </p>
-              <h5>Medical Detail</h5>
-              <ul className="list-unstyled project-files">
-                <li>
-                  <a href="">
-                    <i className="fa fa-file"></i> Eye test report.pdf
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <i className="fa fa-file-picture-o"></i> Other medical
-                    report.doc
-                  </a>
-                </li>
-              </ul>
-              <div className="text-center m-t-md">
-                <a href="#" className="btn btn-xs btn-primary">
-                  Add Medical Detail
-                </a>{' '}
-                <a href="#" className="btn btn-xs btn-primary">
-                  Report contact
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Layout>
+              {({ handleSubmit }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormItem
+                    id="referenceCode"
+                    name="referenceCode"
+                    label="ReferenceCode"
+                    value={referenceCode}
+                  />
+                  <FormItem name="name" label="Name" />
+                  <FormItem name="email" label="Email" type="email" />
+                  <FormSelect name="gender" label="Gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </FormSelect>
+                  <FormItem name="dateOfBirth" label="Date Of Birth" />
+                  <FormSelect name="classId" label="Class">
+                    {classes.map(({ id, name: classDesc }) => (
+                      <option key={id} value={id}>
+                        {classDesc}
+                      </option>
+                    ))}
+                  </FormSelect>
+                  <FormSelect name="sectionId" label="Section">
+                    {sections.map(({ id, name: sectionDesc }) => (
+                      <option key={id} value={id}>
+                        {sectionDesc}
+                      </option>
+                    ))}
+                  </FormSelect>
+                  <FormItem name="rollno" label="Roll No" />
+                  <FormItem name="address" label="Address" type="textarea" />
+                  <FormItem name="contactNo" label="Contact No" />
+                  <FormItem name="joinDate" label="Joined Date" />
+                  <FormGroup row>
+                    <Col sm={{ size: 10, offset: 2 }}>
+                      <Button type="submit" color="primary">
+                        Save
+                      </Button>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              )}
+            </Formik>
+            <Row>
+              <Col lg={6}>
+                <dl className="row mb-0">
+                  <div className="col-sm-4 text-sm-right">
+                    <dt>Created:</dt>
+                  </div>
+                  <div className="col-sm-8 text-sm-left">
+                    <dd className="mb-1">{createdAt}</dd>
+                  </div>
+                </dl>
+                <dl className="row mb-0">
+                  <div className="col-sm-4 text-sm-right">
+                    <dt>Updated:</dt>
+                  </div>
+                  <div className="col-sm-8 text-sm-left">
+                    <dd className="mb-1">{updatedAt}</dd>
+                  </div>
+                </dl>
+              </Col>
+            </Row>
+          </IBox>
+        </Col>
+      </Row>
+    </StudentProfileLayout>
   );
 };
 
-export async function getServerSideProps({ req, query }) {
-  // const { id } = query;
-  // console.log("Fetching data ...............");
-  // const baseUrl = req ? `${req.protocol}://${req.get("Host")}` : ""; // REVISIT: not ideal but could be passed into via context.
-  // const res = await axios.get(`${baseUrl}/api/student/${id}`);
+export async function getServerSideProps(ctx) {
+  const classes = await Class.findAll({ raw: true });
+  const sections = await Section.findAll({ raw: true });
+
+  ctx.isLoggedIn = true;
+  if (!ctx.isLoggedIn) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
   return {
     props: {
-      classes: [],
-      sections: [],
+      classes: JSON.parse(JSON.stringify(classes)),
+      sections: JSON.parse(JSON.stringify(sections)),
     },
   };
 }

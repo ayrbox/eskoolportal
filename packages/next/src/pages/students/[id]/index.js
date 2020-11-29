@@ -61,7 +61,7 @@ const Index = ({ student, classes, sections }) => {
   };
 
   const handleFormikSubmit = async (values) => {
-    const r = await axios.post(`/api/students/${id}`, values);
+    const r = await axios.put(`/api/students/${id}`, values);
     console.log(r.data);
   };
 

@@ -22,7 +22,7 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-handler.post(async (req, res) => {
+handler.put(async (req, res) => {
   try {
     await studentSchema.validate(req.body, { abortEarly: false });
 

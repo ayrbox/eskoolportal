@@ -1,33 +1,26 @@
 import path from 'path';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
+import { Class } from './entities/Class';
+import { Student } from './entities/Student';
+import entities from './entities';
 
-import entities, { Class, Student } from './entities';
+export interface DatabaseCredential {
+  databaseUrl: string;
+  logging: boolean;
+}
 
-const main = async () => {
-  const conn = await createConnection({
+let conn: Connection;
+
+// databaseUrl: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal
+const main = async ({ databaseUrl, logging = false }: DatabaseCredential) => {
+  conn = await createConnection({
     type: 'postgres',
-    url: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal',
-    logging: true,
-    // synchronize: true,
+    url: databaseUrl,
+    logging,
     migrations: [path.join(__dirname, './migrations/*')],
     entities,
   });
-  // await conn.runMigrations();
-  // await Post.delete({});
-
-  const a = await Class.findOne();
-
-  if (a) {
-    const studentsInClass = await a.students;
-    console.log('Students - >>>>>>>>>>>>', studentsInClass);
-  }
-
-  // const s = await Student.findOne({ where: { name: 'Sabin' } });
-  // console.log('.>>>>>>>>>>>>>>>', s!.class, s!.section);
+  // TODO: await conn.runMigrations();
 };
 
-main()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error(err);
-  });
+export default main;

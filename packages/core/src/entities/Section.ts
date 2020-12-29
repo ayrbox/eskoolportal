@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  OneToMany,
 } from 'typeorm';
+import { Student } from './Student';
 
 @Entity('sections')
 export class Section extends BaseEntity {
@@ -23,4 +25,7 @@ export class Section extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @OneToMany(() => Student, (student) => student.section)
+  students!: Student[];
 }

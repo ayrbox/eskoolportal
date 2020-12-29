@@ -1,14 +1,3 @@
-// {
-//   "type": "postgres",
-//   "host": "localhost",
-//   "port": 5466,
-//   "username": "eskuser",
-//   "password": "eskpassword",
-//   "database": "eskoolportal",
-//   "entities": ["src/entities/*.ts"],
-//   "migrations": ["src/migrations/*.js"]
-// }
-
 import { ConnectionOptions } from 'typeorm';
 import path from 'path';
 

@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  ManyToOne,
 } from 'typeorm';
+import { Class } from './Class';
+import { Section } from './Section';
 
 @Entity('students')
 export class Student extends BaseEntity {
@@ -38,6 +41,20 @@ export class Student extends BaseEntity {
 
   @Column({ type: 'varchar', length: 10 })
   referenceCode!: string;
+
+  // Student.belongsTo(models.Class, { foreignKey: "classId", as: "class" });
+
+  @Column()
+  classId!: string;
+
+  @ManyToOne(() => Class, (cls) => cls.students)
+  class!: Class;
+
+  @Column()
+  sectionId!: string;
+
+  @ManyToOne(() => Section, (section) => section.students)
+  section!: Section;
 
   @CreateDateColumn()
   createdAt!: Date;

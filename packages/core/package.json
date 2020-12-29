@@ -24,7 +24,7 @@
   "scripts": {
     "i": "tsc --init",
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "typeorm:cli": "ts-node ./node_modules/.bin/typeorm -f ./ormconfig.ts"
+    "orm": "ts-node ./node_modules/.bin/typeorm -f ./ormconfig.ts"
   },
   "bugs": {
     "url": "https://github.com/ayrbox/eskoolportal/issues"

@@ -20,8 +20,10 @@ const config: ConnectionOptions = {
   password: process.env.POSTGRES_PASSWORD || 'eskpassword',
   database: process.env.POSTGRES_DB || 'eskoolportal',
   entities: [path.join(__dirname, './src/entities/*.ts')],
+  migrations: [path.join(__dirname, './src/migrations/*.ts')],
   cli: {
-    migrationsDir: 'src/migrations',
+    entitiesDir: './src/entities',
+    migrationsDir: './src/migrations',
   },
 };
 

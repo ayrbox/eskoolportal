@@ -1,9 +1,9 @@
+import { FunctionComponent } from 'react';
 import Link from 'next/link';
 import Layout from '../components/Layout';
-import Router from 'next/router';
 import { Container } from 'reactstrap';
 
-const Index = ({ students, classes }) => {
+const Index: FunctionComponent = () => {
   return (
     <Layout>
       <Container>

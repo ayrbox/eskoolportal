@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Class extends Model {
     /**
@@ -11,22 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Class.hasMany(models.Student, { foreignKey: "classId", as: "students" });
+      Class.hasMany(models.Student, { foreignKey: 'classId', as: 'students' });
     }
   }
   Class.init(
     {
       name: DataTypes.STRING,
-      order: DataTypes.INTEGER
+      order: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "Class",
-      tableName: "classes"
+      modelName: 'Class',
+      tableName: 'classes',
     }
   );
 
-  Class.beforeCreate(m => (m.id = uuidv4()));
+  Class.beforeCreate((m) => (m.id = uuidv4()));
 
   return Class;
 };

@@ -8,18 +8,18 @@ import { Button, Table, Input, Col } from 'reactstrap';
 // SSR
 import { Class, Section } from '@eskoolportal/api/src/models';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = url => fetch(url).then(res => res.json());
 
 const Students = ({ classes, sections }) => {
   const [classId, setClassId] = useState('');
   const [section, setSection] = useState('ALL');
 
-  const handleClassChange = (e) => {
+  const handleClassChange = e => {
     e.preventDefault();
     setClassId(e.target.value);
   };
 
-  const handleSectionChange = (id) => (e) => {
+  const handleSectionChange = id => e => {
     e.preventDefault();
     setSection(id);
     console.log('Section: ', id);
@@ -113,6 +113,7 @@ const Students = ({ classes, sections }) => {
                   </label>
                 ))}
               </div>
+              {students && <h1>Total Number of student: {students.length}</h1>}
             </div>
             <div className="col-sm-3 m-b-xs text-right">
               <Link href="/students/enroll">

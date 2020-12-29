@@ -1,7 +1,7 @@
 import path from 'path';
 import { createConnection } from 'typeorm';
 
-import entities, { Class } from './entities';
+import entities, { Class, Student } from './entities';
 
 const main = async () => {
   const conn = await createConnection({
@@ -15,8 +15,15 @@ const main = async () => {
   // await conn.runMigrations();
   // await Post.delete({});
 
-  const a = await Class.findOne('100');
-  console.log('>>>>>>>>>>>>', a);
+  const a = await Class.findOne();
+
+  if (a) {
+    const studentsInClass = await a.students;
+    console.log('Students - >>>>>>>>>>>>', studentsInClass);
+  }
+
+  // const s = await Student.findOne({ where: { name: 'Sabin' } });
+  // console.log('.>>>>>>>>>>>>>>>', s!.class, s!.section);
 };
 
 main()

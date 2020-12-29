@@ -47,13 +47,13 @@ export class Student extends BaseEntity {
   @Column()
   classId!: string;
 
-  @ManyToOne(() => Class, (cls) => cls.students)
+  @ManyToOne(() => Class, (cls) => cls.students, { eager: true })
   class!: Class;
 
   @Column()
   sectionId!: string;
 
-  @ManyToOne(() => Section, (section) => section.students)
+  @ManyToOne(() => Section, (section) => section.students, { eager: true })
   section!: Section;
 
   @CreateDateColumn()

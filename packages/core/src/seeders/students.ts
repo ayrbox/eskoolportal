@@ -35,4 +35,6 @@ export default async function (): Promise<void> {
       await Student.save(students);
     });
   });
+
+  Student.find();
 }

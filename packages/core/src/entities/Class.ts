@@ -27,5 +27,5 @@ export class Class extends BaseEntity {
   updatedAt!: Date;
 
   @OneToMany(() => Student, (student) => student.class)
-  students!: Student[];
+  students!: Promise<Student[]>;
 }

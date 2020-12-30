@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@eskoolportal/api": "^1.0.0",
+    "@eskoolportal/core": "^0.0.1",
     "@hapi/iron": "^6.0.0",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
@@ -40,10 +41,12 @@
     "reactstrap": "^8.5.1",
     "sass": "^1.26.7",
     "swr": "^0.3.8",
+    "typeorm": "^0.2.29",
     "uuid": "^8.3.1",
     "yup": "^0.29.1"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/react": "^17.0.0"
   }
 }

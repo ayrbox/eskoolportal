@@ -5,7 +5,11 @@ const {
   POSTGRES_PASSWORD,
   POSTGRES_PORT,
   PORT,
+  DATABASE_URL,
+  DATABASE_LOG,
 } = process.env;
+
+console.log('URL', DATABASE_URL);
 
 module.exports = {
   db: {
@@ -14,6 +18,8 @@ module.exports = {
     password: POSTGRES_PASSWORD || 'eskpassword',
     host: POSTGRES_HOST || 'localhost',
     port: POSTGRES_PORT || 5432,
+    url: DATABASE_URL,
+    logging: DATABASE_LOG || false,
   },
   app: {
     port: PORT || 8080,

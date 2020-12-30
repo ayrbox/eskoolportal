@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import Layout from '@components/ExternalLayout';
 
-const Login = () => {
+const Login: FC = () => {
   const [email, setEmail] = useState('admin@eskoolportal.com');
   const [password, setPassword] = useState('Passw0rd!23');
   const router = useRouter();
@@ -12,12 +12,13 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/login', { email, password }); // TODO: verify response for message and status
+      const res = await axios.post('/api/authenticate', { email, password }); // TODO: verify response for message and status
       if (res.status === 200) {
         router.push('/');
       }
     } catch (err) {
-      alert(err.response.data.message);
+      console.error(err);
+      // console.error(err.response.data.message);
     }
   };
 

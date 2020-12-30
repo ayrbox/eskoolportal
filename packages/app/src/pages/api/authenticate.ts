@@ -1,19 +1,23 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import { User } from '@eskoolportal/api/src/models';
+
+import { User } from '@eskoolportal/core/lib/entities/User';
 import { sign } from 'jsonwebtoken';
 import config from 'config';
 import cookie from 'cookie';
+import withConnection from '@lib/withConnection';
 
-const handler = nextConnect();
-
-handler.post(async (req, res) => {
+const authenticateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body;
 
+  // TODO: replace with Users repository
   const user = await User.findOne({
     where: { email },
   });
 
-  const isValid = await user.isPasswordValid(password);
+  // const isValid = await user.isPasswordValid(password);
+  // TODO: repository thingy
+  const isValid = (await user.password) === password;
 
   if (!isValid) {
     return res.status(401).json({ message: 'Invalid user or password.' });
@@ -48,6 +52,6 @@ handler.post(async (req, res) => {
 
     res.status(500).json(err);
   }
-});
+};
 
-export default handler;
+export default nextConnect().post(withConnection(authenticateUser));

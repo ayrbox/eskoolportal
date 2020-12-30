@@ -24,7 +24,8 @@
     "orm": "ts-node ./node_modules/.bin/typeorm -f ./ormconfig.ts",
     "dev": "ts-node ./src/index.ts",
     "seed": "ts-node ./src/seeders/index.ts",
-    "build": "tsc -p ."
+    "clean": "rm -rf ./lib",
+    "build": "yarn clean && tsc -p ."
   },
   "bugs": {
     "url": "https://github.com/ayrbox/eskoolportal/issues"

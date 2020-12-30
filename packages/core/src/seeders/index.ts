@@ -1,7 +1,7 @@
 import path from 'path';
 import { createConnection } from 'typeorm';
 
-import entities, { Class, Section, Student, User } from '../entities';
+import entities from '../entities';
 
 import seedClass from './classes';
 import seedSection from './sections';
@@ -9,19 +9,20 @@ import seedUsers from './users';
 import seedStudents from './students';
 
 const seederIndex = async () => {
+  const entitiesArray = Object.keys(entities).map((_) => _);
+
   await createConnection({
     type: 'postgres',
-    url: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal',
+    url: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal', // TODO read from some config
     logging: true,
-    // synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities,
+    entities: entitiesArray,
   });
 
-  await Student.delete({});
-  await User.delete({});
-  await Section.delete({});
-  await Class.delete({});
+  await entities.Student.delete({});
+  await entities.User.delete({});
+  await entities.Section.delete({});
+  await entities.Class.delete({});
 
   await seedClass();
   await seedSection();

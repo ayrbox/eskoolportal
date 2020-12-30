@@ -14,7 +14,8 @@ export class UserRepository extends Repository<Student> {
   /**
    * Create and return student
    * @param student {Student} Student Entity
-   */ createStudent(student: Student): Promise<Student> {
+   */
+  createStudent(student: Student): Promise<Student> {
     return this.save(student);
   }
 

@@ -1,6 +1,7 @@
-import withAuthentication from '@lib/authenticate';
+import withAuthentication from '@lib/withAuthentication';
 import nextConnect from 'next-connect';
-import { Student } from '@eskoolportal/api/src/models';
+import { Student } from '@eskoolportal/core/lib/entities/Student';
+import { v4 as uuid } from 'uuid';
 
 import { object, string, date, mixed, ValidationError } from 'yup';
 
@@ -22,12 +23,12 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-handler.put(async (req, res) => {
+// TODO: repository and validate inside core
+handler.post(async (req, res) => {
   try {
     await studentSchema.validate(req.body, { abortEarly: false });
 
     const {
-      id,
       name,
       createdAt,
       updatedAt,
@@ -43,30 +44,24 @@ handler.put(async (req, res) => {
       sectionId,
     } = req.body;
 
-    await Student.update(
-      {
-        name,
-        createdAt,
-        updatedAt,
-        dateOfBirth,
-        gender,
-        address,
-        email,
-        joinDate,
-        rollno,
-        contactNo,
-        referenceCode,
-        classId,
-        sectionId,
-      },
-      {
-        where: {
-          id,
-        },
-      }
-    );
+    await Student.save({
+      id: uuid(),
+      name,
+      createdAt,
+      updatedAt,
+      dateOfBirth,
+      gender,
+      address,
+      email,
+      joinDate,
+      rollno,
+      contactNo,
+      referenceCode,
+      classId,
+      sectionId,
+    });
 
-    return res.status(200).json({ message: 'Student data updated' });
+    return res.status(200).json({ message: 'Student enrolled' });
   } catch (validationError) {
     if (validationError instanceof ValidationError) {
       return res.status(400).json({
@@ -74,6 +69,8 @@ handler.put(async (req, res) => {
         error: validationError.errors,
       });
     } else {
+      //TODO: bunyan log here
+      console.log(validationError);
       return res.status(500).json({ message: 'Unexpected error.' });
     }
   }

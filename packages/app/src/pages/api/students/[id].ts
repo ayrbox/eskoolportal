@@ -1,7 +1,7 @@
-import withAuthentication from '@lib/authenticate';
+import withAuthentication from '@lib/withAuthentication';
 import nextConnect from 'next-connect';
-import { Student } from '@eskoolportal/api/src/models';
-import { v4 as uuid } from 'uuid';
+import { Student } from '@eskoolportal/core/lib/entities/Student';
+import { getConnection } from 'typeorm';
 
 import { object, string, date, mixed, ValidationError } from 'yup';
 
@@ -23,11 +23,12 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-handler.post(async (req, res) => {
+handler.put(async (req, res) => {
   try {
     await studentSchema.validate(req.body, { abortEarly: false });
 
     const {
+      id,
       name,
       createdAt,
       updatedAt,
@@ -43,24 +44,54 @@ handler.post(async (req, res) => {
       sectionId,
     } = req.body;
 
-    await Student.create({
-      id: uuid(),
-      name,
-      createdAt,
-      updatedAt,
-      dateOfBirth,
-      gender,
-      address,
-      email,
-      joinDate,
-      rollno,
-      contactNo,
-      referenceCode,
-      classId,
-      sectionId,
-    });
+    // TODO: move to core
+    await getConnection()
+      .createQueryBuilder()
+      .update(Student)
+      .set({
+        name,
+        createdAt,
+        updatedAt,
+        dateOfBirth,
+        gender,
+        address,
+        email,
+        joinDate,
+        rollno,
+        contactNo,
+        referenceCode,
+        classId,
+        sectionId,
+      })
+      .where('id = :id', { id })
+      .execute();
 
-    return res.status(200).json({ message: 'Student enrolled' });
+    // await Student.save( {
+    //   id
+    //     name,
+    //     createdAt,
+    //     updatedAt,
+    //     dateOfBirth,
+    //     gender,
+    //     address,
+    //     email,
+    //     joinDate,
+    //     rollno,
+    //     contactNo,
+    //     referenceCode,
+    //     classId,
+    //     sectionId,
+    //   }
+    // ).save();
+
+    // ,
+    //       {
+    //         where: {
+    //           id,
+    //         },
+    //       }
+
+    return res.status(200).json({ message: 'Student data updated' });
   } catch (validationError) {
     if (validationError instanceof ValidationError) {
       return res.status(400).json({
@@ -68,8 +99,6 @@ handler.post(async (req, res) => {
         error: validationError.errors,
       });
     } else {
-      //TODO: bunyan log here
-      console.log(validationError);
       return res.status(500).json({ message: 'Unexpected error.' });
     }
   }

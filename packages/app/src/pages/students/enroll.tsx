@@ -41,7 +41,11 @@ const Enroll = ({ classes, sections }) => {
     referenceCode,
     classId,
     sectionId,
-  } = {};
+  } = {
+    gender: 'female',
+    classId: '-',
+    sectionId: '-',
+  } as { [key: string]: string | number };
 
   const data = {
     id,
@@ -83,11 +87,11 @@ const Enroll = ({ classes, sections }) => {
             >
               {({ handleSubmit }) => (
                 <Form onSubmit={handleSubmit}>
+                  <pre>{JSON.stringify(data, null, 2)}</pre>
                   <FormItem
                     id="referenceCode"
                     name="referenceCode"
                     label="ReferenceCode"
-                    value={referenceCode}
                   />
                   <FormItem name="name" label="Name" />
                   <FormItem name="email" label="Email" type="email" />

@@ -12,7 +12,7 @@ const Login: FC = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/authenticate', { email, password }); // TODO: verify response for message and status
+      const res = await axios.post('/api/auth', { email, password }); // TODO: verify response for message and status
       if (res.status === 200) {
         router.push('/');
       }

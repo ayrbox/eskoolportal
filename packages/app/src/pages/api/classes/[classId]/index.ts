@@ -1,5 +1,5 @@
 import models from '@eskoolportal/api/src/models';
-import withAuthenticate from '@lib/authenticate';
+import withAuthenticate from '@lib/withAuthentication';
 
 const handler = async function (req, res) {
   const { classId } = req.query;

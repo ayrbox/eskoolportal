@@ -139,7 +139,7 @@ const Students = () => {
                   }) => (
                     <tr key={id}>
                       <td>
-                        <Link href="/student/[id]" as={`/student/${id}`}>
+                        <Link href={`/students/${id}`}>
                           <a>{name}</a>
                         </Link>
                       </td>

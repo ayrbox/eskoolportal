@@ -1,18 +1,16 @@
 import { Student } from '@eskoolportal/core/lib/entities/Student';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-import withAuthentication from '~/lib/withAuthentication';
+import { secureRoute } from '~/lib/secureRoute';
 
-const handler = async function (req, res) {
-  const { classId, section } = req.query;
-
-  const whereClause: { [key: string]: string } = {
-    classId,
-  };
+const handler = async function (req: NextApiRequest, res: NextApiResponse) {
+  const classId = req.query.classId as string;
+  const section = req.query.section as string;
+  const whereClause: Record<string, string> = { classId };
 
   if (section && section !== 'ALL') {
     whereClause.sectionId = section;
   }
-  console.log(whereClause);
 
   const students = await Student.find({
     where: whereClause,
@@ -21,4 +19,4 @@ const handler = async function (req, res) {
   return res.status(200).json(students);
 };
 
-export default withAuthentication(handler);
+export default secureRoute(handler);

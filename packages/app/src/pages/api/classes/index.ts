@@ -1,5 +1,5 @@
 import { Class } from '@eskoolportal/core/lib/entities/Class';
-import withAuthentication from '~/lib/withAuthentication';
+import { secureRoute } from '~/lib/secureRoute';
 
 const handler = async (req, res) => {
   const classes = await Class.find();
@@ -7,4 +7,4 @@ const handler = async (req, res) => {
   res.status(200).json(classes);
 };
 
-export default withAuthentication(handler);
+export default secureRoute(handler);

@@ -1,4 +1,4 @@
-import withAuthentication from '~/lib/withAuthentication';
+import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
 import { Student } from '@eskoolportal/core/lib/entities/Student';
 import { getConnection } from 'typeorm';
@@ -108,4 +108,4 @@ handler.get((_, res) => {
   res.status(405).json({ message: 'Not allowed' });
 });
 
-export default withAuthentication(handler);
+export default secureRoute(handler);

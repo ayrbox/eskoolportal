@@ -1,13 +1,17 @@
 import { useState, FC } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { signIn, signOut, useSession } from 'next-auth/client';
 
 import Layout from '@components/ExternalLayout';
+import { sign } from 'jsonwebtoken';
 
 const Login: FC = () => {
   const [email, setEmail] = useState('admin@eskoolportal.com');
   const [password, setPassword] = useState('Passw0rd!23');
   const router = useRouter();
+
+  const [session] = useSession();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +29,14 @@ const Login: FC = () => {
   const handleInputChange = (setValue) => (e) => {
     e.preventDefault();
     setValue(e.target.value);
+  };
+
+  const handleSignIn = () => {
+    signIn();
+  };
+
+  const handleSignOut = () => {
+    signOut();
   };
 
   return (
@@ -58,24 +70,30 @@ const Login: FC = () => {
         <button type="submit" className="btn btn-primary block full-width m-b">
           Login
         </button>
+
+        <hr />
+
+        {session ? (
+          <>
+            <pre>{JSON.stringify(session, null, 2)}</pre>
+            <button
+              className="btn btn-primary block full-width m-b"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <button
+            className="btn btn-primary block full-width m-b"
+            onClick={handleSignIn}
+          >
+            Sign In
+          </button>
+        )}
       </form>
     </Layout>
   );
 };
-
-// TODO: if authenticated redirect to dashboard
-// export async function getServerSideProps({ req, res }) {
-//   if (req.user) {
-//     // redirect if user exists
-//     res.writeHead(302, {
-//       Location: '/',
-//     });
-//     return res.end();
-//   }
-
-//   return {
-//     props: {},
-//   };
-// }
 
 export default Login;

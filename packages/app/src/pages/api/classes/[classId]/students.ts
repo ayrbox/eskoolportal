@@ -1,6 +1,6 @@
 import { Student } from '@eskoolportal/core/lib/entities/Student';
 
-import withAuthentication from '@lib/withAuthentication';
+import withAuthentication from '~/lib/withAuthentication';
 
 const handler = async function (req, res) {
   const { classId, section } = req.query;

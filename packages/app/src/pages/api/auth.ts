@@ -5,10 +5,12 @@ import { User } from '@eskoolportal/core/lib/entities/User';
 import { sign } from 'jsonwebtoken';
 import config from 'config';
 import cookie from 'cookie';
-import withConnection from '@lib/withConnection';
+import connectDb from '~/lib/connectDb';
 
 const authenticateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body;
+
+  await connectDb();
 
   // TODO: replace with Users repository
   const user = await User.findOne({
@@ -54,4 +56,4 @@ const authenticateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default nextConnect().post(withConnection(authenticateUser));
+export default nextConnect().post(authenticateUser);

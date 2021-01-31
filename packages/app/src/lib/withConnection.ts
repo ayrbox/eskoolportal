@@ -5,8 +5,8 @@ import { ConnectionNotFoundError } from 'typeorm/error/ConnectionNotFoundError';
 
 import entities from '@eskoolportal/core/lib/entities';
 
-const databaseUrl = config.get('db.url');
-const logging = config.get('db.logging');
+const databaseUrl = config.get<string>('db.url');
+const logging = config.get<boolean>('db.logging');
 
 const withConnection = (fn: NextApiHandler | Function) => async (
   req: NextApiRequest,

@@ -1,4 +1,4 @@
-import withAuthentication from '@lib/withAuthentication';
+import withAuthentication from '~/lib/withAuthentication';
 import nextConnect from 'next-connect';
 import { Student } from '@eskoolportal/core/lib/entities/Student';
 import { getConnection } from 'typeorm';

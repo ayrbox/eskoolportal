@@ -2,12 +2,16 @@ import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
-import { Class, Section } from '@eskoolportal/api/src/models';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
 import FormSelect from '@components/FormSelect';
 import IBox from '@components/IBox';
 import axios from 'axios';
+
+// SSR
+import { Class } from '@eskoolportal/core/lib/entities/Class';
+import { Section } from '@eskoolportal/core/lib/entities/Section';
+import { securePage } from '~/lib/securePage';
 
 const studentSchema = object().shape({
   name: string().min(3).required('Name is required.'),
@@ -26,6 +30,9 @@ const studentSchema = object().shape({
 });
 
 const Enroll = ({ classes, sections }) => {
+  const [defaultClass] = classes;
+  const [defaultSection] = sections;
+
   const {
     id,
     name,
@@ -43,9 +50,9 @@ const Enroll = ({ classes, sections }) => {
     sectionId,
   } = {
     gender: 'female',
-    classId: '-',
-    sectionId: '-',
-  } as { [key: string]: string | number };
+    classId: defaultClass.id,
+    sectionId: defaultSection.id,
+  } as Record<string, string | number>;
 
   const data = {
     id,
@@ -65,8 +72,9 @@ const Enroll = ({ classes, sections }) => {
   };
 
   const handleFormikSubmit = async (values) => {
-    const r = await axios.post(`/api/students`, values);
-    console.log(r.data);
+    console.log(values);
+    // const r = await axios.post(`/api/students`, values);
+    // console.log(r.data);
     //TODO: redirect to students detail page
   };
 
@@ -155,26 +163,17 @@ const Enroll = ({ classes, sections }) => {
   );
 };
 
-export async function getServerSideProps(ctx) {
-  const classes = await Class.findAll({ raw: true });
-  const sections = await Section.findAll({ raw: true });
-
-  ctx.isLoggedIn = true;
-  if (!ctx.isLoggedIn) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
+export const getServerSideProps = securePage(async (_, user) => {
+  const classes = await Class.find();
+  const sections = await Section.find();
 
   return {
     props: {
       classes: JSON.parse(JSON.stringify(classes)),
       sections: JSON.parse(JSON.stringify(sections)),
+      user,
     },
   };
-}
+});
 
 export default Enroll;

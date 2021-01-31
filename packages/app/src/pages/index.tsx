@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import { Container } from 'reactstrap';
 
+import { securePage } from '~/lib/securePage';
+
 const Index: FunctionComponent = () => {
   return (
     <Layout>
@@ -19,5 +21,7 @@ const Index: FunctionComponent = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = securePage();
 
 export default Index;

@@ -1,6 +1,8 @@
-import axios from 'axios';
 import Link from 'next/link';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
+
+import { securePage } from '~/lib/securePage';
+import { Student } from '@eskoolportal/core/lib/entities/Student';
 
 const Index = ({ student }) => {
   const {
@@ -885,22 +887,17 @@ const Index = ({ student }) => {
   );
 };
 
-export async function getServerSideProps({ req, query }) {
-  const { id } = query;
-  const { baseUrl } = req;
+export const getServerSideProps = securePage(async (ctx, user) => {
+  const id = ctx.query.id as string;
 
-  // REVISIT: fetcher should be provided by context +1
-  const res = await axios({
-    url: `${baseUrl}/api/student/${id}`,
-    method: 'get',
-    headers: req ? { cookie: req.headers.cookie } : undefined,
-  });
+  const student = await Student.findOne({ id });
 
   return {
     props: {
-      student: res.data,
+      student,
+      user,
     },
   };
-}
+});
 
 export default Index;

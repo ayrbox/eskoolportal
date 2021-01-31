@@ -2,12 +2,16 @@ import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
-import { Student, Class, Section } from '@eskoolportal/api/src/models';
+import { Student } from '@eskoolportal/core/lib/entities/Student';
+import { Class } from '@eskoolportal/core/lib/entities/Class';
+import { Section } from '@eskoolportal/core/lib/entities/Section';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
 import FormSelect from '@components/FormSelect';
 import IBox from '@components/IBox';
 import axios from 'axios';
+
+import { securePage } from '~/lib/securePage';
 
 const studentSchema = object().shape({
   name: string().min(3).required('Name is required.'),
@@ -150,32 +154,21 @@ const Index = ({ student, classes, sections }) => {
   );
 };
 
-export async function getServerSideProps(ctx) {
-  const { id } = ctx.params;
-  const student = await Student.findByPk(id, { raw: true });
+export const getServerSideProps = securePage(async (ctx, user) => {
+  const id = ctx.params.id as string;
+  const student = await Student.findOne({ id });
 
-  const classes = await Class.findAll({ raw: true });
-  const sections = await Section.findAll({ raw: true });
-
-  console.log(student);
-
-  ctx.isLoggedIn = true;
-  if (!ctx.isLoggedIn) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
+  const classes = await Class.find();
+  const sections = await Section.find();
 
   return {
     props: {
       student: JSON.parse(JSON.stringify(student)),
       classes: JSON.parse(JSON.stringify(classes)),
       sections: JSON.parse(JSON.stringify(sections)),
+      user,
     },
   };
-}
+});
 
 export default Index;

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import Layout from '@components/Layout';
 import useSwr from 'swr';
 
+import { securePage } from '~/lib/securePage';
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Students = () => {
@@ -168,5 +170,7 @@ const Students = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = securePage();
 
 export default Students;

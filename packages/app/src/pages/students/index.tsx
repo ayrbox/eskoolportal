@@ -6,20 +6,23 @@ import clsx from 'clsx';
 import { Button, Table, Input, Col } from 'reactstrap';
 
 // SSR
-import { Class, Section } from '@eskoolportal/api/src/models';
+import { Class } from '@eskoolportal/core/lib/entities/Class';
+import { Section } from '@eskoolportal/core/lib/entities/Section';
 
-const fetcher = url => fetch(url).then(res => res.json());
+import { securePage } from '~/lib/securePage';
 
-const Students = ({ classes, sections }) => {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const Students = ({ classes, sections, user }) => {
   const [classId, setClassId] = useState('');
   const [section, setSection] = useState('ALL');
 
-  const handleClassChange = e => {
+  const handleClassChange = (e) => {
     e.preventDefault();
     setClassId(e.target.value);
   };
 
-  const handleSectionChange = id => e => {
+  const handleSectionChange = (id) => (e) => {
     e.preventDefault();
     setSection(id);
     console.log('Section: ', id);
@@ -33,6 +36,7 @@ const Students = ({ classes, sections }) => {
   return (
     <Layout>
       <h1>Students</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
       <div className="ibox ">
         <div className="ibox-title">
           <h5>Students</h5>
@@ -186,22 +190,17 @@ const Students = ({ classes, sections }) => {
   );
 };
 
-export async function getServerSideProps(ctx) {
-  const classes = await Class.findAll({ raw: true });
-  const sections = await Section.findAll({ raw: true });
+export const getServerSideProps = securePage(async (_, user) => {
+  const classes = await Class.find();
+  const sections = await Section.find();
 
-  ctx.isLogged = true;
-  if (!ctx.isLogged) {
-    return {
-      redirect: { destination: '/classes', permanent: false },
-    };
-  }
   return {
     props: {
       classes: JSON.parse(JSON.stringify(classes)),
       sections: JSON.parse(JSON.stringify(sections)),
+      user,
     },
   };
-}
+});
 
 export default Students;

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Layout from '@components/Layout';
 import useSwr from 'swr';
 
+import { securePage } from '~/lib/securePage';
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const ClassIndex = () => {
@@ -24,5 +26,7 @@ const ClassIndex = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = securePage();
 
 export default ClassIndex;

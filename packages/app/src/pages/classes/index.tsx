@@ -3,6 +3,8 @@ import Layout from '@components/Layout';
 import useSwr from 'swr';
 import axios from 'axios';
 
+import { securePage } from '~/lib/securePage';
+
 const fetcher = async (url) => axios.get(url).then((res) => res.data);
 
 const Classes = () => {
@@ -24,5 +26,7 @@ const Classes = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps = securePage();
 
 export default Classes;

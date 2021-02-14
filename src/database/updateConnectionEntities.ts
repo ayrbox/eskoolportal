@@ -12,13 +12,16 @@ const entitiesChanged = (
 
 export const updateConnectionEntities = async (
   connection: Connection,
-  entities: EntitySchema[]
+  entities: unknown[]
 ) => {
   // Check if the entities passed have changed and if so replace them
   // and re-sync the typeorm connection.
   if (
     !connection ||
-    !entitiesChanged(connection.options.entities as EntitySchema[], entities)
+    !entitiesChanged(
+      connection.options.entities as EntitySchema[],
+      entities as EntitySchema[]
+    )
   ) {
     return;
   }

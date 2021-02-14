@@ -4,7 +4,7 @@ import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import { securePage } from '~/lib/securePage';
 import { Student } from '~/database/entities/Student';
 
-const Index = ({ student }) => {
+const Index = ({ student, user }) => {
   const {
     id,
     name,
@@ -22,7 +22,7 @@ const Index = ({ student }) => {
     section,
   } = student;
   return (
-    <StudentProfileLayout>
+    <StudentProfileLayout user={user} studentName={name}>
       <div className="wrapper wrapper-content animated fadeInUp">
         <div className="row">
           <div className="col-lg-12">
@@ -31,7 +31,7 @@ const Index = ({ student }) => {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="m-b-md">
-                      <Link href="" href="/student/[id]" as={`/student/${id}`}>
+                      <Link href={`/student/${id}`}>
                         <a className="btn btn-white btn-xs float-right">Back</a>
                       </Link>
                       <button
@@ -143,7 +143,7 @@ const Index = ({ student }) => {
                             <div className="col-lg-10">
                               <input
                                 type="text"
-                                disabled=""
+                                disabled
                                 placeholder="Disabled input here..."
                                 className="form-control"
                               />
@@ -184,7 +184,6 @@ const Index = ({ student }) => {
                                   {' '}
                                   <input
                                     type="radio"
-                                    checked=""
                                     value="option1"
                                     id="optionsRadios1"
                                     name="optionsRadios"
@@ -267,9 +266,7 @@ const Index = ({ student }) => {
                                   <input
                                     type="checkbox"
                                     value=""
-                                    checked=""
-                                  />{' '}
-                                  <i></i> Option two checked{' '}
+                                  /> <i></i> Option two checked{' '}
                                 </label>
                               </div>
                               <div className="i-checks">
@@ -278,10 +275,7 @@ const Index = ({ student }) => {
                                   <input
                                     type="checkbox"
                                     value=""
-                                    disabled=""
-                                    checked=""
-                                  />{' '}
-                                  <i></i> Option three checked and disabled{' '}
+                                  /> <i></i> Option three checked and disabled{' '}
                                 </label>
                               </div>
                               <div className="i-checks">
@@ -290,9 +284,7 @@ const Index = ({ student }) => {
                                   <input
                                     type="checkbox"
                                     value=""
-                                    disabled=""
-                                  />{' '}
-                                  <i></i> Option four disabled{' '}
+                                  /> <i></i> Option four disabled{' '}
                                 </label>
                               </div>
                               <div className="i-checks">
@@ -311,7 +303,6 @@ const Index = ({ student }) => {
                                   {' '}
                                   <input
                                     type="radio"
-                                    checked=""
                                     value="option2"
                                     name="a"
                                   />{' '}
@@ -323,22 +314,15 @@ const Index = ({ student }) => {
                                   {' '}
                                   <input
                                     type="radio"
-                                    disabled=""
-                                    checked=""
                                     value="option2"
-                                  />{' '}
-                                  <i></i> Option three checked and disabled{' '}
+                                  /> <i></i> Option three checked and disabled{' '}
                                 </label>
                               </div>
                               <div className="i-checks">
                                 <label>
                                   {' '}
-                                  <input
-                                    type="radio"
-                                    disabled=""
-                                    name="a"
-                                  />{' '}
-                                  <i></i> Option four disabled{' '}
+                                  <input type="radio" name="a" /> <i></i> Option
+                                  four disabled{' '}
                                 </label>
                               </div>
                             </div>
@@ -382,7 +366,7 @@ const Index = ({ student }) => {
                               </select>
 
                               <div className="col-lg-4 m-l-n">
-                                <select className="form-control" multiple="">
+                                <select className="form-control">
                                   <option>option 1</option>
                                   <option>option 2</option>
                                   <option>option 3</option>
@@ -633,7 +617,6 @@ const Index = ({ student }) => {
                               <div className="input-group m-b">
                                 <div className="input-group-prepend">
                                   <button
-                                    tabindex="-1"
                                     className="btn btn-white"
                                     type="button"
                                   >
@@ -665,7 +648,6 @@ const Index = ({ student }) => {
                               <div className="input-group">
                                 <div className="input-group-prepend">
                                   <button
-                                    tabindex="-1"
                                     className="btn btn-white"
                                     type="button"
                                   >
@@ -696,7 +678,6 @@ const Index = ({ student }) => {
 
                                 <div className="input-group-append">
                                   <button
-                                    tabindex="-1"
                                     className="btn btn-white"
                                     type="button"
                                   >

@@ -29,7 +29,7 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-const Enroll = ({ classes, sections }) => {
+const Enroll = ({ classes, sections, user }) => {
   const [defaultClass] = classes;
   const [defaultSection] = sections;
 
@@ -79,7 +79,7 @@ const Enroll = ({ classes, sections }) => {
   };
 
   return (
-    <StudentProfileLayout studentName={name}>
+    <StudentProfileLayout studentName={name} user={user}>
       <Row>
         <Col lg={9}>
           <IBox>

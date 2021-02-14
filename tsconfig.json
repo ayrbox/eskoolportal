@@ -23,6 +23,11 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components/FormItem.jsx"
+  ],
   "exclude": ["node_modules"]
 }

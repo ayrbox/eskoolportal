@@ -7,7 +7,7 @@ import { securePage } from '~/lib/securePage';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Students = () => {
+const Students = ({ user }) => {
   const router = useRouter();
   const classId = router.query.classId;
 
@@ -19,7 +19,7 @@ const Students = () => {
   if (!students) return <h1>Loading...</h1>;
 
   return (
-    <Layout>
+    <Layout title="Students" user={user}>
       <h1>Students</h1>
       <div className="ibox ">
         <div className="ibox-title">

@@ -4,6 +4,7 @@ import { Student } from '~/database/entities/Student';
 import { getConnection } from 'typeorm';
 
 import { object, string, date, mixed, ValidationError } from 'yup';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = nextConnect();
 
@@ -23,7 +24,7 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-handler.put(async (req, res) => {
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await studentSchema.validate(req.body, { abortEarly: false });
 
@@ -104,8 +105,9 @@ handler.put(async (req, res) => {
   }
 });
 
-handler.get((_, res) => {
+handler.get((_, res: NextApiResponse) => {
   res.status(405).json({ message: 'Not allowed' });
 });
 
+//@ts-ignore TODO: Fix type for NextConnect
 export default secureRoute(handler);

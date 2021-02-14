@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import {
   FormGroup,
   Label,
@@ -6,13 +6,26 @@ import {
   Input,
   FormText,
   FormFeedback,
+  InputProps,
 } from 'reactstrap';
 import { useField } from 'formik';
 
 const TOTAL_COLUMS = 12;
 
-const FormItem = ({ label, helpText, colSize = 10, ...props }) => {
-  const [field, meta] = useField(props);
+interface FormItemProps extends InputProps {
+  name: string;
+  label: string;
+  helpText?: string;
+  colSize?: number;
+}
+
+const FormItem: FC<FormItemProps> = ({
+  label,
+  helpText,
+  colSize = 10,
+  ...props
+}) => {
+  const [field, meta] = useField(props.name);
   const [didFocus, setDidFocus] = useState(false);
 
   const [itemColSize, setItemColSize] = useState(10);

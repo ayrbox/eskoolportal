@@ -7,7 +7,7 @@ import { securePage } from '~/lib/securePage';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const ClassIndex = () => {
+const ClassIndex = ({ user }) => {
   const router = useRouter();
   const { data, error } = useSwr(
     `/api/classes/${router.query.classId}`,
@@ -17,7 +17,7 @@ const ClassIndex = () => {
   if (!data) return <h1>Loading...</h1>;
 
   return (
-    <Layout>
+    <Layout user={user} title="Classes">
       <h1>Class</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <Link href={`/classes/${data.id}/students`}>

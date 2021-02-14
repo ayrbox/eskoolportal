@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Layout from '../Layout';
 
-const StudentProfileLayout = ({ children, studentName }) => {
+const StudentProfileLayout = ({ children, studentName, user }) => {
   return (
-    <Layout>
+    <Layout title="Student Profile" user={user}>
       <div className="row border-bottom">
         <nav
           className="navbar navbar-static-top  "

@@ -30,7 +30,7 @@ const studentSchema = object().shape({
   sectionId: string().required('Please specify student section.'),
 });
 
-const Index = ({ student, classes, sections }) => {
+const Index = ({ student, classes, sections, user }) => {
   const {
     id,
     name,
@@ -71,7 +71,7 @@ const Index = ({ student, classes, sections }) => {
   };
 
   return (
-    <StudentProfileLayout studentName={name}>
+    <StudentProfileLayout studentName={name} user={user}>
       <Row>
         <Col lg={9}>
           <IBox>

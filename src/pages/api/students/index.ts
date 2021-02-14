@@ -1,9 +1,9 @@
-import withAuthentication from '~/lib/secureRoute';
+import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
 import { Student } from '~/database/entities/Student';
-import { v4 as uuid } from 'uuid';
 
 import { object, string, date, mixed, ValidationError } from 'yup';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = nextConnect();
 
@@ -24,7 +24,7 @@ const studentSchema = object().shape({
 });
 
 // TODO: repository and validate inside core
-handler.post(async (req, res) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await studentSchema.validate(req.body, { abortEarly: false });
 
@@ -44,8 +44,7 @@ handler.post(async (req, res) => {
       sectionId,
     } = req.body;
 
-    await Student.save({
-      id: uuid(),
+    await Student.create({
       name,
       createdAt,
       updatedAt,
@@ -59,7 +58,7 @@ handler.post(async (req, res) => {
       referenceCode,
       classId,
       sectionId,
-    });
+    }).save();
 
     return res.status(200).json({ message: 'Student enrolled' });
   } catch (validationError) {
@@ -76,8 +75,9 @@ handler.post(async (req, res) => {
   }
 });
 
-handler.get((_, res) => {
+handler.get((_, res: NextApiResponse) => {
   res.status(405).json({ message: 'Not allowed' });
 });
 
-export default withAuthentication(handler);
+//@ts-ignore TODO: fix type for nextConnect
+export default secureRoute(handler);

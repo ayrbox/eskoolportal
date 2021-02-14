@@ -35,7 +35,7 @@ const Students = ({ classes, sections, user }) => {
   );
 
   return (
-    <Layout>
+    <Layout title="Students" user={user}>
       <h1>Students</h1>
       <pre>{JSON.stringify(user, null, 2)}</pre>
       <div className="ibox ">

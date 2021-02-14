@@ -7,13 +7,13 @@ import { securePage } from '~/lib/securePage';
 
 const fetcher = async (url) => axios.get(url).then((res) => res.data);
 
-const Classes = () => {
+const Classes = ({ user }) => {
   const { data, error } = useSwr(`/api/classes/`, fetcher);
 
   if (!data) return <h1>Loading...</h1>;
 
   return (
-    <Layout>
+    <Layout user={user} title="Class">
       <h1>Classes</h1>
       <Link href={`/students/`}>GO TO STUDENTS</Link>
       <ul>

@@ -8,8 +8,8 @@ interface LoginProps {
 }
 
 const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
-  const [email, setEmail] = useState('admin@eskoolportal.com');
-  const [password, setPassword] = useState('Passw0rd!23');
+  const [email, setEmail] = useState<string>('admin@eskoolportal.com');
+  const [password, setPassword] = useState<string>('');
 
   const handleLogin = async (e) => {
     e.preventDefault();

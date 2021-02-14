@@ -3,6 +3,7 @@ import Providers from 'next-auth/providers';
 import { User } from '~/database/entities/User';
 
 import { ensureConnection } from '~/database';
+import bcrypt from 'bcrypt';
 
 const options = {
   providers: [
@@ -26,14 +27,13 @@ const options = {
         });
 
         if (user) {
-          // TODO: hash password
-          const isValid = user.password === password;
+          const isValid = await bcrypt.compare(user.password, password);
           if (!isValid) {
-            return Promise.reject(new Error('Invalid Username or password.'));
+            return null;
           }
-          return Promise.resolve(user);
+          return user;
         } else {
-          return Promise.reject(new Error('Authentication Error'));
+          return null;
         }
       },
     }),

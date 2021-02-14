@@ -3,19 +3,22 @@ import Link from 'next/link';
 import { FaSignOutAlt, FaSearch } from 'react-icons/fa';
 import { Container, Row, Col } from 'reactstrap';
 import { FunctionComponent, ReactElement } from 'react';
+import { User } from 'next-auth';
 
 interface LayoutProps {
   children: ReactElement | ReactElement[];
   title: string;
+  user: User;
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
   children,
   title,
+  user,
 }: LayoutProps) => {
   return (
     <div className="d-flex">
-      <Navigation />
+      <Navigation user={user} />
 
       <Container fluid className="gray-bg d-flex flex-column min-vh-100">
         <Row>

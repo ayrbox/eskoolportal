@@ -4,10 +4,15 @@ import Layout from '../components/Layout';
 import { Container } from 'reactstrap';
 
 import { securePage } from '~/lib/securePage';
+import { User } from 'next-auth';
 
-const Index: FunctionComponent = () => {
+interface DashboardPageProps {
+  user: User;
+}
+
+const DashboardPage: FunctionComponent<DashboardPageProps> = ({ user }) => {
   return (
-    <Layout title="Dashboard">
+    <Layout title="Dashboard" user={user}>
       <Container>
         <h1>Welcome to eskoolPortal</h1>
       </Container>
@@ -17,4 +22,4 @@ const Index: FunctionComponent = () => {
 
 export const getServerSideProps = securePage();
 
-export default Index;
+export default DashboardPage;

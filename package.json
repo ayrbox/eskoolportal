@@ -43,6 +43,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
+    "react-image": "^4.0.3",
     "reactstrap": "^8.5.1",
     "sass": "^1.26.7",
     "swr": "^0.3.8",

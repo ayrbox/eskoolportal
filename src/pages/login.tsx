@@ -2,12 +2,14 @@ import { useState, FunctionComponent } from 'react';
 import { csrfToken, signIn } from 'next-auth/client';
 
 import Layout from '@components/ExternalLayout';
+import { useRouter } from 'next/router';
 
 interface LoginProps {
   csrfToken: string;
 }
 
 const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>('admin@eskoolportal.com');
   const [password, setPassword] = useState<string>('');
 
@@ -21,6 +23,8 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
     setValue(e.target.value);
   };
 
+  const message = router.query?.message;
+
   return (
     <Layout>
       <div>
@@ -28,6 +32,8 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
       </div>
       <h3>Welcome to eskoolPortal</h3>
       <p>Please enter email and password.</p>
+
+      {message && <div className="alert alert-danger">{message}</div>}
 
       <form className="m-t" role="form" onSubmit={handleLogin}>
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />

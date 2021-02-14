@@ -5,6 +5,8 @@ import { User } from '~/database/entities/User';
 import { ensureConnection } from '~/database';
 import bcrypt from 'bcrypt';
 
+const authFailedMessage = 'Authentication failed.';
+
 const options = {
   providers: [
     Providers.Credentials({
@@ -29,11 +31,11 @@ const options = {
         if (user) {
           const isValid = await bcrypt.compare(user.password, password);
           if (!isValid) {
-            return null;
+            throw `/login?message=${authFailedMessage}`;
           }
           return user;
         } else {
-          return null;
+          throw `/login?message=${authFailedMessage}`;
         }
       },
     }),

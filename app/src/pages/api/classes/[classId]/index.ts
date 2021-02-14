@@ -1,4 +1,4 @@
-import { Class } from '@eskoolportal/core/lib/entities/Class';
+import { Class } from 'database/entities/Class';
 import { secureRoute } from '~/lib/secureRoute';
 
 const handler = async function (req, res) {

@@ -2,7 +2,7 @@ import config from 'config';
 import { Connection, createConnection, getConnection } from 'typeorm';
 import { AlreadyHasActiveConnectionError } from 'typeorm/error/AlreadyHasActiveConnectionError';
 
-import coreEntities from '@eskoolportal/core/lib/entities';
+import coreEntities from 'database/entities';
 
 const databaseUrl = config.get<string>('db.url');
 const logging = config.get<boolean>('db.logging');

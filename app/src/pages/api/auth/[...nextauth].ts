@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { User } from '@eskoolportal/core/lib/entities/User';
+import { User } from 'database/entities/User';
 
 import connectDb from '~/lib/connectDb';
 

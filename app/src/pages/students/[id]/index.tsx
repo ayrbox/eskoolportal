@@ -2,9 +2,9 @@ import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
-import { Student } from '@eskoolportal/core/lib/entities/Student';
-import { Class } from '@eskoolportal/core/lib/entities/Class';
-import { Section } from '@eskoolportal/core/lib/entities/Section';
+import { Student } from 'database/entities/Student';
+import { Class } from 'database/entities/Class';
+import { Section } from 'database/entities/Section';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
 import FormSelect from '@components/FormSelect';

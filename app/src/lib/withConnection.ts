@@ -3,7 +3,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import { createConnection, getConnection } from 'typeorm';
 import { ConnectionNotFoundError } from 'typeorm/error/ConnectionNotFoundError';
 
-import entities from '@eskoolportal/core/lib/entities';
+import entities from 'database/entities';
 
 const databaseUrl = config.get<string>('db.url');
 const logging = config.get<boolean>('db.logging');

@@ -6,8 +6,8 @@ import clsx from 'clsx';
 import { Button, Table, Input, Col } from 'reactstrap';
 
 // SSR
-import { Class } from '@eskoolportal/core/lib/entities/Class';
-import { Section } from '@eskoolportal/core/lib/entities/Section';
+import { Class } from 'database/entities/Class';
+import { Section } from 'database/entities/Section';
 
 import { securePage } from '~/lib/securePage';
 

@@ -1,4 +1,4 @@
-import { Student } from '@eskoolportal/core/lib/entities/Student';
+import { Student } from 'database/entities/Student';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { secureRoute } from '~/lib/secureRoute';

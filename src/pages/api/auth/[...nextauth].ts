@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { User } from 'database/entities/User';
+import { User } from '~/database/entities/User';
 
-import connectDb from '~/lib/connectDb';
+import { ensureConnection } from '~/database';
 
 const options = {
   providers: [
@@ -14,8 +14,9 @@ const options = {
       },
       authorize: async (credentials) => {
         const { email, password } = credentials;
+
         try {
-          await connectDb();
+          await ensureConnection();
         } catch (err) {
           console.error(err);
         }

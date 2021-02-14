@@ -6,10 +6,11 @@ import clsx from 'clsx';
 import { Button, Table, Input, Col } from 'reactstrap';
 
 // SSR
-import { Class } from 'database/entities/Class';
-import { Section } from 'database/entities/Section';
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
 
 import { securePage } from '~/lib/securePage';
+import { ensureConnection } from '~/database';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -191,6 +192,7 @@ const Students = ({ classes, sections, user }) => {
 };
 
 export const getServerSideProps = securePage(async (_, user) => {
+  await ensureConnection();
   const classes = await Class.find();
   const sections = await Section.find();
 

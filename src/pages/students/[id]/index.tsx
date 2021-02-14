@@ -2,9 +2,9 @@ import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
-import { Student } from 'database/entities/Student';
-import { Class } from 'database/entities/Class';
-import { Section } from 'database/entities/Section';
+import { Student } from '~/database/entities/Student';
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 import FormItem from '@components/FormItem';
 import FormSelect from '@components/FormSelect';
@@ -12,6 +12,7 @@ import IBox from '@components/IBox';
 import axios from 'axios';
 
 import { securePage } from '~/lib/securePage';
+import { ensureConnection } from '~/database';
 
 const studentSchema = object().shape({
   name: string().min(3).required('Name is required.'),
@@ -156,8 +157,10 @@ const Index = ({ student, classes, sections }) => {
 
 export const getServerSideProps = securePage(async (ctx, user) => {
   const id = ctx.params.id as string;
-  const student = await Student.findOne({ id });
 
+  await ensureConnection();
+
+  const student = await Student.findOne({ id });
   const classes = await Class.find();
   const sections = await Section.find();
 

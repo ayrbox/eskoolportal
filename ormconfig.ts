@@ -1,7 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
 import path from 'path';
 
-const config: ConnectionOptions = {
+export const config: ConnectionOptions = {
   type: 'postgres',
   host: process.env.POSTGRES_HOST || 'localhost',
   port: Number(process.env.POSTGRES_PORT) || 5466,
@@ -15,5 +15,3 @@ const config: ConnectionOptions = {
     migrationsDir: './src/migrations',
   },
 };
-
-export = config;

@@ -1,6 +1,6 @@
 import withAuthentication from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
-import { Student } from 'database/entities/Student';
+import { Student } from '~/database/entities/Student';
 import { v4 as uuid } from 'uuid';
 
 import { object, string, date, mixed, ValidationError } from 'yup';

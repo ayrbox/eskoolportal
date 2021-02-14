@@ -2,7 +2,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import type { User } from 'next-auth';
 import { getSession } from 'next-auth/client';
 
-import connectDb from '~/lib/connectDb';
+import { ensureConnection } from '~/database';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -28,6 +28,6 @@ export const secureRoute: SecureRoute = (handler: NextApiHandler) => async (
   }
 
   req.user = session.user;
-  await connectDb();
+  await ensureConnection();
   return handler(req, res);
 };

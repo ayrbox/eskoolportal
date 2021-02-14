@@ -1,6 +1,6 @@
 import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
-import { Student } from 'database/entities/Student';
+import { Student } from '~/database/entities/Student';
 import { getConnection } from 'typeorm';
 
 import { object, string, date, mixed, ValidationError } from 'yup';

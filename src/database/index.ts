@@ -1,14 +1,16 @@
+import 'reflect-metadata';
 import config from 'config';
 import { Connection, createConnection, getConnection } from 'typeorm';
 import { AlreadyHasActiveConnectionError } from 'typeorm/error/AlreadyHasActiveConnectionError';
 
-import coreEntities from 'database/entities';
+import coreEntities from '~/database/entities';
+import { updateConnectionEntities } from './updateConnectionEntities';
 
 const databaseUrl = config.get<string>('db.url');
 const logging = config.get<boolean>('db.logging');
 
 let connection: Connection;
-export const connectDb = async () => {
+export const ensureConnection = async () => {
   async function _connect() {
     connection = getConnection();
     if (!connection.isConnected) {
@@ -24,6 +26,7 @@ export const connectDb = async () => {
           url: databaseUrl,
           logging,
           entities: coreEntities,
+          migrationsRun: true,
         });
       } catch (error) {
         if (error instanceof AlreadyHasActiveConnectionError) {
@@ -35,9 +38,11 @@ export const connectDb = async () => {
     } else {
       await _connect();
     }
+
+    if (process.env.NODE_ENV !== 'production') {
+      await updateConnectionEntities(connection, coreEntities);
+    }
   } catch (ex) {
     console.error(ex);
   }
 };
-
-export default connectDb;

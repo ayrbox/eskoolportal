@@ -1,17 +1,17 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Student } from './Student';
 
 @Entity('classes')
 export class Class extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 200 })

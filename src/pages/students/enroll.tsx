@@ -9,8 +9,8 @@ import IBox from '@components/IBox';
 import axios from 'axios';
 
 // SSR
-import { Class } from 'database/entities/Class';
-import { Section } from 'database/entities/Section';
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
 import { securePage } from '~/lib/securePage';
 
 const studentSchema = object().shape({

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
 
 import { securePage } from '~/lib/securePage';
-import { Student } from 'database/entities/Student';
+import { Student } from '~/database/entities/Student';
 
 const Index = ({ student }) => {
   const {

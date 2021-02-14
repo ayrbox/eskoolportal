@@ -1,18 +1,18 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Class } from './Class';
 import { Section } from './Section';
 
 @Entity('students')
 export class Student extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 200 })
@@ -44,13 +44,13 @@ export class Student extends BaseEntity {
 
   // Student.belongsTo(models.Class, { foreignKey: "classId", as: "class" });
 
-  @Column()
+  @Column('varchar')
   classId!: string;
 
   @ManyToOne(() => Class, (cls) => cls.students, { eager: true })
   class!: Class;
 
-  @Column()
+  @Column('varchar')
   sectionId!: string;
 
   @ManyToOne(() => Section, (section) => section.students, { eager: true })

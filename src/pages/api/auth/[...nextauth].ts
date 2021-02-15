@@ -29,7 +29,7 @@ const options = {
         });
 
         if (user) {
-          const isValid = await bcrypt.compare(user.password, password);
+          const isValid = await bcrypt.compare(password, user.password);
           if (!isValid) {
             throw `/login?message=${authFailedMessage}`;
           }

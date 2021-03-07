@@ -5,6 +5,7 @@ import {
 } from 'next';
 import type { User } from 'next-auth';
 import { getSession } from 'next-auth/client';
+import { ensureConnection } from '~/database';
 
 export type PageServerSideProps = (
   ctx: GetServerSidePropsContext,
@@ -25,6 +26,8 @@ export const securePage: SecurePage = (pageServerSide) => async (ctx) => {
     ctx.res.end();
     return { props: {} };
   }
+
+  await ensureConnection();
 
   return pageServerSide
     ? pageServerSide(ctx, user)

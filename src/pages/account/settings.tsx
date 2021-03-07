@@ -23,23 +23,7 @@ const Profile = ({ profile, user }) => {
           <h4>{profile.email}</h4>
         </div>
       </div>
-
-      <Container>
-        <Row className="justify-content-between">
-          <Col>
-            <span>
-              <strong>Created: </strong>
-              {profile.createdAt}
-            </span>
-          </Col>
-          <Col>
-            <span>
-              <strong>Updated: </strong>
-              {profile.createdAt}
-            </span>
-          </Col>
-        </Row>
-      </Container>
+      <h1>Underconstruction</h1>
     </Layout>
   );
 };

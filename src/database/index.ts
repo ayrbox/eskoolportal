@@ -1,29 +1,21 @@
 import { Connection, ConnectionOptions, getConnectionManager } from 'typeorm';
+import config from 'config';
 import databaseEnttities from './entities';
 import { updateConnectionEntities } from './updateConnectionEntities';
 import migrations from './migrations';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const {
-  POSTGRES_HOST,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_PORT,
-} = process.env;
+const databaseUrl = config.get<string>('db.url');
+const logging = config.get<boolean>('db.logging');
 
 const options: Record<string, ConnectionOptions> = {
   default: {
     type: 'postgres',
-    host: POSTGRES_HOST,
-    database: POSTGRES_DB,
-    username: POSTGRES_USER,
-    password: POSTGRES_PASSWORD,
-    port: Number(POSTGRES_PORT),
+    url: databaseUrl,
     entities: databaseEnttities,
     migrations,
-    logging: !isProduction,
+    logging,
     migrationsRun: true,
   },
 };

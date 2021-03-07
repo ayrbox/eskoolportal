@@ -1,48 +1,49 @@
-import 'reflect-metadata';
-import config from 'config';
-import { Connection, createConnection, getConnection } from 'typeorm';
-import { AlreadyHasActiveConnectionError } from 'typeorm/error/AlreadyHasActiveConnectionError';
-
-import coreEntities from '~/database/entities';
+import { Connection, ConnectionOptions, getConnectionManager } from 'typeorm';
+import databaseEnttities from './entities';
 import { updateConnectionEntities } from './updateConnectionEntities';
+import migrations from './migrations';
 
-const databaseUrl = config.get<string>('db.url');
-const logging = config.get<boolean>('db.logging');
+const isProduction = process.env.NODE_ENV === 'production';
 
-let connection: Connection;
-export const ensureConnection = async () => {
-  async function _connect() {
-    connection = getConnection();
-    if (!connection.isConnected) {
-      connection = await connection.connect();
-    }
-  }
+const {
+  POSTGRES_HOST,
+  POSTGRES_DB,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_PORT,
+} = process.env;
 
-  try {
-    if (!connection) {
-      try {
-        connection = await createConnection({
-          type: 'postgres',
-          url: databaseUrl,
-          logging,
-          entities: coreEntities,
-          migrationsRun: true,
-        });
-      } catch (error) {
-        if (error instanceof AlreadyHasActiveConnectionError) {
-          await _connect();
-        } else {
-          console.error('ADAPTER_CONNECTION_ERROR', error);
-        }
-      }
-    } else {
-      await _connect();
-    }
-
-    if (process.env.NODE_ENV !== 'production') {
-      await updateConnectionEntities(connection, coreEntities);
-    }
-  } catch (ex) {
-    console.error(ex);
-  }
+const options: Record<string, ConnectionOptions> = {
+  default: {
+    type: 'postgres',
+    host: POSTGRES_HOST,
+    database: POSTGRES_DB,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    port: Number(POSTGRES_PORT),
+    entities: databaseEnttities,
+    migrations,
+    logging: !isProduction,
+    migrationsRun: true,
+  },
 };
+
+export async function ensureConnection(name = 'default'): Promise<Connection> {
+  const connectionManager = getConnectionManager();
+
+  if (connectionManager.has(name)) {
+    const connection = connectionManager.get(name);
+
+    if (!connection.isConnected) {
+      await connection.connect();
+    }
+
+    if (!isProduction) {
+      await updateConnectionEntities(connection, options[name].entities);
+    }
+
+    return connection;
+  }
+
+  return connectionManager.create({ name, ...options[name] }).connect();
+}

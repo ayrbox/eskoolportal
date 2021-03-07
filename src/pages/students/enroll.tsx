@@ -2,10 +2,10 @@ import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import { Formik } from 'formik';
 import { object, string, date, mixed } from 'yup';
 
-import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
-import FormItem from '@components/FormItem';
-import FormSelect from '@components/FormSelect';
-import IBox from '@components/IBox';
+import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
+import FormItem from '~/components/FormItem';
+import FormSelect from '~/components/FormSelect';
+import IBox from '~/components/IBox';
 import axios from 'axios';
 
 // SSR

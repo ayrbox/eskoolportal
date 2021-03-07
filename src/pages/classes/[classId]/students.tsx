@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Layout from '@components/Layout';
+import Layout from '~/components/Layout';
 import useSwr from 'swr';
 
 import { securePage } from '~/lib/securePage';

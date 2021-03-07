@@ -5,10 +5,10 @@ import { object, string, date, mixed } from 'yup';
 import { Student } from '~/database/entities/Student';
 import { Class } from '~/database/entities/Class';
 import { Section } from '~/database/entities/Section';
-import StudentProfileLayout from '@components/PageLayouts/StudentProfileLayout';
-import FormItem from '@components/FormItem';
-import FormSelect from '@components/FormSelect';
-import IBox from '@components/IBox';
+import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
+import FormItem from '~/components/FormItem';
+import FormSelect from '~/components/FormSelect';
+import IBox from '~/components/IBox';
 import axios from 'axios';
 
 import { securePage } from '~/lib/securePage';

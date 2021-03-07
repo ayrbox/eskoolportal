@@ -1,7 +1,7 @@
 import { useState, FunctionComponent } from 'react';
 import { csrfToken, signIn } from 'next-auth/client';
 
-import Layout from '@components/ExternalLayout';
+import Layout from '~/components/ExternalLayout';
 import { useRouter } from 'next/router';
 
 interface LoginProps {

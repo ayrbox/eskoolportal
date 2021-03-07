@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Layout from '@components/Layout';
+import Layout from '~/components/Layout';
 import useSwr from 'swr';
 import clsx from 'clsx';
 import { Button, Table, Input, Col } from 'reactstrap';
@@ -37,7 +37,6 @@ const Students = ({ classes, sections, user }) => {
   return (
     <Layout title="Students" user={user}>
       <h1>Students</h1>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
       <div className="ibox ">
         <div className="ibox-title">
           <h5>Students</h5>

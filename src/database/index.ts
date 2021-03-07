@@ -19,6 +19,13 @@ const options: Record<string, ConnectionOptions> = {
     logging,
     migrationsRun: true,
     ssl,
+    extra: ssl
+      ? {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      : undefined,
   },
 };
 

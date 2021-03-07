@@ -8,6 +8,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const databaseUrl = config.get<string>('db.url');
 const logging = config.get<boolean>('db.logging');
+const ssl = config.get<boolean>('db.ssl');
 
 const options: Record<string, ConnectionOptions> = {
   default: {
@@ -17,6 +18,7 @@ const options: Record<string, ConnectionOptions> = {
     migrations,
     logging,
     migrationsRun: true,
+    ssl,
   },
 };
 

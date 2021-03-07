@@ -4,6 +4,7 @@ module.exports = {
   db: {
     url: DATABASE_URL,
     logging: false,
+    ssl: true,
   },
   app: {
     port: PORT,

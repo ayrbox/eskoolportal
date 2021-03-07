@@ -66,24 +66,26 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
                     <b className="caret"></b>
                   </span>
                 </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    tag={ProfileDropdownItem}
-                    href="/account/profile"
-                  >
-                    Profile
-                  </DropdownItem>
-                  <DropdownItem
-                    tag={ProfileDropdownItem}
-                    href="/account/settings"
-                  >
-                    Settings
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem tag={ProfileDropdownItem} href="/logout">
-                    Logout
-                  </DropdownItem>
-                </DropdownMenu>
+                {process.browser && (
+                  <DropdownMenu>
+                    <DropdownItem
+                      tag={ProfileDropdownItem}
+                      href="/account/profile"
+                    >
+                      Profile
+                    </DropdownItem>
+                    <DropdownItem
+                      tag={ProfileDropdownItem}
+                      href="/account/settings"
+                    >
+                      Settings
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem tag={ProfileDropdownItem} href="/logout">
+                      Logout
+                    </DropdownItem>
+                  </DropdownMenu>
+                )}
               </Dropdown>
             </div>
             <div className="logo-element">IN+</div>

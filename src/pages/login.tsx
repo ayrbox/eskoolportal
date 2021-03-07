@@ -1,7 +1,6 @@
 import { useState, FunctionComponent } from 'react';
 import { csrfToken, signIn } from 'next-auth/client';
 
-import Layout from '~/components/ExternalLayout';
 import { useRouter } from 'next/router';
 
 interface LoginProps {
@@ -26,7 +25,7 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
   const message = router.query?.message;
 
   return (
-    <Layout>
+    <div className="middle-box text-center loginscreen animated fadeInDown">
       <div>
         <h1 className="logo-name">esk+</h1>
       </div>
@@ -61,7 +60,7 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
           Login
         </button>
       </form>
-    </Layout>
+    </div>
   );
 };
 

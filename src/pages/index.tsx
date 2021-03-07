@@ -13,7 +13,7 @@ interface DashboardPageProps {
 const DashboardPage: FunctionComponent<DashboardPageProps> = ({ user }) => {
   return (
     <Layout title="Dashboard" user={user}>
-      <Container>
+      <Container fluid>
         <h1>Welcome to eskoolPortal</h1>
       </Container>
     </Layout>

@@ -91,7 +91,7 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
             <div className="logo-element">IN+</div>
           </li>
 
-          <li>
+          <li className="w-100">
             <Link href="/">
               <a>
                 <i className="fa fa-th-large"></i>
@@ -99,7 +99,7 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
               </a>
             </Link>
           </li>
-          <li>
+          <li className="w-100">
             <Link href="/students">
               <a>
                 <i className="fa fa-th-large"></i>

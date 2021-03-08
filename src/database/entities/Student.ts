@@ -42,8 +42,6 @@ export class Student extends BaseEntity {
   @Column({ type: 'varchar', length: 10 })
   referenceCode!: string;
 
-  // Student.belongsTo(models.Class, { foreignKey: "classId", as: "class" });
-
   @Column('varchar')
   classId!: string;
 

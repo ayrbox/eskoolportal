@@ -6,6 +6,7 @@ import { Class } from '../entities/Class';
 import { Section } from '../entities/Section';
 import { User } from '../entities/User';
 import entities from '../entities';
+import migrations from '../migrations';
 
 import seedClass from './classes';
 import seedSection from './sections';
@@ -16,11 +17,11 @@ import seedStudents from './students';
 export const seederIndex = async () => {
   await createConnection({
     type: 'postgres',
-    url: 'postgresql://eskuser:eskpassword@localhost:5466/test_eskoolportal', // TODO read from some config
+    url: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal',
     logging: true,
-    migrations: [path.join(__dirname, './migrations/*')],
+    migrations,
     entities,
-    synchronize: true,
+    migrationsRun: true,
   });
 
   await Student.delete({});
@@ -34,9 +35,8 @@ export const seederIndex = async () => {
   await seedUsers();
 };
 
-// CREATE RUNNER to be invoked by package script
-// seederIndex()
-//   .then(() => process.exit(0))
-//   .catch((err) => {
-//     console.error(err);
-//   });
+seederIndex()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error(err);
+  });

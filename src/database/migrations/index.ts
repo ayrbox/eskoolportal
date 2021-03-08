@@ -17,6 +17,6 @@
  * Cons:
  *   - For each migrations would need import and export in default array.  ¯\_(ツ)_/¯
  */
-import { Initial1609202333421 } from './1609202333421-Initial';
+import { InitialMigration1615164241177 } from './1615164241177-InitialMigration';
 
-export default [Initial1609202333421];
+export default [InitialMigration1615164241177];

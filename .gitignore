@@ -61,3 +61,7 @@ typings/
 .next
 
 .DS_Store
+
+
+# Ignore compiled entites (js) used to generate migration only
+src/database/entities/*.js

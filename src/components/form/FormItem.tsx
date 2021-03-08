@@ -17,15 +17,17 @@ interface FormItemProps extends InputProps {
   label: string;
   helpText?: string;
   colSize?: number;
+  readonly?: boolean;
 }
 
 const FormItem: FC<FormItemProps> = ({
   label,
   helpText,
   colSize = 10,
+  readonly,
   ...props
 }) => {
-  const [field, meta] = useField(props.name);
+  const [field, meta] = useField<string>(props.name);
   const [didFocus, setDidFocus] = useState(false);
 
   const [itemColSize, setItemColSize] = useState(10);

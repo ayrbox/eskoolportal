@@ -1,4 +1,4 @@
-const IBox = ({ children }) => {
+const Panel = ({ children }) => {
   return (
     <div className="ibox">
       <div className="ibox-content">{children}</div>
@@ -6,4 +6,4 @@ const IBox = ({ children }) => {
   );
 };
 
-export default IBox;
+export default Panel;

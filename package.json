@@ -17,7 +17,12 @@
     "dev": "next dev",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "next start -p $PORT",
+    "orm": "./node_modules/.bin/typeorm",
+    "tsc:entities": "./node_modules/.bin/tsc ./src/database/entities/*.ts",
+    "clean:entities": "rm ./src/database/entities/*.js",
+    "generate:migration": "./node_modules/.bin/typeorm migration:generate",
+    "seed:db": "./node_modules/.bin/ts-node ./src/database/seeders/index.ts"
   },
   "bugs": {
     "url": "https://github.com/ayrbox/eskoolportal/issues"
@@ -32,9 +37,11 @@
     "clsx": "^1.1.1",
     "config": "^3.3.3",
     "cookie": "^0.4.1",
+    "dotenv": "^8.2.0",
     "faker": "^5.4.0",
     "formik": "^2.1.5",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "next": "^10.0.8",
     "next-auth": "^3.11.1",
     "next-connect": "^0.10.0",
@@ -64,6 +71,7 @@
     "@types/rosie": "^0.0.38",
     "@types/yup": "^0.29.11",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
   }
 }

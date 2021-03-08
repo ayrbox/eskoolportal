@@ -11,18 +11,24 @@ import { useField } from 'formik';
 
 const TOTAL_COLUMS = 12;
 
-interface FormItemProps extends Record<string, unknown> {
+export type FormSelectOption = {
+  label: string;
+  value: string;
+};
+
+export interface FormItemProps extends Record<string, unknown> {
   name: string;
   label: string;
   helpText?: string;
   colSize?: number;
+  options?: FormSelectOption[];
 }
 
 const FormSelect: FC<FormItemProps> = ({
   label,
   helpText,
   colSize = 10,
-  children,
+  options,
   ...props
 }) => {
   const [field, meta] = useField(props.name);
@@ -55,7 +61,11 @@ const FormSelect: FC<FormItemProps> = ({
           onFocus={handleFocus}
           type="select"
         >
-          {children}
+          {options.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
         </Input>
         {helpText && <FormText>{helpText}</FormText>}
         <FormFeedback valid={!meta.error && showFeedback}>
@@ -64,6 +74,10 @@ const FormSelect: FC<FormItemProps> = ({
       </Col>
     </FormGroup>
   );
+};
+
+FormSelect.defaultProps = {
+  options: [],
 };
 
 export default FormSelect;

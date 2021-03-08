@@ -6,9 +6,9 @@ import { Student } from '~/database/entities/Student';
 import { Class } from '~/database/entities/Class';
 import { Section } from '~/database/entities/Section';
 import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
-import FormItem from '~/components/FormItem';
-import FormSelect from '~/components/FormSelect';
-import IBox from '~/components/IBox';
+import FormItem from '~/components/form/FormItem';
+import FormSelect from '~/components/form/FormSelect';
+import Panel from '~/components/Panel';
 import axios from 'axios';
 
 import { securePage } from '~/lib/securePage';
@@ -74,7 +74,7 @@ const Index = ({ student, classes, sections, user }) => {
     <StudentProfileLayout studentName={name} user={user}>
       <Row>
         <Col lg={9}>
-          <IBox>
+          <Panel>
             <Row>
               <Col>
                 <h3>Details</h3>
@@ -148,7 +148,7 @@ const Index = ({ student, classes, sections, user }) => {
                 </dl>
               </Col>
             </Row>
-          </IBox>
+          </Panel>
         </Col>
       </Row>
     </StudentProfileLayout>

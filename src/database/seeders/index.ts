@@ -5,25 +5,14 @@ import { Student } from '../entities/Student';
 import { Class } from '../entities/Class';
 import { Section } from '../entities/Section';
 import { User } from '../entities/User';
-import entities from '../entities';
-import migrations from '../migrations';
 
 import seedClass from './classes';
 import seedSection from './sections';
 import seedUsers from './users';
 import seedStudents from './students';
 
-// TODO: split seeder into runner and method
 export const seederIndex = async () => {
-  await createConnection({
-    type: 'postgres',
-    url: 'postgresql://eskuser:eskpassword@localhost:5466/eskoolportal',
-    logging: true,
-    migrations,
-    entities,
-    migrationsRun: true,
-  });
-
+  await createConnection();
   await Student.delete({});
   await User.delete({});
   await Section.delete({});
@@ -36,7 +25,10 @@ export const seederIndex = async () => {
 };
 
 seederIndex()
-  .then(() => process.exit(0))
+  .then(() => {
+    console.log('Seeding complete.');
+    process.exit(0);
+  })
   .catch((err) => {
     console.error(err);
   });

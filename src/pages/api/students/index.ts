@@ -44,7 +44,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       sectionId,
     } = req.body;
 
-    await Student.create({
+    const studentCreated = await Student.create({
       name,
       createdAt,
       updatedAt,
@@ -60,7 +60,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       sectionId,
     }).save();
 
-    return res.status(200).json({ message: 'Student enrolled' });
+    return res.status(201).json(studentCreated);
   } catch (validationError) {
     if (validationError instanceof ValidationError) {
       return res.status(400).json({

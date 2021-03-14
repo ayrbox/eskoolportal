@@ -1,15 +1,16 @@
 import { Factory } from 'rosie';
 import { name, random, internet } from 'faker';
 import { BaseEntity } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { User } from '../entities/User';
 
 // //TODO: move to helper methods
-// const hashPassword = async (password = 'Passw0rd!23') => {
-//   const saltRounds = 10;
-//   const salt = await bcrypt.genSalt(saltRounds);
-//   const demoPassword = await bcrypt.hash(password, salt);
-//   return demoPassword;
-// };
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const demoPassword = await bcrypt.hash(password, salt);
+  return demoPassword;
+};
 
 const userFactory = new Factory().attrs({
   id: () => random.uuid(),
@@ -20,7 +21,7 @@ const userFactory = new Factory().attrs({
 });
 
 export default async function (): Promise<BaseEntity[]> {
-  const demoPassword = 'Passw0rd!23';
+  const demoPassword = await hashPassword('Passw0rd!23');
 
   // super admin
   const superAdmin = userFactory.build({

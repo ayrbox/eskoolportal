@@ -1,4 +1,3 @@
-import path from 'path';
 import { createConnection } from 'typeorm';
 
 import { Student } from '../entities/Student';

@@ -1,11 +1,10 @@
 import { NextApiHandler } from 'next';
-import { Class } from '~/database/entities/Class';
+import { Subject } from '~/database/entities/Subject';
 import { secureRoute } from '~/lib/secureRoute';
 
 const handler: NextApiHandler = async (_, res) => {
-  const classes = await Class.find();
-
-  res.status(200).json(classes);
+  const subjects = await Subject.find();
+  res.status(200).json(subjects);
 };
 
 export default secureRoute(handler);

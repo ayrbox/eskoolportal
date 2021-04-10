@@ -6,8 +6,11 @@ import {
   BaseEntity,
   OneToMany,
   PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Student } from './Student';
+import { Subject } from './Subject';
 
 @Entity('classes')
 export class Class extends BaseEntity {
@@ -28,4 +31,8 @@ export class Class extends BaseEntity {
 
   @OneToMany(() => Student, (student) => student.class)
   students!: Promise<Student[]>;
+
+  @ManyToMany(() => Subject, (_) => _.classes)
+  @JoinTable()
+  subjects: Subject[];
 }

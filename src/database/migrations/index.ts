@@ -18,5 +18,6 @@
  *   - For each migrations would need import and export in default array.  ¯\_(ツ)_/¯
  */
 import { InitialMigration1615164241177 } from './1615164241177-InitialMigration';
+import { classSubject1616968264288 } from './1616968264288-classSubject';
 
-export default [InitialMigration1615164241177];
+export default [InitialMigration1615164241177, classSubject1616968264288];

@@ -1,5 +1,4 @@
-import { NextApiRequest } from 'next';
-import { NextApiResponse } from 'next-auth/_utils';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { Class } from '~/database/entities/Class';
 import { secureRoute } from '~/lib/secureRoute';
 

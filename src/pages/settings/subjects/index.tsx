@@ -32,7 +32,7 @@ const SubjectIndex = ({ user }) => {
           {data.map(({ id, name, description }) => (
             <tr key={id}>
               <td>
-                <Link href={`/subjects/${id}`}>
+                <Link href={`/settings/subjects/${id}`}>
                   <a>{name}</a>
                 </Link>
               </td>

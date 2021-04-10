@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Layout from '~/components/Layout';
 import useSwr from 'swr';
 import axios from 'axios';
-import { Table } from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 
 import { securePage } from '~/lib/securePage';
 
@@ -15,6 +15,12 @@ const SubjectIndex = ({ user }) => {
 
   return (
     <Layout user={user} title="Subjects">
+      <div className="d-flex justify-content-end my-3">
+        <Link href="/settings/subjects/new">
+          <a className="btn btn-primary">New Subject</a>
+        </Link>
+      </div>
+
       <Table striped bordered>
         <thead>
           <tr>

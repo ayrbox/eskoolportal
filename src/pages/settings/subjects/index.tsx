@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Layout from '~/components/Layout';
 import useSwr from 'swr';
 import axios from 'axios';
-import { Row, Col, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 import { securePage } from '~/lib/securePage';
 

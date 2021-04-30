@@ -3,6 +3,8 @@ import {
   useState,
   MouseEventHandler,
   FunctionComponent,
+  useRef,
+  useEffect,
 } from 'react';
 import { Input } from 'reactstrap';
 import useSWR from 'swr';
@@ -12,9 +14,13 @@ import { useRouter } from 'next/router';
 
 export interface SearchProps {
   onClose?: () => void;
+  open?: boolean;
 }
 
-const Search: FunctionComponent<SearchProps> = ({ onClose }: SearchProps) => {
+const Search: FunctionComponent<SearchProps> = ({
+  onClose,
+  open,
+}: SearchProps) => {
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -33,19 +39,32 @@ const Search: FunctionComponent<SearchProps> = ({ onClose }: SearchProps) => {
     if (onClose) onClose();
   };
 
+  const searchTermRef = useRef(null);
+
+  useEffect(() => {
+    if (searchTermRef.current && open) {
+      setTimeout(() => {
+        searchTermRef.current.focus();
+      }, 1);
+    }
+  }, [searchTermRef.current, open]);
+
   return (
     <Panel className="shadow-lg">
       <div className="m-5">
-        <Input
+        <input
+          className="form-control"
           placeholder="Search"
           onChange={handleChange}
           value={searchTerm}
+          ref={searchTermRef}
+          onFocus={e => e.currentTarget.select()}
         />
 
         {data && (
           <ul className="list-group">
             {data.map(student => (
-              <li className="list-group-item">
+              <li className="list-group-item" key={student.id}>
                 <a
                   href="#"
                   onClick={handleResultClick(`/students/${student.id}`)}

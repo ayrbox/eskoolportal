@@ -63,7 +63,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         </Container>
       </div>
       <Overlay open={isSearchOpen} onClose={toggleOpenSearch(false)} light>
-        <Search />
+        <Search onClose={toggleOpenSearch(false)} />
       </Overlay>
     </>
   );

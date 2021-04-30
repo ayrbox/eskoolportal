@@ -4,6 +4,7 @@ import { Student } from '~/database/entities/Student';
 
 import { object, string, date, mixed, ValidationError } from 'yup';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getRepository } from 'typeorm';
 
 const handler = nextConnect();
 
@@ -75,8 +76,21 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 });
 
-handler.get((_, res: NextApiResponse) => {
-  res.status(405).json({ message: 'Not allowed' });
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const q = req.query.q as string;
+
+  if (!q) {
+    res.status(200).send([]);
+    return;
+  }
+
+  const result = await getRepository(Student)
+    .createQueryBuilder('s')
+    .where('LOWER(s.name) like LOWER(:name)', { name: `%${q}%` })
+    .take(10)
+    .getMany();
+
+  res.status(200).send(result);
 });
 
 //@ts-ignore TODO: fix type for nextConnect

@@ -86,8 +86,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const result = await getRepository(Student)
     .createQueryBuilder('s')
+    .leftJoinAndSelect('s.class', 'class', 'class.id = s.classId')
+    .leftJoinAndSelect('s.section', 'section', 'section.id = s.sectionId')
     .where('LOWER(s.name) like LOWER(:name)', { name: `%${q}%` })
+    .orderBy('s.name')
     .take(10)
+    .cache(true)
     .getMany();
 
   res.status(200).send(result);

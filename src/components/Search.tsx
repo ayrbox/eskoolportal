@@ -6,7 +6,6 @@ import {
   useRef,
   useEffect,
 } from 'react';
-import { Input } from 'reactstrap';
 import useSWR from 'swr';
 import { Student } from '~/database/entities/Student';
 import Panel from './Panel';
@@ -33,7 +32,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const handleResultClick = (
     href: string
-  ): MouseEventHandler<HTMLAnchorElement> => e => {
+  ): MouseEventHandler<HTMLLIElement> => e => {
     e.preventDefault();
     router.replace(href);
     if (onClose) onClose();
@@ -62,18 +61,19 @@ const Search: FunctionComponent<SearchProps> = ({
         />
 
         {data && (
-          <ul className="list-group">
+          <div className="list-group">
             {data.map(student => (
-              <li className="list-group-item" key={student.id}>
-                <a
-                  href="#"
-                  onClick={handleResultClick(`/students/${student.id}`)}
-                >
-                  {student.name}
-                </a>
-              </li>
+              <a
+                className="list-group-item"
+                key={student.id}
+                role="button"
+                onClick={handleResultClick(`/students/${student.id}`)}
+              >
+                <strong>{student.name}</strong>- ({student['class'].name}
+                {student.section.name})
+              </a>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </Panel>

@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Student } from '~/database/entities/Student';
 import { Class } from '~/database/entities/Class';
 import { Section } from '~/database/entities/Section';

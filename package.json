@@ -6,9 +6,7 @@
   "homepage": "https://github.com/ayrbox/eskoolportal#readme",
   "license": "MIT",
   "private": true,
-  "files": [
-    "lib"
-  ],
+  "files": ["lib"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayrbox/eskoolportal.git"
@@ -20,7 +18,8 @@
     "start": "next start -p $PORT",
     "orm": "TS_NODE_PROJECT=tsconfig.node.json TS_NODE_TRANSPILE_ONLY=true ts-node ./node_modules/typeorm/cli.js",
     "generate:migration": "TS_NODE_PROJECT=tsconfig.node.json TS_NODE_TRANSPILE_ONLY=true ts-node ./node_modules/typeorm/cli.js migration:generate",
-    "seed:db": "TS_NODE_PROJECT=tsconfig.node.json ts-node ./src/database/seeders/index.ts"
+    "seed:db": "TS_NODE_PROJECT=tsconfig.node.json ts-node ./src/database/seeders/index.ts",
+    "format": "prettier --ignore-path .gitignore --write \"**/**.+(js|jsx|json|ts|tsx)\""
   },
   "bugs": {
     "url": "https://github.com/ayrbox/eskoolportal/issues"

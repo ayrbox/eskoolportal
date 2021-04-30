@@ -1,7 +1,13 @@
-import { useState, FunctionComponent } from 'react';
+import {
+  useState,
+  FunctionComponent,
+  FormEventHandler,
+  ChangeEventHandler,
+} from 'react';
 import { csrfToken, signIn } from 'next-auth/client';
 
 import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
 
 interface LoginProps {
   csrfToken: string;
@@ -12,12 +18,14 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
   const [email, setEmail] = useState<string>('admin@eskoolportal.com');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = async (e) => {
+  const handleLogin: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
     signIn('credentials', { email, password, callbackUrl: '/' });
   };
 
-  const handleInputChange = (setValue) => (e) => {
+  const handleInputChange = (
+    setValue: Function
+  ): ChangeEventHandler<HTMLInputElement> => e => {
     e.preventDefault();
     setValue(e.target.value);
   };
@@ -64,7 +72,7 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
   );
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: NextPageContext) {
   return {
     props: {
       csrfToken: await csrfToken(context),

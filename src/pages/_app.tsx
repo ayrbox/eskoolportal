@@ -1,6 +1,6 @@
 import { Provider } from 'next-auth/client';
 import { AppProps } from 'next/app';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import Router from 'next/router';
 
 import '@styles/main.scss';

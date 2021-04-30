@@ -18,6 +18,7 @@ const { v4: uuidv4 } = require('uuid');
 import { BaseEntity } from 'typeorm';
 import { Class } from '../entities/Class';
 
+
 export default function (): Promise<BaseEntity[]> {
   const classes = CLASSES.map((name, idx) => ({
     id: uuidv4(),
@@ -26,3 +27,4 @@ export default function (): Promise<BaseEntity[]> {
   })) as Class[];
   return Class.save(classes);
 }
+

@@ -6,7 +6,7 @@ import { Table } from 'reactstrap';
 
 import { securePage } from '~/lib/securePage';
 
-const fetcher = async (url) => axios.get(url).then((res) => res.data);
+const fetcher = async (url: string) => axios.get(url).then(res => res.data);
 
 const SubjectIndex = ({ user }) => {
   const { data } = useSwr('/api/subjects', fetcher);

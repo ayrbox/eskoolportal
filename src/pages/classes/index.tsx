@@ -5,10 +5,10 @@ import axios from 'axios';
 
 import { securePage } from '~/lib/securePage';
 
-const fetcher = async (url) => axios.get(url).then((res) => res.data);
+const fetcher = async (url: string) => axios.get(url).then(res => res.data);
 
 const Classes = ({ user }) => {
-  const { data, error } = useSwr(`/api/classes/`, fetcher);
+  const { data } = useSwr(`/api/classes/`, fetcher);
 
   if (!data) return <h1>Loading...</h1>;
 

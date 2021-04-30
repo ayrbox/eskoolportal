@@ -12,7 +12,7 @@ import StudentForm from '~/components/StudentForm';
 const Index = ({ student, classes, sections, user }) => {
   const { id, name } = student;
 
-  const handleFormikSubmit = async (values) => {
+  const handleFormikSubmit = async (values: Student) => {
     const r = await axios.put(`/api/students/${id}`, values);
     console.log(r.data);
   };

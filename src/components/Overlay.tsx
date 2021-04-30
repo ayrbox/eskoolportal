@@ -6,6 +6,7 @@ import clsx from 'clsx';
 export interface OverlayProps {
   children: ReactNode;
   open: boolean;
+  light?: boolean;
   onClose?: () => void;
 }
 
@@ -13,6 +14,7 @@ const Overlay: FC<OverlayProps> = ({
   children,
   open,
   onClose,
+  light,
 }: OverlayProps): RE => {
   const handleEscapePress = (e: KeyboardEvent): void => {
     if (e.key === 'Escape' && onClose) {
@@ -38,6 +40,7 @@ const Overlay: FC<OverlayProps> = ({
     <div
       className={clsx({
         overlay: true,
+        'light-background': light,
         open: open,
       })}
     >

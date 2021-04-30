@@ -6,6 +6,7 @@ import { FunctionComponent, ReactElement, useState } from 'react';
 import { User } from 'next-auth';
 import Head from 'next/head';
 import Overlay from './Overlay';
+import Search from './Search';
 
 interface LayoutProps {
   children: ReactElement | ReactElement[];
@@ -61,8 +62,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
           </Row>
         </Container>
       </div>
-      <Overlay open={isSearchOpen} onClose={toggleOpenSearch(false)}>
-        <h1>Hello</h1>
+      <Overlay open={isSearchOpen} onClose={toggleOpenSearch(false)} light>
+        <Search />
       </Overlay>
     </>
   );

@@ -5,13 +5,13 @@ import useSwr from 'swr';
 
 import { securePage } from '~/lib/securePage';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const Students = ({ user }) => {
   const router = useRouter();
   const classId = router.query.classId;
 
-  const { data: students, error } = useSwr(
+  const { data: students } = useSwr(
     `/api/classes/${classId}/students`,
     fetcher
   );

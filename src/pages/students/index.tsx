@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, ChangeEventHandler, MouseEventHandler } from 'react';
 import Link from 'next/link';
 import Layout from '~/components/Layout';
 import useSwr from 'swr';
@@ -12,18 +12,19 @@ import { Section } from '~/database/entities/Section';
 import { securePage } from '~/lib/securePage';
 import { ensureConnection } from '~/database';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const Students = ({ classes, sections, user }) => {
   const [classId, setClassId] = useState('');
   const [section, setSection] = useState('ALL');
 
-  const handleClassChange = (e) => {
+  const handleClassChange: ChangeEventHandler<HTMLInputElement> = e => {
     e.preventDefault();
     setClassId(e.target.value);
   };
-
-  const handleSectionChange = (id) => (e) => {
+  const handleSectionChange = (
+    id: string
+  ): MouseEventHandler<HTMLInputElement> => e => {
     e.preventDefault();
     setSection(id);
     console.log('Section: ', id);

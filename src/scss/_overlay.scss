@@ -15,4 +15,9 @@
     align-items: center;
     justify-content: center;
   }
+
+
+  &.light-background {
+    background: rgba(255, 255, 255, .4);
+  }
 }

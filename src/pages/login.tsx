@@ -4,7 +4,7 @@ import {
   FormEventHandler,
   ChangeEventHandler,
 } from 'react';
-import { csrfToken, signIn } from 'next-auth/client';
+import { getCsrfToken, signIn } from 'next-auth/client';
 
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
@@ -75,7 +75,7 @@ const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
 export async function getServerSideProps(context: NextPageContext) {
   return {
     props: {
-      csrfToken: await csrfToken(context),
+      csrfToken: await getCsrfToken(context),
     },
   };
 }

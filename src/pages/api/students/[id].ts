@@ -45,52 +45,21 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       sectionId,
     } = req.body;
 
-    // TODO: move to core
-    await getConnection()
-      .createQueryBuilder()
-      .update(Student)
-      .set({
-        name,
-        createdAt,
-        updatedAt,
-        dateOfBirth,
-        gender,
-        address,
-        email,
-        joinDate,
-        rollno,
-        contactNo,
-        referenceCode,
-        classId,
-        sectionId,
-      })
-      .where('id = :id', { id })
-      .execute();
-
-    // await Student.save( {
-    //   id
-    //     name,
-    //     createdAt,
-    //     updatedAt,
-    //     dateOfBirth,
-    //     gender,
-    //     address,
-    //     email,
-    //     joinDate,
-    //     rollno,
-    //     contactNo,
-    //     referenceCode,
-    //     classId,
-    //     sectionId,
-    //   }
-    // ).save();
-
-    // ,
-    //       {
-    //         where: {
-    //           id,
-    //         },
-    //       }
+    await Student.update(id, {
+      name,
+      createdAt,
+      updatedAt,
+      dateOfBirth,
+      gender,
+      address,
+      email,
+      joinDate,
+      rollno,
+      contactNo,
+      referenceCode,
+      classId,
+      sectionId,
+    });
 
     return res.status(200).json({ message: 'Student data updated' });
   } catch (validationError) {

@@ -17,4 +17,13 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   res.send(yearUpdated);
 });
 
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  const id = req.query.id as string;
+  (await FiscalYear.findOne(id)).softRemove();
+  res.send({
+    status: 200,
+    message: 'Deleted',
+  });
+});
+
 export default secureRoute(handler);

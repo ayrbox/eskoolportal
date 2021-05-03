@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Student } from './Student';
 import { Subject } from './Subject';
@@ -29,10 +30,13 @@ export class Class extends BaseEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Student, (student) => student.class)
+  @OneToMany(() => Student, student => student.class)
   students!: Promise<Student[]>;
 
-  @ManyToMany(() => Subject, (_) => _.classes)
+  @ManyToMany(() => Subject, _ => _.classes)
   @JoinTable()
   subjects: Subject[];
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

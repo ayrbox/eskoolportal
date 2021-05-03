@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
@@ -26,6 +27,9 @@ export class Subject extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => Class, (_) => _.subjects)
+  @ManyToMany(() => Class, _ => _.subjects)
   classes: Class[];
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

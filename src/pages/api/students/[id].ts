@@ -35,6 +35,14 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 });
 
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  const studentId = req.query.id as string;
+
+  (await Student.findOne(studentId)).softRemove();
+
+  res.send({ message: 'Deleted' });
+});
+
 handler.get((_, res: NextApiResponse) => {
   res.status(405).json({ message: 'Not allowed' });
 });

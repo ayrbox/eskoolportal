@@ -13,7 +13,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const studentData = req.body;
     await studentSchema.validate(studentData, { abortEarly: false });
-    const studentCreated = await Student.create(studentData).save();
+    const studentCreated = await Student.save(studentData);
     return res.status(201).json(studentCreated);
   } catch (validationError) {
     if (validationError instanceof ValidationError) {

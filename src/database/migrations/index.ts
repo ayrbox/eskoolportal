@@ -20,9 +20,11 @@
 import { InitialMigration1615164241177 } from './1615164241177-InitialMigration';
 import { classSubject1616968264288 } from './1616968264288-classSubject';
 import { fiscalyear1619827491114 } from './1619827491114-fiscalyear';
+import { entitySoftdelete1620077998064 } from './1620077998064-entity_softdelete';
 
 export default [
   InitialMigration1615164241177,
   classSubject1616968264288,
   fiscalyear1619827491114,
+  entitySoftdelete1620077998064,
 ];

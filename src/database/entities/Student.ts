@@ -6,6 +6,7 @@ import {
   BaseEntity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Class } from './Class';
 import { Section } from './Section';
@@ -59,4 +60,7 @@ export class Student extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

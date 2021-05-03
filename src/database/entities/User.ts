@@ -5,6 +5,7 @@ import {
   UpdateDateColumn,
   Column,
   BaseEntity,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('users')
@@ -29,4 +30,7 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

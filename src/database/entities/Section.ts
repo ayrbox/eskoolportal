@@ -6,6 +6,7 @@ import {
   BaseEntity,
   OneToMany,
   PrimaryGeneratedColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Student } from './Student';
 
@@ -26,6 +27,9 @@ export class Section extends BaseEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Student, (student) => student.section)
+  @OneToMany(() => Student, student => student.section)
   students!: Student[];
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

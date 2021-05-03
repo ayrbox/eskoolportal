@@ -1,5 +1,5 @@
 import Layout from '~/components/Layout';
-import useSwr from 'swr';
+import useSwr, { mutate } from 'swr';
 import { Button, Table } from 'reactstrap';
 import axios from 'axios';
 import { securePage } from '~/lib/securePage';
@@ -8,14 +8,16 @@ import FiscalYearForm from '~/components/FiscalYearForm';
 import { MouseEventHandler, useState } from 'react';
 import type { FormState } from '~/types/FormMode';
 
+const ENDPOINT_FISCALYEAR = '/api/fiscalyears';
+
 const FiscalYearIndex = ({ user }) => {
   const [formState, setFormState] = useState<FormState<Partial<FiscalYear>>>({
-    isOpen: true,
+    isOpen: false,
     mode: 'ADD',
     data: {},
   });
 
-  const { data } = useSwr<FiscalYear[], unknown>('/api/fiscalyears');
+  const { data } = useSwr<FiscalYear[], unknown>(ENDPOINT_FISCALYEAR);
 
   const handleClose = () => {
     setFormState(prev => ({
@@ -48,9 +50,12 @@ const FiscalYearIndex = ({ user }) => {
     try {
       if (formState.mode === 'EDIT' && fiscalYear.id) {
         await axios.put(`/api/fiscalyears/${fiscalYear.id}`, fiscalYear);
+        mutate(ENDPOINT_FISCALYEAR);
       } else {
         await axios.post('/api/fiscalyears', fiscalYear);
+        mutate(ENDPOINT_FISCALYEAR);
       }
+      handleClose();
       return true;
     } catch (err) {
       console.error('Handle Error here', err);

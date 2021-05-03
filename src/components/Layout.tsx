@@ -48,9 +48,9 @@ const Layout: FunctionComponent<LayoutProps> = ({
                   </li>
                   <li>
                     <Link href="/logout">
-                      <span>
+                      <a>
                         <FaSignOutAlt /> Log out
-                      </span>
+                      </a>
                     </Link>
                   </li>
                 </ul>

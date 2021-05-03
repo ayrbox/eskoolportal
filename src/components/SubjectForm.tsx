@@ -26,7 +26,7 @@ const SubjectForm: FC<SubjectFormProps> = ({
     onSubmit={onFormSubmit}
     validationSchema={subjectSchema}
   >
-    {({ handleSubmit, values, isSubmitting, isValidating }) => (
+    {({ handleSubmit, isSubmitting, isValidating }) => (
       <Form onSubmit={handleSubmit}>
         <FormItem id="name" name="name" label="Name" />
         <FormItem id="description" name="description" label="Description" />

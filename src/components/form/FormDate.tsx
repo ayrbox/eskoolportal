@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC } from 'react';
 import {
   FormGroup,
   Label,
@@ -6,9 +6,9 @@ import {
   FormText,
   FormFeedback,
   InputProps,
-} from "reactstrap";
-import { useField } from "formik";
-import DatePicker from "reactstrap-date-picker";
+} from 'reactstrap';
+import { useField } from 'formik';
+import DatePicker from 'reactstrap-date-picker';
 
 const TOTAL_COLUMS = 12;
 
@@ -43,7 +43,6 @@ const FormItem: FC<FormItemProps> = ({
   const showFeedback = !!didFocus || meta.touched;
 
   const handleChange = (v, f) => {
-    console.log(">>>>>>>>>", v, f);
     helpers.setValue(f);
   };
 

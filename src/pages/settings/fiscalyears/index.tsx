@@ -1,25 +1,70 @@
-import Link from 'next/link';
 import Layout from '~/components/Layout';
 import useSwr from 'swr';
+import { Button, Table } from 'reactstrap';
 import axios from 'axios';
-import { Table } from 'reactstrap';
-
 import { securePage } from '~/lib/securePage';
 import { FiscalYear } from '~/database/entities/FiscalYear';
-
-const fetcher = async (url: string) => axios.get(url).then(res => res.data);
+import FiscalYearForm from '~/components/FiscalYearForm';
+import { MouseEventHandler, useState } from 'react';
+import type { FormState } from '~/types/FormMode';
 
 const FiscalYearIndex = ({ user }) => {
-  const { data } = useSwr<FiscalYear[], unknown>('/api/fiscalyears', fetcher);
+  const [formState, setFormState] = useState<FormState<Partial<FiscalYear>>>({
+    isOpen: true,
+    mode: 'ADD',
+    data: {},
+  });
+
+  const { data } = useSwr<FiscalYear[], unknown>('/api/fiscalyears');
+
+  const handleClose = () => {
+    setFormState(prev => ({
+      ...prev,
+      isOpen: false,
+    }));
+  };
+
+  const handleNewFiscalYear = () => {
+    setFormState({
+      isOpen: true,
+      mode: 'ADD',
+      data: {},
+    });
+  };
+
+  const handleEdit = (
+    fiscalYear: FiscalYear
+  ): MouseEventHandler<HTMLAnchorElement> => e => {
+    e.preventDefault();
+
+    setFormState({
+      isOpen: true,
+      mode: 'EDIT',
+      data: fiscalYear,
+    });
+  };
+
+  const handleFormSubmit = async (fiscalYear: FiscalYear) => {
+    try {
+      if (formState.mode === 'EDIT' && fiscalYear.id) {
+        await axios.put(`/api/fiscalyears/${fiscalYear.id}`, fiscalYear);
+      } else {
+        await axios.post('/api/fiscalyears', fiscalYear);
+      }
+      return true;
+    } catch (err) {
+      console.error('Handle Error here', err);
+    }
+  };
 
   if (!data) return <h1>Loading....</h1>;
 
   return (
     <Layout user={user} title="Fiscal Year">
       <div className="d-flex justify-content-end my-3">
-        <Link href="/settings/fiscalyears/new">
-          <a className="btn btn-primary">New Fiscal Year</a>
-        </Link>
+        <Button type="button" onClick={handleNewFiscalYear} color="primary">
+          New Fiscal Year
+        </Button>
       </div>
 
       <Table striped bordered>
@@ -31,19 +76,27 @@ const FiscalYearIndex = ({ user }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(({ id, name, startDate, endDate }) => (
-            <tr key={id}>
+          {data.map(fiscalYear => (
+            <tr key={fiscalYear.id}>
               <td>
-                <Link href={`/settings/fiscalyears/${id}`}>
-                  <a>{name}</a>
-                </Link>
+                <a href="#" onClick={handleEdit(fiscalYear)}>
+                  {fiscalYear.name}
+                </a>
               </td>
-              <td>{startDate}</td>
-              <td>{endDate}</td>
+              <td>{fiscalYear.startDate}</td>
+              <td>{fiscalYear.endDate}</td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {formState.isOpen && (
+        <FiscalYearForm
+          onFormSubmit={handleFormSubmit}
+          formValue={formState.data}
+          open
+          onClose={handleClose}
+        />
+      )}
     </Layout>
   );
 };

@@ -7,6 +7,7 @@ import { FiscalYear } from '~/database/entities/FiscalYear';
 import FiscalYearForm from '~/components/FiscalYearForm';
 import { MouseEventHandler, useState } from 'react';
 import type { FormState } from '~/types/FormMode';
+import { fiscalYearSchema } from '~/lib/validations';
 
 const ENDPOINT_FISCALYEAR = '/api/fiscalyears';
 

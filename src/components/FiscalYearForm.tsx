@@ -6,6 +6,7 @@ import FormItem from './form/FormItem';
 import FormDate from './form/FormDate';
 import type { FiscalYear } from '~/database/entities/FiscalYear';
 import Panel from './Panel';
+import { fiscalYearSchema } from '~/lib/validations';
 
 export interface FiscalYearFormProps {
   formValue: Partial<FiscalYear>;
@@ -28,7 +29,11 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
 
   return (
     <Overlay open={open} onClose={handleClose} light>
-      <Formik initialValues={formValue} onSubmit={onFormSubmit}>
+      <Formik
+        initialValues={formValue}
+        onSubmit={onFormSubmit}
+        validationSchema={fiscalYearSchema}
+      >
         {({ handleSubmit, isSubmitting, isValidating, values }) => (
           <Panel className="shadow-lg">
             <Form onSubmit={handleSubmit} className="p-5">

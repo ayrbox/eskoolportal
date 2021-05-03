@@ -21,7 +21,6 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const id = req.query.id as string;
   (await FiscalYear.findOne(id)).softRemove();
   res.send({
-    status: 200,
     message: 'Deleted',
   });
 });

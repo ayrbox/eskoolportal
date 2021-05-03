@@ -7,7 +7,7 @@ import { FiscalYear } from '~/database/entities/FiscalYear';
 import FiscalYearForm from '~/components/FiscalYearForm';
 import { MouseEventHandler, useState } from 'react';
 import type { FormState } from '~/types/FormMode';
-import { fiscalYearSchema } from '~/lib/validations';
+import { FaTrash, FaPencilAlt } from 'react-icons/fa';
 
 const ENDPOINT_FISCALYEAR = '/api/fiscalyears';
 
@@ -47,6 +47,22 @@ const FiscalYearIndex = ({ user }) => {
     });
   };
 
+  /**
+   * Delete handler
+   */
+  const handleDelete = (
+    fiscalYear: FiscalYear
+  ): MouseEventHandler<HTMLAnchorElement> => async e => {
+    e.preventDefault();
+
+    //TODO: Confirmatin modal
+    await axios.delete(`/api/fiscalyears/${fiscalYear.id}`);
+    mutate(ENDPOINT_FISCALYEAR);
+  };
+
+  /**
+   * Create/Update handler
+   */
   const handleFormSubmit = async (fiscalYear: FiscalYear) => {
     try {
       if (formState.mode === 'EDIT' && fiscalYear.id) {
@@ -79,6 +95,7 @@ const FiscalYearIndex = ({ user }) => {
             <th>Fiscal Year</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -91,6 +108,18 @@ const FiscalYearIndex = ({ user }) => {
               </td>
               <td>{fiscalYear.startDate}</td>
               <td>{fiscalYear.endDate}</td>
+              <td>
+                <a href="#" onClick={handleEdit(fiscalYear)} className="mr-3">
+                  <FaPencilAlt />
+                </a>
+                <a
+                  href="#"
+                  className="text-danger"
+                  onClick={handleDelete(fiscalYear)}
+                >
+                  <FaTrash />
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>

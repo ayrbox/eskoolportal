@@ -1,39 +1,21 @@
-import { Col, Button, Form, FormGroup, Alert } from "reactstrap";
-import { Formik } from "formik";
-import { object, string, date, number } from "yup";
-
-import FormItem from "~/components/form/FormItem";
-import FormSelect, { FormSelectOption } from "~/components/form/FormSelect";
-import FormDate from "~/components/form/FormDate";
-
-import type { Student } from "~/database/entities/Student";
-import type { Class } from "~/database/entities/Class";
-import type { Section } from "~/database/entities/Section";
-import { FC } from "react";
-import isEmpty from "lodash/isEmpty";
-
-const studentSchema = object().shape({
-  name: string().min(3).required("Name is required."),
-  dateOfBirth: date().required("Date of birth is required."),
-  gender: string().oneOf(["male", "female"]).required("Gender is requried."),
-  address: string().required("Address is required."),
-  email: string().email().nullable(),
-  joinDate: date().nullable(),
-  classRollNo: number().nullable(),
-  contactNo: string().required(
-    "Phone or any other contact number is required."
-  ),
-  referenceCode: string().required(),
-  classId: string().required("Please specify student class."),
-  sectionId: string().required("Please specify student section."),
-});
+import { Col, Button, Form, FormGroup, Alert } from 'reactstrap';
+import { Formik } from 'formik';
+import FormItem from '~/components/form/FormItem';
+import FormSelect, { FormSelectOption } from '~/components/form/FormSelect';
+import FormDate from '~/components/form/FormDate';
+import type { Student } from '~/database/entities/Student';
+import type { Class } from '~/database/entities/Class';
+import type { Section } from '~/database/entities/Section';
+import { FC } from 'react';
+import isEmpty from 'lodash/isEmpty';
+import { studentSchema } from '~/lib/validations';
 
 export interface StudentFormProps {
   initialValues: Student;
   classes: Class[];
   sections: Section[];
   onFormSubmit: (values: Student) => void;
-  formMode: "ADD" | "EDIT";
+  formMode: 'ADD' | 'EDIT';
 }
 
 const StudentForm: FC<StudentFormProps> = ({
@@ -52,8 +34,8 @@ const StudentForm: FC<StudentFormProps> = ({
   );
 
   const listOfGender = [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
   ] as FormSelectOption[];
 
   return (
@@ -62,7 +44,7 @@ const StudentForm: FC<StudentFormProps> = ({
       initialValues={initialValues}
       onSubmit={onFormSubmit}
     >
-      {({ handleSubmit, isSubmitting, isValidating, values, errors }) => (
+      {({ handleSubmit, isSubmitting, isValidating, errors }) => (
         <Form onSubmit={handleSubmit}>
           {!isEmpty(errors) && (
             <Alert color="danger">
@@ -95,7 +77,7 @@ const StudentForm: FC<StudentFormProps> = ({
           <FormItem name="contactNo" label="Contact No" />
           <FormDate name="joinDate" label="Joined Date" />
 
-          {formMode === "EDIT" && (
+          {formMode === 'EDIT' && (
             <>
               <FormItem name="createdAt" label="Created" readOnly />
               <FormItem name="updatedAt" label="Updated" readOnly />

@@ -1,66 +1,19 @@
 import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
 import { Student } from '~/database/entities/Student';
-
-import { object, string, date, mixed, ValidationError } from 'yup';
+import { ValidationError } from 'yup';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getRepository } from 'typeorm';
+import { studentSchema } from '~/lib/validations';
 
 const handler = nextConnect();
-
-const studentSchema = object().shape({
-  name: string().min(3).required('Name is required.'),
-  dateOfBirth: date().required('Date of birth is required.'),
-  gender: mixed().oneOf(['male', 'female']).required('Gender is requried.'),
-  address: string().required('Address is required.'),
-  email: string().email().required('Email is required to contact you.'),
-  joinDate: date(),
-  rollno: string(),
-  contactNo: string().required(
-    'Phone or any other contact number is required.'
-  ),
-  referenceCode: string(),
-  classId: string().required('Please specify student class.'),
-  sectionId: string().required('Please specify student section.'),
-});
 
 // TODO: repository and validate inside core
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await studentSchema.validate(req.body, { abortEarly: false });
-
-    const {
-      name,
-      createdAt,
-      updatedAt,
-      dateOfBirth,
-      gender,
-      address,
-      email,
-      joinDate,
-      rollno,
-      contactNo,
-      referenceCode,
-      classId,
-      sectionId,
-    } = req.body;
-
-    const studentCreated = await Student.create({
-      name,
-      createdAt,
-      updatedAt,
-      dateOfBirth,
-      gender,
-      address,
-      email,
-      joinDate,
-      rollno,
-      contactNo,
-      referenceCode,
-      classId,
-      sectionId,
-    }).save();
-
+    const studentData = req.body;
+    await studentSchema.validate(studentData, { abortEarly: false });
+    const studentCreated = await Student.create(studentData).save();
     return res.status(201).json(studentCreated);
   } catch (validationError) {
     if (validationError instanceof ValidationError) {

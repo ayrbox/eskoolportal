@@ -1,65 +1,26 @@
 import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
 import { Student } from '~/database/entities/Student';
-import { getConnection } from 'typeorm';
-
-import { object, string, date, mixed, ValidationError } from 'yup';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { studentSchema } from '~/lib/validations';
+import { ValidationError } from 'yup';
+import omit from 'lodash/omit';
 
 const handler = nextConnect();
 
-const studentSchema = object().shape({
-  name: string().min(3).required('Name is required.'),
-  dateOfBirth: date().required('Date of birth is required.'),
-  gender: mixed().oneOf(['male', 'female']).required('Gender is requried.'),
-  address: string().required('Address is required.'),
-  email: string().email().required('Email is required to contact you.'),
-  joinDate: date(),
-  rollno: string(),
-  contactNo: string().required(
-    'Phone or any other contact number is required.'
-  ),
-  referenceCode: string(),
-  classId: string().required('Please specify student class.'),
-  sectionId: string().required('Please specify student section.'),
-});
-
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await studentSchema.validate(req.body, { abortEarly: false });
+    const studentId = req.query.id as string;
+    const studentData = omit<Student>(
+      req.body,
+      'class',
+      'section',
+      'createdAt',
+      'updatedAt'
+    );
 
-    const {
-      id,
-      name,
-      createdAt,
-      updatedAt,
-      dateOfBirth,
-      gender,
-      address,
-      email,
-      joinDate,
-      rollno,
-      contactNo,
-      referenceCode,
-      classId,
-      sectionId,
-    } = req.body;
-
-    await Student.update(id, {
-      name,
-      createdAt,
-      updatedAt,
-      dateOfBirth,
-      gender,
-      address,
-      email,
-      joinDate,
-      rollno,
-      contactNo,
-      referenceCode,
-      classId,
-      sectionId,
-    });
+    await studentSchema.validate(studentData, { abortEarly: false });
+    await Student.update(studentId, studentData);
 
     return res.status(200).json({ message: 'Student data updated' });
   } catch (validationError) {
@@ -78,5 +39,4 @@ handler.get((_, res: NextApiResponse) => {
   res.status(405).json({ message: 'Not allowed' });
 });
 
-//@ts-ignore TODO: Fix type for NextConnect
 export default secureRoute(handler);

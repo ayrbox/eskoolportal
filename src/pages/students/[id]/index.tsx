@@ -7,8 +7,19 @@ import Panel from '~/components/Panel';
 import Link from 'next/link';
 
 import { securePage } from '~/lib/securePage';
+import { FunctionComponent } from 'react';
+import { User } from 'next-auth';
+import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 
-const Index = ({ student, user }) => {
+export interface ProfileProps {
+  student: Student;
+  user: User;
+}
+
+const Profile: FunctionComponent<ProfileProps> = ({
+  student,
+  user,
+}: ProfileProps) => {
   const { id, name } = student;
 
   return (
@@ -20,8 +31,24 @@ const Index = ({ student, user }) => {
               <h3>Student Profile</h3>
               <Link href={`/students/${id}/edit`}>Edit</Link>
             </div>
-            <pre>{JSON.stringify(student, null, 2)}</pre>
+
+            <hr />
+
+            <h3>{name}</h3>
+            <address>
+              <FaMapMarkerAlt />
+              {student.address}
+              <br />
+              <FaPhoneAlt /> {student.contactNo}
+              <br />
+              <FaEnvelopeOpen /> {student.email}
+            </address>
           </Panel>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <pre>{JSON.stringify(student, null, 2)}</pre>
         </Col>
       </Row>
     </StudentProfileLayout>
@@ -45,4 +72,4 @@ export const getServerSideProps = securePage(async (ctx, user) => {
   };
 });
 
-export default Index;
+export default Profile;

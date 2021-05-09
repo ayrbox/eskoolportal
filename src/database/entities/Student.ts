@@ -7,8 +7,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Class } from './Class';
+import { MedicalHistory } from './MedicalHistory';
 import { Section } from './Section';
 
 @Entity('students')
@@ -46,13 +48,13 @@ export class Student extends BaseEntity {
   @Column('varchar')
   classId!: string;
 
-  @ManyToOne(() => Class, cls => cls.students, { eager: true })
+  @ManyToOne(() => Class, (cls) => cls.students, { eager: true })
   class!: Class;
 
   @Column('varchar')
   sectionId!: string;
 
-  @ManyToOne(() => Section, section => section.students, { eager: true })
+  @ManyToOne(() => Section, (section) => section.students, { eager: true })
   section!: Section;
 
   @CreateDateColumn()
@@ -63,4 +65,7 @@ export class Student extends BaseEntity {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => MedicalHistory, (medicalHistory) => medicalHistory.student)
+  medicalHistory!: Promise<MedicalHistory[]>;
 }

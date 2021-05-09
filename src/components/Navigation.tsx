@@ -107,6 +107,32 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
               </a>
             </Link>
           </li>
+
+          <li className="w-100">
+            <a>
+              <i className="fa fa-th-large"></i>
+              <span className="nav-label">Settings</span>
+            </a>
+
+            <ul className="nav nav-second-level collapse show">
+              <li className="w-100">
+                <Link href="/settings/fiscalyears">
+                  <a>
+                    <i className="fa fa-th-large"></i>
+                    <span className="nav-label">Fiscal Years</span>
+                  </a>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link href="/settings/subjects">
+                  <a>
+                    <i className="fa fa-th-large"></i>
+                    <span className="nav-label">Subjects</span>
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </nav>

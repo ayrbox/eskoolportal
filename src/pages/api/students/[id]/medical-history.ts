@@ -13,8 +13,6 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       student: studentId,
     },
   });
-  console.log(medicalHistory);
-
   res.send(medicalHistory);
 });
 

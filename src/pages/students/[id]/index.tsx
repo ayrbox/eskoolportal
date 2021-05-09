@@ -104,17 +104,11 @@ const Profile: FunctionComponent<ProfileProps> = ({
 };
 
 export const getServerSideProps = securePage(async (ctx, user) => {
-  const id = ctx.params.id as string;
-
-  const student = await Student.findOne({ id });
-  const classes = await Class.find();
-  const sections = await Section.find();
-
+  const studentId = ctx.params.id as string;
+  const student = await Student.findOne({ id: studentId });
   return {
     props: {
       student: JSON.parse(JSON.stringify(student)),
-      classes: JSON.parse(JSON.stringify(classes)),
-      sections: JSON.parse(JSON.stringify(sections)),
       user,
     },
   };

@@ -31,13 +31,12 @@ const Profile: FunctionComponent<ProfileProps> = ({
               <h3>Student Profile</h3>
               <Link href={`/students/${id}/edit`}>Edit</Link>
             </div>
-
             <hr />
-
-            <h3>{name}</h3>
+            <h1>
+              <strong>{name}</strong>
+            </h1>
             <address>
-              <FaMapMarkerAlt />
-              {student.address}
+              <FaMapMarkerAlt /> {student.address}
               <br />
               <FaPhoneAlt /> {student.contactNo}
               <br />
@@ -47,8 +46,22 @@ const Profile: FunctionComponent<ProfileProps> = ({
         </Col>
       </Row>
       <Row>
-        <Col>
-          <pre>{JSON.stringify(student, null, 2)}</pre>
+        <Col lg={9}>
+          <Panel>
+            <p>
+              <strong>Ref Code:</strong> {student.referenceCode}
+            </p>
+            <p>
+              <strong>Roll No:</strong> {student.rollno}
+            </p>
+            <p>
+              <strong>Joined:</strong> {student.joinDate}
+            </p>
+            <p>
+              <strong>Class: </strong> {student.class.name}{' '}
+              {student.section.name}
+            </p>
+          </Panel>
         </Col>
       </Row>
     </StudentProfileLayout>

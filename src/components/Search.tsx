@@ -23,7 +23,7 @@ const Search: FunctionComponent<SearchProps> = ({
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const handleChange: ChangeEventHandler<HTMLInputElement> = e => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
@@ -32,7 +32,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const handleResultClick = (
     href: string
-  ): MouseEventHandler<HTMLLIElement> => e => {
+  ): MouseEventHandler<HTMLAnchorElement> => (e) => {
     e.preventDefault();
     router.replace(href);
     if (onClose) onClose();
@@ -57,12 +57,12 @@ const Search: FunctionComponent<SearchProps> = ({
           onChange={handleChange}
           value={searchTerm}
           ref={searchTermRef}
-          onFocus={e => e.currentTarget.select()}
+          onFocus={(e) => e.currentTarget.select()}
         />
 
         {data && (
           <div className="list-group">
-            {data.map(student => (
+            {data.map((student) => (
               <a
                 className="list-group-item"
                 key={student.id}

@@ -33,6 +33,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const q = req.query.q as string;
 
   if (!q) {
+    console.log('Query here>>>>>>>>>>>>>', q);
     res.status(200).send([]);
     return;
   }
@@ -50,5 +51,4 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send(result);
 });
 
-//@ts-ignore TODO: fix type for nextConnect
 export default secureRoute(handler);

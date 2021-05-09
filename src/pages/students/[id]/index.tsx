@@ -1,4 +1,4 @@
-import { Row, Col } from 'reactstrap';
+import { Container, Row, Col, Table } from 'reactstrap';
 import { Student } from '~/database/entities/Student';
 import { Class } from '~/database/entities/Class';
 import { Section } from '~/database/entities/Section';
@@ -7,9 +7,11 @@ import Panel from '~/components/Panel';
 import Link from 'next/link';
 
 import { securePage } from '~/lib/securePage';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { User } from 'next-auth';
 import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { MedicalHistory } from '~/database/entities/MedicalHistory';
+import axios from 'axios';
 
 export interface ProfileProps {
   student: Student;
@@ -21,6 +23,17 @@ const Profile: FunctionComponent<ProfileProps> = ({
   user,
 }: ProfileProps) => {
   const { id, name } = student;
+  const [medicalHistory, setMedicalHistory] = useState<MedicalHistory[]>([]);
+
+  useEffect(() => {
+    const fetchMedicalHistory = async () => {
+      const { data } = await axios.get<MedicalHistory[]>(
+        `/api/students/${id}/medical-history`
+      );
+      setMedicalHistory(data);
+    };
+    fetchMedicalHistory();
+  }, []);
 
   return (
     <StudentProfileLayout studentName={name} user={user}>
@@ -64,6 +77,28 @@ const Profile: FunctionComponent<ProfileProps> = ({
           </Panel>
         </Col>
       </Row>
+
+      <Container className="border" fluid>
+        <h1>Medical History</h1>
+        <Table striped bordered>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Severity</th>
+              <th>Triage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {medicalHistory.map(({ id, description, severity, triageNote }) => (
+              <tr key={id}>
+                <td>{description}</td>
+                <td>{severity}</td>
+                <td>{triageNote}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
     </StudentProfileLayout>
   );
 };

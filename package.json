@@ -6,7 +6,9 @@
   "homepage": "https://github.com/ayrbox/eskoolportal#readme",
   "license": "MIT",
   "private": true,
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayrbox/eskoolportal.git"

@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from "react";
 import {
   FormGroup,
   Label,
@@ -7,8 +7,8 @@ import {
   FormText,
   FormFeedback,
   InputProps,
-} from 'reactstrap';
-import { useField } from 'formik';
+} from "reactstrap";
+import { useField } from "formik";
 
 const TOTAL_COLUMS = 12;
 
@@ -25,6 +25,7 @@ const FormItem: FC<FormItemProps> = ({
   helpText,
   colSize = 10,
   readonly,
+  innerRef,
   ...props
 }) => {
   const [field, meta] = useField<string>(props.name);
@@ -54,6 +55,7 @@ const FormItem: FC<FormItemProps> = ({
           invalid={meta.error && showFeedback}
           valid={!meta.error && showFeedback}
           onFocus={handleFocus}
+          innerRef={innerRef}
         />
         {helpText && <FormText>{helpText}</FormText>}
         <FormFeedback valid={!meta.error && showFeedback}>

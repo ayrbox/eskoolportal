@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react';
-import Layout from '../components/Layout';
-import { Container } from 'reactstrap';
+import { FunctionComponent } from "react";
+import Layout from "../components/Layout";
+import { Container } from "reactstrap";
 
-import { securePage } from '~/lib/securePage';
-import { User } from 'next-auth';
+import { securePage } from "~/lib/securePage";
+import { User } from "next-auth";
 
 interface DashboardPageProps {
   user: User;

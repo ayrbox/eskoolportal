@@ -1,12 +1,13 @@
-import { FunctionComponent } from 'react';
-import Overlay from './Overlay';
-import { Form, Button, FormGroup, Col } from 'reactstrap';
-import { Formik } from 'formik';
-import FormItem from './form/FormItem';
-import FormDate from './form/FormDate';
-import type { FiscalYear } from '~/database/entities/FiscalYear';
-import Panel from './Panel';
-import { fiscalYearSchema } from '~/lib/validations';
+import { FunctionComponent, useRef } from "react";
+import Overlay from "./Overlay";
+import { Form, Button, FormGroup, Col } from "reactstrap";
+import { Formik } from "formik";
+import FormItem from "./form/FormItem";
+import FormDate from "./form/FormDate";
+import type { FiscalYear } from "~/database/entities/FiscalYear";
+import Panel from "./Panel";
+import { fiscalYearSchema } from "~/lib/validations";
+import { useEffect } from "react";
 
 export interface FiscalYearFormProps {
   formValue: Partial<FiscalYear>;
@@ -27,6 +28,14 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
     }
   };
 
+  const yearInputRef = useRef(null);
+
+  useEffect(() => {
+    if (yearInputRef.current) {
+      yearInputRef.current.focus();
+    }
+  }, [yearInputRef.current]);
+
   return (
     <Overlay open={open} onClose={handleClose} light>
       <Formik
@@ -39,7 +48,12 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
             <Form onSubmit={handleSubmit} className="p-5">
               <h2>Fiscal Year - {values.name}</h2>
 
-              <FormItem label="Fiscal Year" name="name" colSize={8} />
+              <FormItem
+                label="Fiscal Year"
+                name="name"
+                colSize={8}
+                innerRef={yearInputRef}
+              />
               <FormDate label="Start Date" name="startDate" colSize={8} />
               <FormDate label="End Date" name="endDate" colSize={8} />
               <FormGroup row>

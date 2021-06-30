@@ -1,6 +1,6 @@
-import { Row, Col } from 'reactstrap';
-import Link from 'next/link';
-import Layout from '~/components/Layout';
+import { Row, Col } from "reactstrap";
+import Link from "next/link";
+import Layout from "~/components/Layout";
 
 const StudentProfileLayout = ({ children, studentName, user }) => {
   return (

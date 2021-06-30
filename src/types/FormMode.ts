@@ -1,4 +1,4 @@
-export type FormMode = 'ADD' | 'EDIT' | 'DELETE';
+export type FormMode = "ADD" | "EDIT" | "DELETE";
 
 export type FormState<T> = {
   isOpen: boolean;

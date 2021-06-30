@@ -1,7 +1,7 @@
-import { secureRoute } from '~/lib/secureRoute';
-import nextConnect from 'next-connect';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { MedicalHistory } from '~/database/entities/MedicalHistory';
+import { secureRoute } from "~/lib/secureRoute";
+import nextConnect from "next-connect";
+import { NextApiRequest, NextApiResponse } from "next";
+import { MedicalHistory } from "~/database/entities/MedicalHistory";
 
 const handler = nextConnect();
 

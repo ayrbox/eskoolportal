@@ -5,11 +5,11 @@ import {
   FunctionComponent,
   useRef,
   useEffect,
-} from 'react';
-import useSWR from 'swr';
-import { Student } from '~/database/entities/Student';
-import Panel from './Panel';
-import { useRouter } from 'next/router';
+} from "react";
+import useSWR from "swr";
+import { Student } from "~/database/entities/Student";
+import Panel from "./Panel";
+import { useRouter } from "next/router";
 
 export interface SearchProps {
   onClose?: () => void;
@@ -22,7 +22,7 @@ const Search: FunctionComponent<SearchProps> = ({
 }: SearchProps) => {
   const router = useRouter();
 
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
@@ -30,13 +30,13 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const { data } = useSWR<Student[], unknown>(`/api/students?q=${searchTerm}`);
 
-  const handleResultClick = (
-    href: string
-  ): MouseEventHandler<HTMLAnchorElement> => (e) => {
-    e.preventDefault();
-    router.replace(href);
-    if (onClose) onClose();
-  };
+  const handleResultClick =
+    (href: string): MouseEventHandler<HTMLAnchorElement> =>
+    (e) => {
+      e.preventDefault();
+      router.replace(href);
+      if (onClose) onClose();
+    };
 
   const searchTermRef = useRef(null);
 
@@ -69,7 +69,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 role="button"
                 onClick={handleResultClick(`/students/${student.id}`)}
               >
-                <strong>{student.name}</strong>- ({student['class'].name}
+                <strong>{student.name}</strong>- ({student["class"].name}
                 {student.section.name})
               </a>
             ))}

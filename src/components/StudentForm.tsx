@@ -1,21 +1,21 @@
-import { Col, Button, Form, FormGroup, Alert } from 'reactstrap';
-import { Formik } from 'formik';
-import FormItem from '~/components/form/FormItem';
-import FormSelect, { FormSelectOption } from '~/components/form/FormSelect';
-import FormDate from '~/components/form/FormDate';
-import type { Student } from '~/database/entities/Student';
-import type { Class } from '~/database/entities/Class';
-import type { Section } from '~/database/entities/Section';
-import { FC } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import { studentSchema } from '~/lib/validations';
+import { Col, Button, Form, FormGroup, Alert } from "reactstrap";
+import { Formik } from "formik";
+import FormItem from "~/components/form/FormItem";
+import FormSelect, { FormSelectOption } from "~/components/form/FormSelect";
+import FormDate from "~/components/form/FormDate";
+import type { Student } from "~/database/entities/Student";
+import type { Class } from "~/database/entities/Class";
+import type { Section } from "~/database/entities/Section";
+import { FC } from "react";
+import isEmpty from "lodash/isEmpty";
+import { studentSchema } from "~/lib/validations";
 
 export interface StudentFormProps {
   initialValues: Student;
   classes: Class[];
   sections: Section[];
   onFormSubmit: (values: Student) => void;
-  formMode: 'ADD' | 'EDIT';
+  formMode: "ADD" | "EDIT";
 }
 
 const StudentForm: FC<StudentFormProps> = ({
@@ -34,8 +34,8 @@ const StudentForm: FC<StudentFormProps> = ({
   );
 
   const listOfGender = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
   ] as FormSelectOption[];
 
   return (
@@ -77,7 +77,7 @@ const StudentForm: FC<StudentFormProps> = ({
           <FormItem name="contactNo" label="Contact No" />
           <FormDate name="joinDate" label="Joined Date" />
 
-          {formMode === 'EDIT' && (
+          {formMode === "EDIT" && (
             <>
               <FormItem name="createdAt" label="Created" readOnly />
               <FormItem name="updatedAt" label="Updated" readOnly />

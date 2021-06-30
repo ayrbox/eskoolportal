@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import Layout from '~/components/Layout';
-import useSwr from 'swr';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Layout from "~/components/Layout";
+import useSwr from "swr";
 
-import { securePage } from '~/lib/securePage';
+import { securePage } from "~/lib/securePage";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Students = ({ user }) => {
   const router = useRouter();
@@ -59,7 +59,7 @@ const Students = ({ user }) => {
                     id="option1"
                     autoComplete="off"
                     defaultChecked
-                  />{' '}
+                  />{" "}
                   All
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -68,7 +68,7 @@ const Students = ({ user }) => {
                     name="options"
                     id="option2"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   A
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -77,7 +77,7 @@ const Students = ({ user }) => {
                     name="options"
                     id="option3"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   B
                 </label>
                 <label className="btn btn-sm btn-white">
@@ -86,7 +86,7 @@ const Students = ({ user }) => {
                     name="options"
                     id="option4"
                     autoComplete="off"
-                  />{' '}
+                  />{" "}
                   C
                 </label>
               </div>
@@ -99,10 +99,10 @@ const Students = ({ user }) => {
                   className="form-control form-control-sm"
                 />
                 <span className="input-group-append">
-                  {' '}
+                  {" "}
                   <button type="button" className="btn btn-sm btn-primary">
                     Go!
-                  </button>{' '}
+                  </button>{" "}
                 </span>
               </div>
             </div>

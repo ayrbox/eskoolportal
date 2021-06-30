@@ -8,50 +8,50 @@ import {
   PrimaryGeneratedColumn,
   DeleteDateColumn,
   OneToMany,
-} from 'typeorm';
-import { Class } from './Class';
-import { MedicalHistory } from './MedicalHistory';
-import { Section } from './Section';
+} from "typeorm";
+import { Class } from "./Class";
+import { MedicalHistory } from "./MedicalHistory";
+import { Section } from "./Section";
 
-@Entity('students')
+@Entity("students")
 export class Student extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: "varchar", length: 200 })
   name!: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: "date" })
   dateOfBirth!: Date;
 
-  @Column({ type: 'enum', enum: ['male', 'female'] })
+  @Column({ type: "enum", enum: ["male", "female"] })
   gender!: string;
 
-  @Column({ type: 'varchar', length: 500 })
+  @Column({ type: "varchar", length: 500 })
   address!: string;
 
-  @Column({ type: 'varchar', length: 500 })
+  @Column({ type: "varchar", length: 500 })
   contactNo!: string;
 
-  @Column({ type: 'varchar', length: 500 })
+  @Column({ type: "varchar", length: 500 })
   email!: string;
 
-  @Column({ type: 'date', nullable: true })
+  @Column({ type: "date", nullable: true })
   joinDate!: Date;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: "int", nullable: true })
   rollno!: number;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: "varchar", length: 10 })
   referenceCode!: string;
 
-  @Column('varchar')
+  @Column("varchar")
   classId!: string;
 
   @ManyToOne(() => Class, (cls) => cls.students, { eager: true })
   class!: Class;
 
-  @Column('varchar')
+  @Column("varchar")
   sectionId!: string;
 
   @ManyToOne(() => Section, (section) => section.students, { eager: true })

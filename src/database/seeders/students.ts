@@ -1,15 +1,15 @@
-import { Factory } from 'rosie';
-import { name, random, internet, date, address, phone } from 'faker';
-import { BaseEntity } from 'typeorm';
-import { Student } from '../entities/Student';
-import { Class } from '../entities/Class';
-import { Section } from '../entities/Section';
+import { Factory } from "rosie";
+import { name, random, internet, date, address, phone } from "faker";
+import { BaseEntity } from "typeorm";
+import { Student } from "../entities/Student";
+import { Class } from "../entities/Class";
+import { Section } from "../entities/Section";
 
 const studentFactory = new Factory().attrs({
   id: () => random.uuid(),
   name: () => name.findName(),
   dateOfBirth: () => date.past(4),
-  gender: () => random.arrayElement(['male', 'female']),
+  gender: () => random.arrayElement(["male", "female"]),
   address: () => address.streetName(),
   contactNo: () => phone.phoneNumber(),
   email: () => internet.email(),

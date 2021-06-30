@@ -1,34 +1,34 @@
-import { useState, ChangeEventHandler, MouseEventHandler } from 'react';
-import Link from 'next/link';
-import Layout from '~/components/Layout';
-import useSwr from 'swr';
-import clsx from 'clsx';
-import { Button, Table, Input, Col } from 'reactstrap';
+import { useState, ChangeEventHandler, MouseEventHandler } from "react";
+import Link from "next/link";
+import Layout from "~/components/Layout";
+import useSwr from "swr";
+import clsx from "clsx";
+import { Button, Table, Input, Col } from "reactstrap";
 
 // SSR
-import { Class } from '~/database/entities/Class';
-import { Section } from '~/database/entities/Section';
+import { Class } from "~/database/entities/Class";
+import { Section } from "~/database/entities/Section";
 
-import { securePage } from '~/lib/securePage';
-import { ensureConnection } from '~/database';
+import { securePage } from "~/lib/securePage";
+import { ensureConnection } from "~/database";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Students = ({ classes, sections, user }) => {
-  const [classId, setClassId] = useState('');
-  const [section, setSection] = useState('ALL');
+  const [classId, setClassId] = useState("");
+  const [section, setSection] = useState("ALL");
 
-  const handleClassChange: ChangeEventHandler<HTMLInputElement> = e => {
+  const handleClassChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     setClassId(e.target.value);
   };
-  const handleSectionChange = (
-    id: string
-  ): MouseEventHandler<HTMLInputElement> => e => {
-    e.preventDefault();
-    setSection(id);
-    console.log('Section: ', id);
-  };
+  const handleSectionChange =
+    (id: string): MouseEventHandler<HTMLInputElement> =>
+    (e) => {
+      e.preventDefault();
+      setSection(id);
+      console.log("Section: ", id);
+    };
 
   const { data: students } = useSwr(
     classId ? `/api/classes/${classId}/students?section=${section}` : null,
@@ -87,8 +87,8 @@ const Students = ({ classes, sections, user }) => {
             <div className="col-sm-4 m-b-xs">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label
-                  className={clsx('btn btn-sm btn-white', {
-                    active: section === 'ALL',
+                  className={clsx("btn btn-sm btn-white", {
+                    active: section === "ALL",
                   })}
                 >
                   <input
@@ -96,13 +96,13 @@ const Students = ({ classes, sections, user }) => {
                     name="sections"
                     id="section-all"
                     autoComplete="off"
-                    onClick={handleSectionChange('ALL')}
+                    onClick={handleSectionChange("ALL")}
                   />
                   All
                 </label>
                 {sections.map(({ id, name }) => (
                   <label
-                    className={clsx('btn btn-sm btn-white', {
+                    className={clsx("btn btn-sm btn-white", {
                       active: section === id,
                     })}
                     key={id}

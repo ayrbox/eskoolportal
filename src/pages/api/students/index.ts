@@ -1,10 +1,10 @@
-import { secureRoute } from '~/lib/secureRoute';
-import nextConnect from 'next-connect';
-import { Student } from '~/database/entities/Student';
-import { ValidationError } from 'yup';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getRepository } from 'typeorm';
-import { studentSchema } from '~/lib/validations';
+import { secureRoute } from "~/lib/secureRoute";
+import nextConnect from "next-connect";
+import { Student } from "~/database/entities/Student";
+import { ValidationError } from "yup";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getRepository } from "typeorm";
+import { studentSchema } from "~/lib/validations";
 
 const handler = nextConnect();
 
@@ -18,13 +18,13 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (validationError) {
     if (validationError instanceof ValidationError) {
       return res.status(400).json({
-        message: 'Invalid Student information',
+        message: "Invalid Student information",
         error: validationError.errors,
       });
     } else {
       //TODO: bunyan log here
       console.log(validationError);
-      return res.status(500).json({ message: 'Unexpected error.' });
+      return res.status(500).json({ message: "Unexpected error." });
     }
   }
 });
@@ -38,11 +38,11 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const result = await getRepository(Student)
-    .createQueryBuilder('s')
-    .leftJoinAndSelect('s.class', 'class', 'class.id = s.classId')
-    .leftJoinAndSelect('s.section', 'section', 'section.id = s.sectionId')
-    .where('LOWER(s.name) like LOWER(:name)', { name: `%${q}%` })
-    .orderBy('s.name')
+    .createQueryBuilder("s")
+    .leftJoinAndSelect("s.class", "class", "class.id = s.classId")
+    .leftJoinAndSelect("s.section", "section", "section.id = s.sectionId")
+    .where("LOWER(s.name) like LOWER(:name)", { name: `%${q}%` })
+    .orderBy("s.name")
     .take(10)
     .cache(true)
     .getMany();

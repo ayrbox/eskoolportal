@@ -1,15 +1,15 @@
-import Link from 'next/link';
-import Layout from '~/components/Layout';
-import useSwr from 'swr';
-import axios from 'axios';
-import { Table } from 'reactstrap';
+import Link from "next/link";
+import Layout from "~/components/Layout";
+import useSwr from "swr";
+import axios from "axios";
+import { Table } from "reactstrap";
 
-import { securePage } from '~/lib/securePage';
+import { securePage } from "~/lib/securePage";
 
-const fetcher = async (url: string) => axios.get(url).then(res => res.data);
+const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
 
 const SubjectIndex = ({ user }) => {
-  const { data } = useSwr('/api/subjects', fetcher);
+  const { data } = useSwr("/api/subjects", fetcher);
 
   if (!data) return <h1>Loading....</h1>;
 

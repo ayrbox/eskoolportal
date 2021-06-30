@@ -1,12 +1,12 @@
-import Navigation from './Navigation';
-import Link from 'next/link';
-import { FaSignOutAlt, FaSearch } from 'react-icons/fa';
-import { Container, Row, Col } from 'reactstrap';
-import { FunctionComponent, ReactElement, useState } from 'react';
-import { User } from 'next-auth';
-import Head from 'next/head';
-import Overlay from './Overlay';
-import Search from './Search';
+import Navigation from "./Navigation";
+import Link from "next/link";
+import { FaSignOutAlt, FaSearch } from "react-icons/fa";
+import { Container, Row, Col } from "reactstrap";
+import { FunctionComponent, ReactElement, useState } from "react";
+import { User } from "next-auth";
+import Head from "next/head";
+import Overlay from "./Overlay";
+import Search from "./Search";
 
 interface LayoutProps {
   children: ReactElement | ReactElement[];
@@ -21,10 +21,12 @@ const Layout: FunctionComponent<LayoutProps> = ({
 }: LayoutProps) => {
   const [isSearchOpen, setSearchOpen] = useState<boolean>(false);
 
-  const toggleOpenSearch = (toggleTo: boolean) => (e?: any): void => {
-    e?.preventDefault();
-    setSearchOpen(toggleTo);
-  };
+  const toggleOpenSearch =
+    (toggleTo: boolean) =>
+    (e?: any): void => {
+      e?.preventDefault();
+      setSearchOpen(toggleTo);
+    };
 
   return (
     <>

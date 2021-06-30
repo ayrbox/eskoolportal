@@ -7,24 +7,24 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Student } from './Student';
+} from "typeorm";
+import { Student } from "./Student";
 
-@Entity('medical_history')
+@Entity("medical_history")
 export class MedicalHistory extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @ManyToOne(() => Student, (student) => student.id)
   student: Student;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: "varchar", length: 250 })
   description: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: "varchar", length: 20 })
   severity: string;
 
-  @Column({ type: 'varchar', length: 200, name: 'triage_note' })
+  @Column({ type: "varchar", length: 200, name: "triage_note" })
   triageNote: string;
 
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { Student } from '../entities/Student';
+import { Student } from "../entities/Student";
 
 export function findByName(name: string): Promise<Student[]> {
   return Student.find({ name });

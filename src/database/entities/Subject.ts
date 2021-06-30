@@ -7,18 +7,18 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Class } from './Class';
+} from "typeorm";
+import { Class } from "./Class";
 
-@Entity('subjects')
+@Entity("subjects")
 export class Subject extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: "varchar", length: 200 })
   description: string;
 
   @CreateDateColumn()
@@ -27,7 +27,7 @@ export class Subject extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => Class, _ => _.subjects)
+  @ManyToMany(() => Class, (_) => _.subjects)
   classes: Class[];
 
   @DeleteDateColumn()

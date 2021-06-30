@@ -9,19 +9,19 @@ import {
   ManyToMany,
   JoinTable,
   DeleteDateColumn,
-} from 'typeorm';
-import { Student } from './Student';
-import { Subject } from './Subject';
+} from "typeorm";
+import { Student } from "./Student";
+import { Subject } from "./Subject";
 
-@Entity('classes')
+@Entity("classes")
 export class Class extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: "varchar", length: 200 })
   name!: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   order!: number;
 
   @CreateDateColumn()

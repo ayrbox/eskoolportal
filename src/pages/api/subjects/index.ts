@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import nextConnect from 'next-connect';
-import { Subject } from '~/database/entities/Subject';
-import { secureRoute } from '~/lib/secureRoute';
+import { NextApiRequest, NextApiResponse } from "next";
+import nextConnect from "next-connect";
+import { Subject } from "~/database/entities/Subject";
+import { secureRoute } from "~/lib/secureRoute";
 
 const handler = nextConnect();
 
@@ -16,7 +16,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await Subject.save(subject);
     res.status(204).end();
   } catch (err) {
-    res.status(500).send({ message: 'Unable to save subject.' });
+    res.status(500).send({ message: "Unable to save subject." });
   }
 });
 

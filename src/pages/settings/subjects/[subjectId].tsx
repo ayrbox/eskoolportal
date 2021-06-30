@@ -1,9 +1,9 @@
-import Layout from '~/components/Layout';
-import SubjectForm from '~/components/SubjectForm';
-import { Subject } from '~/database/entities/Subject';
-import { securePage } from '~/lib/securePage';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import Layout from "~/components/Layout";
+import SubjectForm from "~/components/SubjectForm";
+import { Subject } from "~/database/entities/Subject";
+import { securePage } from "~/lib/securePage";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const EditSubjectPage = ({ user, subject }) => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const EditSubjectPage = ({ user, subject }) => {
   const handleFormSubmit = async (updatedSubject: Subject) => {
     try {
       await axios.put(`/api/subjects/${subject.id}`, updatedSubject);
-      router.replace('/settings/subjects');
+      router.replace("/settings/subjects");
       return true;
     } catch (err) {
       console.error(err.response.message);

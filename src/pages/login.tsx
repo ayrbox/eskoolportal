@@ -3,11 +3,11 @@ import {
   FunctionComponent,
   FormEventHandler,
   ChangeEventHandler,
-} from 'react';
-import { getCsrfToken, signIn } from 'next-auth/client';
+} from "react";
+import { getCsrfToken, signIn } from "next-auth/client";
 
-import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
+import { useRouter } from "next/router";
+import { NextPageContext } from "next";
 
 interface LoginProps {
   csrfToken: string;
@@ -15,20 +15,20 @@ interface LoginProps {
 
 const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
   const router = useRouter();
-  const [email, setEmail] = useState<string>('admin@eskoolportal.com');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>("admin@eskoolportal.com");
+  const [password, setPassword] = useState<string>("");
 
-  const handleLogin: FormEventHandler<HTMLFormElement> = async e => {
+  const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    signIn('credentials', { email, password, callbackUrl: '/' });
+    signIn("credentials", { email, password, callbackUrl: "/" });
   };
 
-  const handleInputChange = (
-    setValue: Function
-  ): ChangeEventHandler<HTMLInputElement> => e => {
-    e.preventDefault();
-    setValue(e.target.value);
-  };
+  const handleInputChange =
+    (setValue: Function): ChangeEventHandler<HTMLInputElement> =>
+    (e) => {
+      e.preventDefault();
+      setValue(e.target.value);
+    };
 
   const message = router.query?.message;
 

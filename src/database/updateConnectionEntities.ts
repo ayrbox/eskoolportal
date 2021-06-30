@@ -1,7 +1,7 @@
 /**
  * https://github.com/typeorm/typeorm/issues/6241
  */
-import { Connection, EntitySchema } from 'typeorm';
+import { Connection, EntitySchema } from "typeorm";
 const entitiesChanged = (
   prevEntities: EntitySchema[],
   newEntities: EntitySchema[]

@@ -1,18 +1,18 @@
-import Link from 'next/link';
-import Layout from '~/components/Layout';
-import useSwr from 'swr';
-import axios from 'axios';
+import Link from "next/link";
+import Layout from "~/components/Layout";
+import useSwr from "swr";
+import axios from "axios";
 
-import { securePage } from '~/lib/securePage';
+import { securePage } from "~/lib/securePage";
 
-const fetcher = async (url: string) => axios.get(url).then(res => res.data);
+const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
 
 const Classes = ({ user }) => {
   const { data } = useSwr(`/api/classes/`, fetcher);
 
   if (!data) return <h1>Loading...</h1>;
 
-  console.log('Hello man', test)
+  console.log("Hello man", test);
 
   return (
     <Layout user={user} title="Class">

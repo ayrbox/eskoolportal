@@ -1,14 +1,14 @@
-import { Student } from '~/database/entities/Student';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { Student } from "~/database/entities/Student";
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { secureRoute } from '~/lib/secureRoute';
+import { secureRoute } from "~/lib/secureRoute";
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   const classId = req.query.classId as string;
   const section = req.query.section as string;
   const whereClause: Record<string, string> = { classId };
 
-  if (section && section !== 'ALL') {
+  if (section && section !== "ALL") {
     whereClause.sectionId = section;
   }
 

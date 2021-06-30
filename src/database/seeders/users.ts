@@ -1,8 +1,8 @@
-import { Factory } from 'rosie';
-import { name, random, internet } from 'faker';
-import { BaseEntity } from 'typeorm';
-import bcrypt from 'bcrypt';
-import { User } from '../entities/User';
+import { Factory } from "rosie";
+import { name, random, internet } from "faker";
+import { BaseEntity } from "typeorm";
+import bcrypt from "bcrypt";
+import { User } from "../entities/User";
 
 // //TODO: move to helper methods
 const hashPassword = async (password) => {
@@ -21,12 +21,12 @@ const userFactory = new Factory().attrs({
 });
 
 export default async function (): Promise<BaseEntity[]> {
-  const demoPassword = await hashPassword('Passw0rd!23');
+  const demoPassword = await hashPassword("Passw0rd!23");
 
   // super admin
   const superAdmin = userFactory.build({
-    name: 'Administrator',
-    email: 'admin@eskoolportal.com',
+    name: "Administrator",
+    email: "admin@eskoolportal.com",
     password: demoPassword,
   }) as User;
 

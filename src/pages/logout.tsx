@@ -1,7 +1,7 @@
-import { signOut } from 'next-auth/client';
-import { FC, useEffect } from 'react';
-import Head from 'next/head';
-import { securePage } from '~/lib/securePage';
+import { signOut } from "next-auth/client";
+import { FC, useEffect } from "react";
+import Head from "next/head";
+import { securePage } from "~/lib/securePage";
 
 export const Logout: FC = () => {
   useEffect(() => {

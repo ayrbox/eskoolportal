@@ -1,19 +1,19 @@
-import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
-import { User } from '~/database/entities/User';
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
+import { User } from "~/database/entities/User";
 
-import { ensureConnection } from '~/database';
-import bcrypt from 'bcrypt';
+import { ensureConnection } from "~/database";
+import bcrypt from "bcrypt";
 
-const authFailedMessage = 'Authentication failed.';
+const authFailedMessage = "Authentication failed.";
 
 const options = {
   providers: [
     Providers.Credentials({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
         const { email, password } = credentials;
@@ -41,7 +41,7 @@ const options = {
     }),
   ],
   pages: {
-    signIn: '/login',
+    signIn: "/login",
   },
 };
 

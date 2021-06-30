@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Class } from '~/database/entities/Class';
-import { secureRoute } from '~/lib/secureRoute';
+import { NextApiRequest, NextApiResponse } from "next";
+import { Class } from "~/database/entities/Class";
+import { secureRoute } from "~/lib/secureRoute";
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   const classId = req.query.classId as string;

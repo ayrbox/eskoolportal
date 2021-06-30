@@ -7,18 +7,18 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   DeleteDateColumn,
-} from 'typeorm';
-import { Student } from './Student';
+} from "typeorm";
+import { Student } from "./Student";
 
-@Entity('sections')
+@Entity("sections")
 export class Section extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: "varchar", length: 200 })
   name!: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   order!: number;
 
   @CreateDateColumn()
@@ -27,7 +27,7 @@ export class Section extends BaseEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Student, student => student.section)
+  @OneToMany(() => Student, (student) => student.section)
   students!: Student[];
 
   @DeleteDateColumn()

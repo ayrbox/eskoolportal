@@ -1,27 +1,27 @@
-import Layout from '~/components/Layout';
-import useSwr, { mutate } from 'swr';
-import { Button, Table } from 'reactstrap';
-import axios from 'axios';
-import { securePage } from '~/lib/securePage';
-import { FiscalYear } from '~/database/entities/FiscalYear';
-import FiscalYearForm from '~/components/FiscalYearForm';
-import { MouseEventHandler, useState } from 'react';
-import type { FormState } from '~/types/FormMode';
-import { FaTrash, FaPencilAlt } from 'react-icons/fa';
+import Layout from "~/components/Layout";
+import useSwr, { mutate } from "swr";
+import { Button, Table } from "reactstrap";
+import axios from "axios";
+import { securePage } from "~/lib/securePage";
+import { FiscalYear } from "~/database/entities/FiscalYear";
+import FiscalYearForm from "~/components/FiscalYearForm";
+import { MouseEventHandler, useState } from "react";
+import type { FormState } from "~/types/FormMode";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
 
-const ENDPOINT_FISCALYEAR = '/api/fiscalyears';
+const ENDPOINT_FISCALYEAR = "/api/fiscalyears";
 
 const FiscalYearIndex = ({ user }) => {
   const [formState, setFormState] = useState<FormState<Partial<FiscalYear>>>({
     isOpen: false,
-    mode: 'ADD',
+    mode: "ADD",
     data: {},
   });
 
   const { data } = useSwr<FiscalYear[], unknown>(ENDPOINT_FISCALYEAR);
 
   const handleClose = () => {
-    setFormState(prev => ({
+    setFormState((prev) => ({
       ...prev,
       isOpen: false,
     }));
@@ -30,52 +30,52 @@ const FiscalYearIndex = ({ user }) => {
   const handleNewFiscalYear = () => {
     setFormState({
       isOpen: true,
-      mode: 'ADD',
+      mode: "ADD",
       data: {},
     });
   };
 
-  const handleEdit = (
-    fiscalYear: FiscalYear
-  ): MouseEventHandler<HTMLAnchorElement> => e => {
-    e.preventDefault();
+  const handleEdit =
+    (fiscalYear: FiscalYear): MouseEventHandler<HTMLAnchorElement> =>
+    (e) => {
+      e.preventDefault();
 
-    setFormState({
-      isOpen: true,
-      mode: 'EDIT',
-      data: fiscalYear,
-    });
-  };
+      setFormState({
+        isOpen: true,
+        mode: "EDIT",
+        data: fiscalYear,
+      });
+    };
 
   /**
    * Delete handler
    */
-  const handleDelete = (
-    fiscalYear: FiscalYear
-  ): MouseEventHandler<HTMLAnchorElement> => async e => {
-    e.preventDefault();
+  const handleDelete =
+    (fiscalYear: FiscalYear): MouseEventHandler<HTMLAnchorElement> =>
+    async (e) => {
+      e.preventDefault();
 
-    //TODO: Confirmatin modal
-    await axios.delete(`/api/fiscalyears/${fiscalYear.id}`);
-    mutate(ENDPOINT_FISCALYEAR);
-  };
+      //TODO: Confirmatin modal
+      await axios.delete(`/api/fiscalyears/${fiscalYear.id}`);
+      mutate(ENDPOINT_FISCALYEAR);
+    };
 
   /**
    * Create/Update handler
    */
   const handleFormSubmit = async (fiscalYear: FiscalYear) => {
     try {
-      if (formState.mode === 'EDIT' && fiscalYear.id) {
+      if (formState.mode === "EDIT" && fiscalYear.id) {
         await axios.put(`/api/fiscalyears/${fiscalYear.id}`, fiscalYear);
         mutate(ENDPOINT_FISCALYEAR);
       } else {
-        await axios.post('/api/fiscalyears', fiscalYear);
+        await axios.post("/api/fiscalyears", fiscalYear);
         mutate(ENDPOINT_FISCALYEAR);
       }
       handleClose();
       return true;
     } catch (err) {
-      console.error('Handle Error here', err);
+      console.error("Handle Error here", err);
     }
   };
 
@@ -99,7 +99,7 @@ const FiscalYearIndex = ({ user }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(fiscalYear => (
+          {data.map((fiscalYear) => (
             <tr key={fiscalYear.id}>
               <td>
                 <a href="#" onClick={handleEdit(fiscalYear)}>

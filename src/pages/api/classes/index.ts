@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import nextConnect from 'next-connect';
-import { Class } from '~/database/entities/Class';
-import { secureRoute } from '~/lib/secureRoute';
+import { NextApiRequest, NextApiResponse } from "next";
+import nextConnect from "next-connect";
+import { Class } from "~/database/entities/Class";
+import { secureRoute } from "~/lib/secureRoute";
 
 const handler = nextConnect();
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from "react";
 import {
   FormGroup,
   Label,
@@ -6,8 +6,8 @@ import {
   Input,
   FormText,
   FormFeedback,
-} from 'reactstrap';
-import { useField } from 'formik';
+} from "reactstrap";
+import { useField } from "formik";
 
 const TOTAL_COLUMS = 12;
 

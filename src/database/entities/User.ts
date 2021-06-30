@@ -6,23 +6,23 @@ import {
   Column,
   BaseEntity,
   DeleteDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('users')
+@Entity("users")
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: "varchar", length: 200 })
   name!: string;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: "varchar", length: 250 })
   email!: string;
 
-  @Column({ type: 'varchar', length: 256 })
+  @Column({ type: "varchar", length: 256 })
   password!: string;
 
-  @Column({ type: 'varchar', length: 1000 })
+  @Column({ type: "varchar", length: 1000 })
   avatar!: string;
 
   @CreateDateColumn()

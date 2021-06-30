@@ -1,17 +1,17 @@
-import { Container, Row, Col, Table } from 'reactstrap';
-import { Student } from '~/database/entities/Student';
-import { Class } from '~/database/entities/Class';
-import { Section } from '~/database/entities/Section';
-import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
-import Panel from '~/components/Panel';
-import Link from 'next/link';
+import { Container, Row, Col, Table } from "reactstrap";
+import { Student } from "~/database/entities/Student";
+import { Class } from "~/database/entities/Class";
+import { Section } from "~/database/entities/Section";
+import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
+import Panel from "~/components/Panel";
+import Link from "next/link";
 
-import { securePage } from '~/lib/securePage';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { User } from 'next-auth';
-import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
-import { MedicalHistory } from '~/database/entities/MedicalHistory';
-import axios from 'axios';
+import { securePage } from "~/lib/securePage";
+import { FunctionComponent, useEffect, useState } from "react";
+import { User } from "next-auth";
+import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { MedicalHistory } from "~/database/entities/MedicalHistory";
+import axios from "axios";
 
 export interface ProfileProps {
   student: Student;
@@ -71,7 +71,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
               <strong>Joined:</strong> {student.joinDate}
             </p>
             <p>
-              <strong>Class: </strong> {student.class.name}{' '}
+              <strong>Class: </strong> {student.class.name}{" "}
               {student.section.name}
             </p>
           </Panel>

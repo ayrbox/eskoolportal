@@ -27,3 +27,10 @@ export const studentSchema = yup.object().shape({
   classId: yup.string().required("Please specify student class."),
   sectionId: yup.string().required("Please specify student section."),
 });
+
+export const eventSchema = yup.object().shape({
+  name: yup.string().min(3).required("Name is required."),
+  description: yup.string().nullable(),
+  fromDate: yup.date().required(),
+  endDate: yup.date().required(), // TODO: lazy validate end date is same or greater than from Date
+});

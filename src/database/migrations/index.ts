@@ -22,6 +22,7 @@ import { classSubject1616968264288 } from "./1616968264288-classSubject";
 import { fiscalyear1619827491114 } from "./1619827491114-fiscalyear";
 import { entitySoftdelete1620077998064 } from "./1620077998064-entity_softdelete";
 import { studentMedicalHistory1620598561987 } from "./1620598561987-student_medical_history";
+import { events1625014110835 } from "./1625014110835-events";
 
 export default [
   InitialMigration1615164241177,
@@ -29,4 +30,5 @@ export default [
   fiscalyear1619827491114,
   entitySoftdelete1620077998064,
   studentMedicalHistory1620598561987,
+  events1625014110835,
 ];

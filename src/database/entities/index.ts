@@ -5,6 +5,7 @@ import { Subject } from "./Subject";
 import { User } from "./User";
 import { FiscalYear } from "./FiscalYear";
 import { MedicalHistory } from "./MedicalHistory";
+import { Event } from "./Event";
 
 export default [
   Class,
@@ -14,4 +15,5 @@ export default [
   Subject,
   FiscalYear,
   MedicalHistory,
+  Event,
 ];

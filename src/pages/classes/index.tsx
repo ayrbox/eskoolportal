@@ -12,8 +12,6 @@ const Classes = ({ user }) => {
 
   if (!data) return <h1>Loading...</h1>;
 
-  console.log("Hello man", test);
-
   return (
     <Layout user={user} title="Class">
       <h1>Classes</h1>

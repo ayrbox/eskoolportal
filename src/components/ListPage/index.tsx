@@ -6,16 +6,18 @@ import { Button } from "reactstrap";
 
 export interface ListPageProps<T> {
   url: string;
+  onFormSubmit: (values: FormState<T>) => Promise<boolean>;
   children: (
     values: Array<T>,
     onItemClick: (item: T) => void,
     form: FormState<Partial<T>>,
-    onFormClose: () => void
+    onFormClose: () => void,
+    onFormSubmit: (values: T) => Promise<boolean>
   ) => ReactElement;
 }
 
 function ListPage<T>(props: ListPageProps<T>) {
-  const { url } = props;
+  const { url, onFormSubmit } = props;
 
   const [formState, setFormState] = useState<FormState<Partial<T>>>({
     isOpen: false,
@@ -24,7 +26,6 @@ function ListPage<T>(props: ListPageProps<T>) {
   });
 
   const onItemClick = (item: T) => {
-    console.log(`hmmm you clicked ${JSON.stringify(item)}`);
     setFormState({
       isOpen: true,
       mode: "EDIT",
@@ -32,7 +33,7 @@ function ListPage<T>(props: ListPageProps<T>) {
     });
   };
 
-  const onFormClose = () => {
+  const handleFormClose = () => {
     setFormState((prev) => ({
       ...prev,
       isOpen: false,
@@ -48,6 +49,21 @@ function ListPage<T>(props: ListPageProps<T>) {
     });
   };
 
+  const handleFormSubmit = async (values: T): Promise<boolean> => {
+    const state = {
+      ...formState,
+      data: values,
+    };
+
+    const formSubmitted = await onFormSubmit(state);
+
+    if (formSubmitted) {
+      handleFormClose();
+    }
+
+    return formSubmitted;
+  };
+
   const { data } = useSWR<T[], unknown>(url);
 
   if (!data) return <h1>Loading...</h1>;
@@ -59,9 +75,13 @@ function ListPage<T>(props: ListPageProps<T>) {
           New
         </Button>
       </div>
-      <pre>{JSON.stringify(formState, null, 2)}</pre>
-
-      {props.children(data, onItemClick, formState, onFormClose)}
+      {props.children(
+        data,
+        onItemClick,
+        formState,
+        handleFormClose,
+        handleFormSubmit
+      )}
     </div>
   );
 }

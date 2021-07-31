@@ -1,13 +1,13 @@
-import { FunctionComponent, useRef } from "react";
-import Overlay from "./Overlay";
-import { Form, Button, FormGroup, Col } from "reactstrap";
-import { Formik } from "formik";
-import FormItem from "./form/FormItem";
-import FormDate from "./form/FormDate";
-import type { FiscalYear } from "~/database/entities/FiscalYear";
-import Panel from "./Panel";
-import { fiscalYearSchema } from "~/lib/validations";
-import { useEffect } from "react";
+import { FunctionComponent, useRef } from 'react';
+import Overlay from './Overlay';
+import { Form, Button, FormGroup, Col } from 'reactstrap';
+import { Formik } from 'formik';
+import FormItem from './form/FormItem';
+import FormDate from './form/FormDate';
+import type { FiscalYear } from '~/database/entities/FiscalYear';
+import Panel from './Panel';
+import { fiscalYearSchema } from '~/lib/validations';
+import { useEffect } from 'react';
 
 export interface FiscalYearFormProps {
   formValue: Partial<FiscalYear>;
@@ -42,6 +42,8 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
         initialValues={formValue}
         onSubmit={onFormSubmit}
         validationSchema={fiscalYearSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
       >
         {({ handleSubmit, isSubmitting, isValidating, values }) => (
           <Panel className="shadow-lg">

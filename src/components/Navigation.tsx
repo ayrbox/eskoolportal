@@ -1,13 +1,13 @@
-import { User } from "next-auth";
-import Link from "next/link";
-import { FC, useState } from "react";
+import { User } from 'next-auth';
+import Link from 'next/link';
+import { FC, useState } from 'react';
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
-import { Img } from "react-image";
+} from 'reactstrap';
+import { Img } from 'react-image';
 
 interface NavigationProps {
   user: User;
@@ -22,14 +22,14 @@ const ProfileDropdownItem = ({ href, children }) => (
 );
 
 const UserAvatar = (props) => {
-  const [firstName, lastName] = props.name.split(" ");
+  const [firstName, lastName] = props.name.split(' ');
 
   return (
     <div className="d-flex justify-content-center">
       <div className="bg-light p-3 border border-dark rounded-circle">
         <strong>
           {firstName.charAt(0)}
-          {lastName ? lastName.charAt(0) : ""}
+          {lastName ? lastName.charAt(0) : ''}
         </strong>
       </div>
     </div>
@@ -128,6 +128,14 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
                   <a>
                     <i className="fa fa-th-large"></i>
                     <span className="nav-label">Subjects</span>
+                  </a>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link href="/settings/events">
+                  <a>
+                    <i className="fa fa-th-large"></i>
+                    <span className="nav-label">Events</span>
                   </a>
                 </Link>
               </li>

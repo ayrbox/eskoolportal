@@ -40,6 +40,8 @@ const EventsForm: FunctionComponent<EventsFormProps> = ({
         initialValues={formValue}
         onSubmit={onFormSubmit}
         validationSchema={eventSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
       >
         {({ handleSubmit, isSubmitting, isValidating, values }) => (
           <Panel className="shadow-lg">

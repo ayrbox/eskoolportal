@@ -64,7 +64,7 @@ const SubjectIndex = ({ user }) => {
             </Table>
             {form.isOpen && (
               <SubjectForm
-                initialValues={form.data}
+                values={form.data}
                 onFormSubmit={onFormSubmit}
                 onClose={onFormClose}
               />

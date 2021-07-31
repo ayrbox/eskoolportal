@@ -12,16 +12,22 @@ const subjectSchema = object().shape({
 });
 
 export interface SubjectFormProps {
-  initialValues: Subject;
+  initialValues: Partial<Subject>;
   onFormSubmit: (values: Subject) => void;
-  formMode?: 'ADD' | 'EDIT';
+  onClose?: () => void;
 }
 
 const SubjectForm: FC<SubjectFormProps> = ({
   initialValues,
-  formMode,
   onFormSubmit,
+  onClose,
 }: SubjectFormProps) => {
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
   const nameRef = useRef(null);
 
   useEffect(() => {
@@ -29,6 +35,10 @@ const SubjectForm: FC<SubjectFormProps> = ({
       nameRef.current.focus();
     }
   }, [nameRef.current]);
+
+  // initial focus
+  // close handling
+  // modal display
 
   return (
     <Formik
@@ -42,12 +52,6 @@ const SubjectForm: FC<SubjectFormProps> = ({
         <Form onSubmit={handleSubmit}>
           <FormItem id="name" name="name" label="Name" innerRef={nameRef} />
           <FormItem id="description" name="description" label="Description" />
-          {formMode === 'EDIT' && (
-            <>
-              <FormItem name="createdAt" label="Created" readOnly />
-              <FormItem name="updatedAt" label="Updated" readOnly />
-            </>
-          )}
           <FormGroup row>
             <Col sm={{ size: 10, offset: 2 }}>
               <Button
@@ -57,16 +61,20 @@ const SubjectForm: FC<SubjectFormProps> = ({
               >
                 Save
               </Button>
+              <Button
+                type="reset"
+                onClick={handleClose}
+                outline
+                color="primary"
+              >
+                Cancel
+              </Button>
             </Col>
           </FormGroup>
         </Form>
       )}
     </Formik>
   );
-};
-
-SubjectForm.defaultProps = {
-  formMode: 'ADD',
 };
 
 export default SubjectForm;

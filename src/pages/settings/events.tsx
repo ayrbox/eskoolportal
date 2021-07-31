@@ -64,7 +64,7 @@ const EventsPage = ({ user }) => {
 
             {form.isOpen && (
               <EventsForm
-                formValue={form.data}
+                values={form.data}
                 onClose={onFormClose}
                 onFormSubmit={onFormSubmit}
               />

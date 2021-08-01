@@ -1,13 +1,11 @@
-import { Container, Row, Col, Table } from 'reactstrap';
+import { Container, Row, Col, Table, Button } from 'reactstrap';
 import { Student } from '~/database/entities/Student';
-import { Class } from '~/database/entities/Class';
-import { Section } from '~/database/entities/Section';
 import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
 import Panel from '~/components/Panel';
 import Link from 'next/link';
 
 import { securePage } from '~/lib/securePage';
-import { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { User } from 'next-auth';
 import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import { MedicalHistory } from '~/database/entities/MedicalHistory';
@@ -16,6 +14,7 @@ import ListPage from '~/components/ListPage';
 import MedicalHistoryForm from '~/components/MedicalHistoryForm';
 import { FormState } from '~/types/FormMode';
 import { mutate } from 'swr';
+import { FaTrash } from 'react-icons/fa';
 
 export interface ProfileProps {
   student: Student;
@@ -33,13 +32,23 @@ const Profile: FunctionComponent<ProfileProps> = ({
   const handleMedicalHistoryFormSubmit = async (
     state: FormState<MedicalHistory>
   ) => {
-    console.log(state);
     try {
       if (state.mode === 'EDIT' && state.data.id) {
         await axios.put(`${medicalHistoryUrl}/${state.data.id}`, state.data);
       } else {
         await axios.post(medicalHistoryUrl, state.data);
       }
+      mutate(medicalHistoryUrl);
+      return true;
+    } catch (err) {
+      console.error('Handle error gracefully', err);
+      return false;
+    }
+  };
+
+  const handleMedicalHistoryDelete = async (item: MedicalHistory) => {
+    try {
+      await axios.delete(`${medicalHistoryUrl}/${item.id}`);
       mutate(medicalHistoryUrl);
       return true;
     } catch (err) {
@@ -96,8 +105,16 @@ const Profile: FunctionComponent<ProfileProps> = ({
         <ListPage<MedicalHistory>
           url={`/api/students/${id}/medical-history`}
           onFormSubmit={handleMedicalHistoryFormSubmit}
+          onDelete={handleMedicalHistoryDelete}
         >
-          {(data, onItemClick, form, onFormClose, onFormSubmit) => (
+          {({
+            items,
+            onItemClick,
+            formState,
+            onFormClose,
+            onFormSubmit,
+            onDelete,
+          }) => (
             <>
               <Table striped bordered>
                 <thead>
@@ -105,10 +122,11 @@ const Profile: FunctionComponent<ProfileProps> = ({
                     <th>Description</th>
                     <th>Severity</th>
                     <th>Triage</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((history) => (
+                  {items.map((history) => (
                     <tr key={history.id}>
                       <td>
                         <a
@@ -123,13 +141,25 @@ const Profile: FunctionComponent<ProfileProps> = ({
                       </td>
                       <td>{history.severity}</td>
                       <td>{history.triageNote}</td>
+                      <td>
+                        <Button
+                          size="xs"
+                          color="danger"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onDelete(history);
+                          }}
+                        >
+                          <FaTrash />
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              {form.isOpen && (
+              {formState.isOpen && (
                 <MedicalHistoryForm
-                  values={form.data}
+                  values={formState.data}
                   onClose={onFormClose}
                   onFormSubmit={onFormSubmit}
                 />

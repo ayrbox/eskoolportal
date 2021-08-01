@@ -29,7 +29,7 @@ const EventsPage = ({ user }) => {
   return (
     <Layout user={user} title="Events">
       <ListPage<Event> url="/api/events" onFormSubmit={handleFormSubmit}>
-        {(data, onItemClick, form, onFormClose, onFormSubmit) => (
+        {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>
             <Table striped bordered>
               <thead>
@@ -40,7 +40,7 @@ const EventsPage = ({ user }) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((event) => (
+                {items.map((event) => (
                   <tr key={event.id}>
                     <td>
                       <a
@@ -62,9 +62,9 @@ const EventsPage = ({ user }) => {
               </tbody>
             </Table>
 
-            {form.isOpen && (
+            {formState.isOpen && (
               <EventsForm
-                values={form.data}
+                values={formState.data}
                 onClose={onFormClose}
                 onFormSubmit={onFormSubmit}
               />

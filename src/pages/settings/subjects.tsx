@@ -34,7 +34,7 @@ const SubjectIndex = ({ user }) => {
   return (
     <Layout user={user} title="Subjects">
       <ListPage<Subject> url="/api/subjects" onFormSubmit={handleFormSubmit}>
-        {(data, onItemClick, form, onFormClose, onFormSubmit) => (
+        {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>
             <Table striped bordered>
               <thead>
@@ -44,7 +44,7 @@ const SubjectIndex = ({ user }) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((subject) => (
+                {items.map((subject) => (
                   <tr key={subject.id}>
                     <td>
                       <a
@@ -62,9 +62,9 @@ const SubjectIndex = ({ user }) => {
                 ))}
               </tbody>
             </Table>
-            {form.isOpen && (
+            {formState.isOpen && (
               <SubjectForm
-                values={form.data}
+                values={formState.data}
                 onFormSubmit={onFormSubmit}
                 onClose={onFormClose}
               />

@@ -1,34 +1,38 @@
-import { MouseEventHandler, ReactElement } from "react";
-import { useState } from "react";
-import useSWR from "swr";
-import { FormState } from "~/types/FormMode";
-import { Button } from "reactstrap";
+import { MouseEventHandler, ReactElement } from 'react';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { FormState } from '~/types/FormMode';
+import { Button } from 'reactstrap';
+
+export type ListPageChildrenProps<T> = {
+  items: Array<T>;
+  onItemClick: (item: T) => void;
+  formState: FormState<Partial<T>>;
+  onFormClose: () => void;
+  onFormSubmit: (values: T) => Promise<boolean>;
+  onDelete?: (item: T) => Promise<boolean>;
+};
 
 export interface ListPageProps<T> {
   url: string;
   onFormSubmit: (values: FormState<T>) => Promise<boolean>;
-  children: (
-    values: Array<T>,
-    onItemClick: (item: T) => void,
-    form: FormState<Partial<T>>,
-    onFormClose: () => void,
-    onFormSubmit: (values: T) => Promise<boolean>
-  ) => ReactElement;
+  children: (childProps: ListPageChildrenProps<T>) => ReactElement;
+  onDelete?: (item: T) => Promise<boolean>;
 }
 
 function ListPage<T>(props: ListPageProps<T>) {
-  const { url, onFormSubmit } = props;
+  const { url, onFormSubmit, onDelete } = props;
 
   const [formState, setFormState] = useState<FormState<Partial<T>>>({
     isOpen: false,
-    mode: "ADD",
+    mode: 'ADD',
     data: {},
   });
 
   const onItemClick = (item: T) => {
     setFormState({
       isOpen: true,
-      mode: "EDIT",
+      mode: 'EDIT',
       data: item,
     });
   };
@@ -44,7 +48,7 @@ function ListPage<T>(props: ListPageProps<T>) {
     e.preventDefault();
     setFormState({
       isOpen: true,
-      mode: "ADD",
+      mode: 'ADD',
       data: {},
     });
   };
@@ -64,9 +68,16 @@ function ListPage<T>(props: ListPageProps<T>) {
     return formSubmitted;
   };
 
-  const { data } = useSWR<T[], unknown>(url);
+  const handleDelete = async (item: T): Promise<boolean> => {
+    if (onDelete) {
+      return await onDelete(item);
+    }
+    return false;
+  };
 
-  if (!data) return <h1>Loading...</h1>;
+  const { data: items } = useSWR<T[], unknown>(url);
+
+  if (!items) return <h1>Loading...</h1>;
 
   return (
     <div>
@@ -75,13 +86,14 @@ function ListPage<T>(props: ListPageProps<T>) {
           New
         </Button>
       </div>
-      {props.children(
-        data,
+      {props.children({
+        items,
         onItemClick,
         formState,
-        handleFormClose,
-        handleFormSubmit
-      )}
+        onFormClose: handleFormClose,
+        onFormSubmit: handleFormSubmit,
+        onDelete: handleDelete,
+      })}
     </div>
   );
 }

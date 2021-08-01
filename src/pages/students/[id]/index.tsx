@@ -1,20 +1,23 @@
-import { Container, Row, Col, Table, Button } from 'reactstrap';
-import { Student } from '~/database/entities/Student';
+import React, { FunctionComponent } from 'react';
+import Link from 'next/link';
+import { User } from 'next-auth';
+import axios from 'axios';
+import {
+  FaEnvelopeOpen,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaTrash,
+} from 'react-icons/fa';
+import { mutate } from 'swr';
+import { Container, Row, Col, Table } from 'reactstrap';
 import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
 import Panel from '~/components/Panel';
-import Link from 'next/link';
-
-import { securePage } from '~/lib/securePage';
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { User } from 'next-auth';
-import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { Student } from '~/database/entities/Student';
 import { MedicalHistory } from '~/database/entities/MedicalHistory';
-import axios from 'axios';
+import { securePage } from '~/lib/securePage';
 import ListPage from '~/components/ListPage';
 import MedicalHistoryForm from '~/components/MedicalHistoryForm';
 import { FormState } from '~/types/FormMode';
-import { mutate } from 'swr';
-import { FaTrash } from 'react-icons/fa';
 
 export interface ProfileProps {
   student: Student;
@@ -142,16 +145,16 @@ const Profile: FunctionComponent<ProfileProps> = ({
                       <td>{history.severity}</td>
                       <td>{history.triageNote}</td>
                       <td>
-                        <Button
-                          size="xs"
-                          color="danger"
+                        <a
+                          href="#"
+                          className="text-danger"
                           onClick={(e) => {
                             e.preventDefault();
                             onDelete(history);
                           }}
                         >
                           <FaTrash />
-                        </Button>
+                        </a>
                       </td>
                     </tr>
                   ))}

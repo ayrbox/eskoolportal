@@ -1,17 +1,21 @@
-import { Container, Row, Col, Table } from "reactstrap";
-import { Student } from "~/database/entities/Student";
-import { Class } from "~/database/entities/Class";
-import { Section } from "~/database/entities/Section";
-import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
-import Panel from "~/components/Panel";
-import Link from "next/link";
+import { Container, Row, Col, Table } from 'reactstrap';
+import { Student } from '~/database/entities/Student';
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
+import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
+import Panel from '~/components/Panel';
+import Link from 'next/link';
 
-import { securePage } from "~/lib/securePage";
-import { FunctionComponent, useEffect, useState } from "react";
-import { User } from "next-auth";
-import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
-import { MedicalHistory } from "~/database/entities/MedicalHistory";
-import axios from "axios";
+import { securePage } from '~/lib/securePage';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { User } from 'next-auth';
+import { FaEnvelopeOpen, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { MedicalHistory } from '~/database/entities/MedicalHistory';
+import axios from 'axios';
+import ListPage from '~/components/ListPage';
+import MedicalHistoryForm from '~/components/MedicalHistoryForm';
+import { FormState } from '~/types/FormMode';
+import { mutate } from 'swr';
 
 export interface ProfileProps {
   student: Student;
@@ -23,17 +27,26 @@ const Profile: FunctionComponent<ProfileProps> = ({
   user,
 }: ProfileProps) => {
   const { id, name } = student;
-  const [medicalHistory, setMedicalHistory] = useState<MedicalHistory[]>([]);
 
-  useEffect(() => {
-    const fetchMedicalHistory = async () => {
-      const { data } = await axios.get<MedicalHistory[]>(
-        `/api/students/${id}/medical-history`
-      );
-      setMedicalHistory(data);
-    };
-    fetchMedicalHistory();
-  }, []);
+  const medicalHistoryUrl = `/api/students/${id}/medical-history`;
+
+  const handleMedicalHistoryFormSubmit = async (
+    state: FormState<MedicalHistory>
+  ) => {
+    console.log(state);
+    try {
+      if (state.mode === 'EDIT' && state.data.id) {
+        await axios.put(`${medicalHistoryUrl}/${state.data.id}`, state.data);
+      } else {
+        await axios.post(medicalHistoryUrl, state.data);
+      }
+      mutate(medicalHistoryUrl);
+      return true;
+    } catch (err) {
+      console.error('Handle error gracefully', err);
+      return false;
+    }
+  };
 
   return (
     <StudentProfileLayout studentName={name} user={user}>
@@ -71,7 +84,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
               <strong>Joined:</strong> {student.joinDate}
             </p>
             <p>
-              <strong>Class: </strong> {student.class.name}{" "}
+              <strong>Class: </strong> {student.class.name}{' '}
               {student.section.name}
             </p>
           </Panel>
@@ -80,24 +93,50 @@ const Profile: FunctionComponent<ProfileProps> = ({
 
       <Container className="border" fluid>
         <h1>Medical History</h1>
-        <Table striped bordered>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Severity</th>
-              <th>Triage</th>
-            </tr>
-          </thead>
-          <tbody>
-            {medicalHistory.map(({ id, description, severity, triageNote }) => (
-              <tr key={id}>
-                <td>{description}</td>
-                <td>{severity}</td>
-                <td>{triageNote}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <ListPage<MedicalHistory>
+          url={`/api/students/${id}/medical-history`}
+          onFormSubmit={handleMedicalHistoryFormSubmit}
+        >
+          {(data, onItemClick, form, onFormClose, onFormSubmit) => (
+            <>
+              <Table striped bordered>
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Severity</th>
+                    <th>Triage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((history) => (
+                    <tr key={history.id}>
+                      <td>
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onItemClick(history);
+                          }}
+                        >
+                          {history.description}
+                        </a>
+                      </td>
+                      <td>{history.severity}</td>
+                      <td>{history.triageNote}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              {form.isOpen && (
+                <MedicalHistoryForm
+                  values={form.data}
+                  onClose={onFormClose}
+                  onFormSubmit={onFormSubmit}
+                />
+              )}
+            </>
+          )}
+        </ListPage>
       </Container>
     </StudentProfileLayout>
   );

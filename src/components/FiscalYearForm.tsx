@@ -12,14 +12,12 @@ import { useEffect } from 'react';
 export interface FiscalYearFormProps {
   formValue: Partial<FiscalYear>;
   onFormSubmit: (value: FiscalYear) => void;
-  open?: boolean;
   onClose?: () => void;
 }
 
 const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
   formValue,
   onFormSubmit,
-  open,
   onClose,
 }: FiscalYearFormProps) => {
   const handleClose = () => {
@@ -37,7 +35,7 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
   }, [yearInputRef.current]);
 
   return (
-    <Overlay open={open} onClose={handleClose} light>
+    <Overlay open onClose={handleClose} light>
       <Formik
         initialValues={formValue}
         onSubmit={onFormSubmit}

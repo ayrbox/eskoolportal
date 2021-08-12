@@ -132,13 +132,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
                   {items.map((history) => (
                     <tr key={history.id}>
                       <td>
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            onItemClick(history);
-                          }}
-                        >
+                        <a href="#" onClick={onItemClick(history)}>
                           {history.description}
                         </a>
                       </td>
@@ -148,10 +142,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
                         <a
                           href="#"
                           className="text-danger"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            onDelete(history);
-                          }}
+                          onClick={onDelete(history)}
                         >
                           <FaTrash />
                         </a>

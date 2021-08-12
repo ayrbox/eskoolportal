@@ -3,14 +3,15 @@ import { useState } from 'react';
 import useSWR from 'swr';
 import { FormState } from '~/types/FormMode';
 import { Button } from 'reactstrap';
+import { EventHandler } from 'react';
 
 export type ListPageChildrenProps<T> = {
   items: Array<T>;
-  onItemClick: (item: T) => void;
+  onItemClick: (item: T) => MouseEventHandler;
   formState: FormState<Partial<T>>;
   onFormClose: () => void;
   onFormSubmit: (values: T) => Promise<boolean>;
-  onDelete?: (item: T) => Promise<boolean>;
+  onDelete?: (item: T) => MouseEventHandler;
 };
 
 export interface ListPageProps<T> {
@@ -29,13 +30,16 @@ function ListPage<T>(props: ListPageProps<T>) {
     data: {},
   });
 
-  const onItemClick = (item: T) => {
-    setFormState({
-      isOpen: true,
-      mode: 'EDIT',
-      data: item,
-    });
-  };
+  const onItemClick =
+    (item: T): MouseEventHandler =>
+    (e): void => {
+      e.preventDefault();
+      setFormState({
+        isOpen: true,
+        mode: 'EDIT',
+        data: item,
+      });
+    };
 
   const handleFormClose = () => {
     setFormState((prev) => ({
@@ -68,12 +72,15 @@ function ListPage<T>(props: ListPageProps<T>) {
     return formSubmitted;
   };
 
-  const handleDelete = async (item: T): Promise<boolean> => {
-    if (onDelete) {
-      return await onDelete(item);
-    }
-    return false;
-  };
+  const handleDelete =
+    (item: T): MouseEventHandler =>
+    async (e): Promise<boolean> => {
+      e.preventDefault();
+      if (onDelete) {
+        return await onDelete(item);
+      }
+      return false;
+    };
 
   const { data: items } = useSWR<T[], unknown>(url);
 

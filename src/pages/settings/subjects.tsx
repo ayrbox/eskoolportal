@@ -47,13 +47,7 @@ const SubjectIndex = ({ user }) => {
                 {items.map((subject) => (
                   <tr key={subject.id}>
                     <td>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onItemClick(subject);
-                        }}
-                      >
+                      <a href="#" onClick={onItemClick(subject)}>
                         {subject.name}
                       </a>
                     </td>

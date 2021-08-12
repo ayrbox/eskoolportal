@@ -53,13 +53,7 @@ const FiscalYearIndex = ({ user }) => {
                 {items.map((fiscalYear) => (
                   <tr key={fiscalYear.id}>
                     <td>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onItemClick(fiscalYear);
-                        }}
-                      >
+                      <a href="#" onClick={onItemClick(fiscalYear)}>
                         {fiscalYear.name}
                       </a>
                     </td>

@@ -43,13 +43,7 @@ const EventsPage = ({ user }) => {
                 {items.map((event) => (
                   <tr key={event.id}>
                     <td>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onItemClick(event);
-                        }}
-                      >
+                      <a href="#" onClick={onItemClick(event)}>
                         {event.name}
                       </a>
                     </td>

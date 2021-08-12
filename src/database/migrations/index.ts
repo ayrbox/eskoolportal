@@ -17,12 +17,14 @@
  * Cons:
  *   - For each migrations would need import and export in default array.  ¯\_(ツ)_/¯
  */
-import { InitialMigration1615164241177 } from "./1615164241177-InitialMigration";
-import { classSubject1616968264288 } from "./1616968264288-classSubject";
-import { fiscalyear1619827491114 } from "./1619827491114-fiscalyear";
-import { entitySoftdelete1620077998064 } from "./1620077998064-entity_softdelete";
-import { studentMedicalHistory1620598561987 } from "./1620598561987-student_medical_history";
-import { events1625014110835 } from "./1625014110835-events";
+import { InitialMigration1615164241177 } from './1615164241177-InitialMigration';
+import { classSubject1616968264288 } from './1616968264288-classSubject';
+import { fiscalyear1619827491114 } from './1619827491114-fiscalyear';
+import { entitySoftdelete1620077998064 } from './1620077998064-entity_softdelete';
+import { studentMedicalHistory1620598561987 } from './1620598561987-student_medical_history';
+import { events1625014110835 } from './1625014110835-events';
+import { exam1628730042401 } from './1628730042401-exam';
+import { grades1628730157446 } from './1628730157446-grades';
 
 export default [
   InitialMigration1615164241177,
@@ -31,4 +33,6 @@ export default [
   entitySoftdelete1620077998064,
   studentMedicalHistory1620598561987,
   events1625014110835,
+  exam1628730042401,
+  grades1628730157446,
 ];

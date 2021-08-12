@@ -139,6 +139,14 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
                   </a>
                 </Link>
               </li>
+              <li className="w-100">
+                <Link href="/settings/exams">
+                  <a>
+                    <i className="fa fa-th-large"></i>
+                    <span className="nav-label">Exams</span>
+                  </a>
+                </Link>
+              </li>
             </ul>
           </li>
         </ul>

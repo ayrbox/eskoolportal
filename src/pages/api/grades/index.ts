@@ -19,10 +19,16 @@ type getParams = {
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { yearId, examId, classId, subjectId } = req.query as getParams;
+
+  if (!yearId || !examId || !classId || !subjectId) {
+    return res.send([]);
+  }
+
   const year = await FiscalYear.findOne({ id: yearId });
   const exam = await Exam.findOne({ id: examId });
   const clazz = await Class.findOne({ id: classId });
   const subject = await Subject.findOne({ id: subjectId });
+
   const grades = await Grade.find({
     year,
     exam,

@@ -13,7 +13,7 @@ import { stringify } from 'querystring';
 
 const GRADE_ENDPOINT = '/api/grades';
 const GradeSettings = ({ user, years, exams, classes, subjects }) => {
-  const [params, setParams] = useState({
+  const [query, setQuery] = useState({
     yearId: '',
     examId: '',
     classId: '',
@@ -26,7 +26,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
     (parmKey: string): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
       e.preventDefault();
-      setParams((prev) => ({
+      setQuery((prev) => ({
         ...prev,
         [parmKey]: e.target.value,
       }));
@@ -41,7 +41,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="year"
             id="year"
-            value={params.yearId}
+            value={query.yearId}
             onChange={handleParamsChange('yearId')}
           >
             <option></option>
@@ -58,7 +58,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="exam"
             id="exam"
-            value={params.examId}
+            value={query.examId}
             onChange={handleParamsChange('examId')}
           >
             <option></option>
@@ -75,7 +75,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="class"
             id="class"
-            value={params.classId}
+            value={query.classId}
             onChange={handleParamsChange('classId')}
           >
             <option></option>
@@ -92,7 +92,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="subject"
             id="subject"
-            value={params.subjectId}
+            value={query.subjectId}
             onChange={handleParamsChange('subjectId')}
           >
             <option></option>
@@ -105,7 +105,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
         </Col>
       </Row>
       <ListPage<Grade>
-        url={`${GRADE_ENDPOINT}?${stringify(params)}`}
+        url={`${GRADE_ENDPOINT}?${stringify(query)}`}
         onFormSubmit={handleFormSubmit}
       >
         {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (

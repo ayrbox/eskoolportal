@@ -36,6 +36,20 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       );
   }
 
+  const [gradeFound] = await Grade.find({
+    year,
+    exam,
+    class: clazz,
+    subject,
+    gradeType: grade.gradeType,
+  });
+
+  if (gradeFound) {
+    return res
+      .status(400)
+      .send({ message: 'Grade already created for the subject' });
+  }
+
   const gradeToCreate = {
     year,
     exam,
@@ -46,9 +60,58 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     passMark: grade.passMark,
   };
 
-  //   await fiscalYearSchema.validate(grade, { abortEarly: false });
-  const gradeCreated = await Grade.create(gradeToCreate).save();
-  res.send(gradeCreated);
+  const result = await Grade.create(gradeToCreate).save();
+  res.send({ message: 'Grade created successfully.', grade: result });
+});
+
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+  const grade = req.body as {
+    yearId: string;
+    examId: string;
+    classId: string;
+    subjectId: string;
+  } & Pick<Grade, 'gradeType' | 'fullMark' | 'passMark'>;
+
+  const year = await FiscalYear.findOne(grade.yearId);
+  const exam = await Exam.findOne(grade.examId);
+  const clazz = await Class.findOne(grade.classId);
+  const subject = await Subject.findOne(grade.subjectId);
+
+  if (!year || !exam || !clazz || !subject) {
+    return res
+      .status(400)
+      .send(
+        'Please check year, exam, class and subject. Unable to create grade.'
+      );
+  }
+
+  const [gradeFound] = await Grade.find({
+    year,
+    exam,
+    class: clazz,
+    subject,
+    gradeType: grade.gradeType,
+  });
+
+  if (!gradeFound) {
+    return res.status(404).send({ message: 'Grade not found.' });
+  }
+
+  const gradeToUpdate = {
+    year,
+    exam,
+    class: clazz,
+    subject,
+    gradeType: grade.gradeType,
+    fullMark: grade.fullMark,
+    passMark: grade.passMark,
+  };
+
+  await Grade.update({ id: gradeFound.id }, gradeToUpdate);
+  res.send({
+    message: 'Grade updated successfully.',
+    grade: { id: gradeFound.id, ...gradeToUpdate },
+  });
 });
 
 export default secureRoute(handler);

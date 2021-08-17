@@ -4,6 +4,9 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Subject } from './Subject';
@@ -13,16 +16,19 @@ import { Exam } from './Exam';
 
 @Entity('grades')
 export class Grade extends BaseEntity {
-  @ManyToOne(() => FiscalYear, (year) => year.id, { primary: true })
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @ManyToOne(() => FiscalYear, (year) => year.id)
   year: FiscalYear;
 
-  @ManyToOne(() => Exam, (exam) => exam.id, { primary: true })
+  @ManyToOne(() => Exam, (exam) => exam.id)
   exam: Exam;
 
-  @ManyToOne(() => Class, (clazz) => clazz.id, { primary: true })
+  @ManyToOne(() => Class, (clazz) => clazz.id)
   class: Class;
 
-  @ManyToOne(() => Subject, (subject) => subject.id, { primary: true })
+  @ManyToOne(() => Subject, (subject) => subject.id)
   subject: Subject;
 
   @Column({ type: 'varchar', length: 20 })

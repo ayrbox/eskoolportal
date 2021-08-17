@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class grades1628730157446 implements MigrationInterface {
-    name = 'grades1628730157446'
+export class grades1629158997723 implements MigrationInterface {
+    name = 'grades1629158997723'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "grades" ("gradeType" character varying(20) NOT NULL, "fullMark" numeric NOT NULL, "passMark" numeric NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "yearId" uuid NOT NULL, "examId" uuid NOT NULL, "classId" uuid NOT NULL, "subjectId" uuid NOT NULL, CONSTRAINT "PK_d20657449cedcf19e5dc2e7216a" PRIMARY KEY ("yearId", "examId", "classId", "subjectId"))`);
+        await queryRunner.query(`CREATE TABLE "grades" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "gradeType" character varying(20) NOT NULL, "fullMark" numeric NOT NULL, "passMark" numeric NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "yearId" uuid, "examId" uuid, "classId" uuid, "subjectId" uuid, CONSTRAINT "PK_4740fb6f5df2505a48649f1687b" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "students_grade" ("fullMark" numeric NOT NULL, "passMark" numeric NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "studentId" uuid NOT NULL, "yearId" uuid NOT NULL, "examId" uuid NOT NULL, "classId" uuid NOT NULL, "subjectId" uuid NOT NULL, CONSTRAINT "PK_dc494f6f995473e727830156b84" PRIMARY KEY ("studentId", "yearId", "examId", "classId", "subjectId"))`);
         await queryRunner.query(`ALTER TABLE "grades" ADD CONSTRAINT "FK_1bf8519797aaf6e3c96407c5b42" FOREIGN KEY ("yearId") REFERENCES "fiscal_year"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "grades" ADD CONSTRAINT "FK_563e5b5ef952e7a90e2491b60fa" FOREIGN KEY ("examId") REFERENCES "exams"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);

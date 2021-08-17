@@ -170,10 +170,7 @@ export const getServerSideProps = securePage(async (ctx, user) => {
   const studentId = ctx.params.id as string;
   const student = await Student.findOne({ id: studentId });
   return {
-    props: {
-      student: JSON.parse(JSON.stringify(student)),
-      user,
-    },
+    student,
   };
 });
 

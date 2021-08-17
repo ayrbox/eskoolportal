@@ -1,14 +1,14 @@
-import { Row, Col } from "reactstrap";
-import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
-import StudentForm from "~/components/StudentForm";
-import axios from "axios";
-import { useRouter } from "next/router";
+import { Row, Col } from 'reactstrap';
+import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
+import StudentForm from '~/components/StudentForm';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 // SSR
-import { Class } from "~/database/entities/Class";
-import { Section } from "~/database/entities/Section";
-import { securePage } from "~/lib/securePage";
-import type { Student } from "~/database/entities/Student";
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
+import { securePage } from '~/lib/securePage';
+import type { Student } from '~/database/entities/Student';
 
 const Enroll = ({ classes, sections, user }) => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const Enroll = ({ classes, sections, user }) => {
 
   const newStudent: Partial<Student> = {
     dateOfBirth: undefined,
-    gender: "female",
+    gender: 'female',
     joinDate: undefined,
     classId: defaultClass.id,
     sectionId: defaultSection.id,
@@ -25,12 +25,12 @@ const Enroll = ({ classes, sections, user }) => {
 
   const handleFormikSubmit = async (values: Student) => {
     try {
-      const { data } = await axios.post<Student>("/api/students/", values);
+      const { data } = await axios.post<Student>('/api/students/', values);
       router.replace(`/students/${data.id}`);
       console.log(data);
     } catch (err) {
       // TODO: toast error message
-      console.error("Error enrolling new student", err);
+      console.error('Error enrolling new student', err);
     }
   };
 
@@ -52,16 +52,13 @@ const Enroll = ({ classes, sections, user }) => {
   );
 };
 
-export const getServerSideProps = securePage(async (_, user) => {
+export const getServerSideProps = securePage(async () => {
   const classes = await Class.find();
   const sections = await Section.find();
 
   return {
-    props: {
-      classes: JSON.parse(JSON.stringify(classes)),
-      sections: JSON.parse(JSON.stringify(sections)),
-      user,
-    },
+    classes,
+    sections,
   };
 });
 

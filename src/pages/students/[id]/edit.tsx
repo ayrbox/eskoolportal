@@ -1,13 +1,13 @@
-import { Row, Col } from "reactstrap";
-import { Student } from "~/database/entities/Student";
-import { Class } from "~/database/entities/Class";
-import { Section } from "~/database/entities/Section";
-import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
-import Panel from "~/components/Panel";
-import axios from "axios";
+import { Row, Col } from 'reactstrap';
+import { Student } from '~/database/entities/Student';
+import { Class } from '~/database/entities/Class';
+import { Section } from '~/database/entities/Section';
+import StudentProfileLayout from '~/components/PageLayouts/StudentProfileLayout';
+import Panel from '~/components/Panel';
+import axios from 'axios';
 
-import { securePage } from "~/lib/securePage";
-import StudentForm from "~/components/StudentForm";
+import { securePage } from '~/lib/securePage';
+import StudentForm from '~/components/StudentForm';
 
 const Index = ({ student, classes, sections, user }) => {
   const { id, name } = student;
@@ -49,12 +49,9 @@ export const getServerSideProps = securePage(async (ctx, user) => {
   const sections = await Section.find();
 
   return {
-    props: {
-      student: JSON.parse(JSON.stringify(student)),
-      classes: JSON.parse(JSON.stringify(classes)),
-      sections: JSON.parse(JSON.stringify(sections)),
-      user,
-    },
+    student,
+    classes,
+    sections,
   };
 });
 

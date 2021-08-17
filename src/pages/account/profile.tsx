@@ -1,11 +1,11 @@
-import React from "react";
-import Layout from "~/components/Layout";
-import { securePage } from "~/lib/securePage";
-import { Img } from "react-image";
+import React from 'react';
+import Layout from '~/components/Layout';
+import { securePage } from '~/lib/securePage';
+import { Img } from 'react-image';
 
-import { User } from "~/database/entities/User";
-import UserAvatar from "~/components/UserAvatar";
-import { Container, Col, Row } from "reactstrap";
+import { User } from '~/database/entities/User';
+import UserAvatar from '~/components/UserAvatar';
+import { Container, Col, Row } from 'reactstrap';
 
 const Profile = ({ profile, user }) => {
   return (
@@ -54,9 +54,6 @@ export const getServerSideProps = securePage(async (_, user) => {
   });
 
   return {
-    props: {
-      profile: JSON.parse(JSON.stringify(profile)),
-      user,
-    },
+    profile,
   };
 });

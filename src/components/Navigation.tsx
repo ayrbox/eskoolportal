@@ -52,6 +52,10 @@ const navigationLinks: NavigationLinkType[] = [
     url: '/students',
   },
   {
+    label: 'Marks Entry',
+    url: '/marks-entry',
+  },
+  {
     label: 'Settings',
     url: '#',
     children: [
@@ -121,7 +125,7 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
 
           {navigationLinks.map(({ label, url, children }) => (
             <li className="w-100">
-              <Link href={url}>
+              <Link href={url} key={label}>
                 <a>
                   <i className="fa fa-th-large"></i>
                   <span className="nav-label">{label}</span>
@@ -130,7 +134,7 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
               {children && children.length && (
                 <ul className="nav nav-second-level collapse show">
                   {children.map((childLink) => (
-                    <li className="w-100">
+                    <li className="w-100" key={childLink.label}>
                       <Link href={childLink.url}>
                         <a>
                           <i className="fa fa-th-large"></i>

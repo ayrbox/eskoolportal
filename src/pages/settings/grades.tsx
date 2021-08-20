@@ -28,14 +28,12 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
     year: null,
     exam: null,
     class: null,
-    subject: null,
   });
 
   const params = {
     yearId: query.year?.id,
     examId: query.exam?.id,
     classId: query.class?.id,
-    subjectId: query.subject?.id,
   };
 
   const handleFormSubmit = async (state: FormState<Grade>) => {
@@ -145,23 +143,6 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             ))}
           </Input>
         </Col>
-        <Col sm={3}>
-          <Label>Subject: </Label>
-          <Input
-            type="select"
-            name="subject"
-            id="subject"
-            value={query.subject?.id}
-            onChange={handleParamsChange('subject', subjects)}
-          >
-            <option></option>
-            {subjects.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
       </Row>
       <ListPage<Grade>
         url={`${GRADE_ENDPOINT}?${stringify(params)}`}
@@ -183,7 +164,8 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
                   <tr key={grade.id}>
                     <td>
                       <a href="#" onClick={onItemClick(grade)}>
-                        {grade.gradeType}
+                        {grade.subject.name}
+                        {grade.gradeType && <span> ({grade.gradeType})</span>}
                       </a>
                     </td>
                     <td>{grade.fullMark}</td>
@@ -198,6 +180,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
                 formValue={formState.data}
                 onClose={onFormClose}
                 onFormSubmit={onFormSubmit}
+                subjects={subjects}
               />
             )}
           </>

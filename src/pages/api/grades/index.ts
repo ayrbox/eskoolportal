@@ -14,26 +14,23 @@ type getParams = {
   yearId: string;
   examId: string;
   classId: string;
-  subjectId: string;
 };
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { yearId, examId, classId, subjectId } = req.query as getParams;
+  const { yearId, examId, classId } = req.query as getParams;
 
-  if (!yearId || !examId || !classId || !subjectId) {
+  if (!yearId || !examId || !classId) {
     return res.send([]);
   }
 
   const year = await FiscalYear.findOne({ id: yearId });
   const exam = await Exam.findOne({ id: examId });
   const clazz = await Class.findOne({ id: classId });
-  const subject = await Subject.findOne({ id: subjectId });
 
   const grades = await Grade.find({
     year,
     exam,
     class: clazz,
-    subject,
   });
   res.send(grades);
 });

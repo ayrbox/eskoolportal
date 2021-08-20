@@ -5,23 +5,35 @@ import { Grade } from '~/database/entities/Grades';
 import FormItem from './form/FormItem';
 import Overlay from './Overlay';
 import Panel from './Panel';
+import { Subject } from '~/database/entities/Subject';
+import FormSelect from './form/FormSelect';
 
 export interface GradeFormProps {
   formValue: Partial<Grade>;
   onFormSubmit: (value: Grade) => void;
   onClose?: () => void;
+  subjects?: Subject[];
 }
 
 const GradeForm: FC<GradeFormProps> = ({
   formValue,
   onFormSubmit,
   onClose,
+  subjects,
 }: GradeFormProps) => {
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
   };
+
+  const subjectOptions = [
+    { label: ' -- select --', value: null },
+    ...subjects.map(({ id, name }) => ({
+      label: name,
+      value: id,
+    })),
+  ];
 
   return (
     <Overlay open onClose={handleClose} light>
@@ -36,11 +48,14 @@ const GradeForm: FC<GradeFormProps> = ({
           <Panel className="shadow-lg">
             <Form onSubmit={handleSubmit} className="p-5">
               <h2>Grades</h2>
-
               <FormItem label="Year" name="year.name" disabled />
               <FormItem label="Exam" name="exam.name" disabled />
               <FormItem label="Class" name="class.name" disabled />
-              <FormItem label="Subject" name="subject.name" disabled />
+              <FormSelect
+                label="Subject"
+                name="subject.id"
+                options={subjectOptions}
+              />
 
               <FormItem label="Grade Type" name="gradeType" />
               <FormItem label="Full Mark" name="fullMark" />
@@ -71,6 +86,10 @@ const GradeForm: FC<GradeFormProps> = ({
       </Formik>
     </Overlay>
   );
+};
+
+GradeForm.defaultProps = {
+  subjects: [],
 };
 
 export default GradeForm;

@@ -19,15 +19,16 @@ export interface ListPageProps<T> {
   onFormSubmit: (values: FormState<T>) => Promise<boolean>;
   children: (childProps: ListPageChildrenProps<T>) => ReactElement;
   onDelete?: (item: T) => Promise<boolean>;
+  initialFormData?: Partial<T>;
 }
 
 function ListPage<T>(props: ListPageProps<T>) {
-  const { url, onFormSubmit, onDelete } = props;
+  const { url, onFormSubmit, onDelete, initialFormData } = props;
 
   const [formState, setFormState] = useState<FormState<Partial<T>>>({
     isOpen: false,
     mode: 'ADD',
-    data: {},
+    data: initialFormData,
   });
 
   const onItemClick =
@@ -53,7 +54,7 @@ function ListPage<T>(props: ListPageProps<T>) {
     setFormState({
       isOpen: true,
       mode: 'ADD',
-      data: {},
+      data: initialFormData,
     });
   };
 
@@ -104,5 +105,9 @@ function ListPage<T>(props: ListPageProps<T>) {
     </div>
   );
 }
+
+ListPage.defaultProps = {
+  initialFormData: {},
+};
 
 export default ListPage;

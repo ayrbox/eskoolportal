@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { secureRoute } from '~/lib/secureRoute';
 import nextConnect from 'next-connect';
-// import { fiscalYearSchema } from '~/lib/validations';
 import { Grade } from '~/database/entities/Grades';
 import { FiscalYear } from '~/database/entities/FiscalYear';
 import { Exam } from '~/database/entities/Exam';
@@ -18,27 +17,18 @@ type getParams = {
 };
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { yearId, examId, classId, subjectId } = req.query as getParams;
+  const gradeId = req.query.gradeId as string;
+  const grade = await Grade.findOne(gradeId);
 
-  if (!yearId || !examId || !classId || !subjectId) {
-    return res.send([]);
+  if (!grade) {
+    return res.status(404).send({ message: 'Grade not found.' });
   }
 
-  const year = await FiscalYear.findOne({ id: yearId });
-  const exam = await Exam.findOne({ id: examId });
-  const clazz = await Class.findOne({ id: classId });
-  const subject = await Subject.findOne({ id: subjectId });
-
-  const grades = await Grade.find({
-    year,
-    exam,
-    class: clazz,
-    subject,
-  });
-  res.send(grades);
+  res.send(grade);
 });
 
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+  const gradeId = req.query.gradeId as string;
   const grade = req.body as {
     yearId: string;
     examId: string;
@@ -59,21 +49,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       );
   }
 
-  const [gradeFound] = await Grade.find({
-    year,
-    exam,
-    class: clazz,
-    subject,
-    gradeType: grade.gradeType,
-  });
-
-  if (gradeFound) {
-    return res
-      .status(400)
-      .send({ message: 'Grade already created for the subject' });
-  }
-
-  const gradeToCreate = {
+  const gradeToUpdate = {
     year,
     exam,
     class: clazz,
@@ -83,8 +59,11 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     passMark: grade.passMark,
   };
 
-  const result = await Grade.create(gradeToCreate).save();
-  res.send({ message: 'Grade created successfully.', grade: result });
+  await Grade.update({ id: gradeId }, gradeToUpdate);
+  res.send({
+    message: 'Grade updated successfully.',
+    grade: { id: gradeId, ...gradeToUpdate },
+  });
 });
 
 export default secureRoute(handler);

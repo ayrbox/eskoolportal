@@ -19,16 +19,16 @@ export class Grade extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => FiscalYear, (year) => year.id)
+  @ManyToOne(() => FiscalYear, (year) => year.id, { eager: true })
   year: FiscalYear;
 
-  @ManyToOne(() => Exam, (exam) => exam.id)
+  @ManyToOne(() => Exam, (exam) => exam.id, { eager: true })
   exam: Exam;
 
-  @ManyToOne(() => Class, (clazz) => clazz.id)
+  @ManyToOne(() => Class, (clazz) => clazz.id, { eager: true })
   class: Class;
 
-  @ManyToOne(() => Subject, (subject) => subject.id)
+  @ManyToOne(() => Subject, (subject) => subject.id, { eager: true })
   subject: Subject;
 
   @Column({ type: 'varchar', length: 20 })

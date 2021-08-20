@@ -10,26 +10,85 @@ import { Subject } from '~/database/entities/Subject';
 import { securePage } from '~/lib/securePage';
 import { useState } from 'react';
 import { stringify } from 'querystring';
+import GradeForm from '~/components/GradeForm';
+import { FormState } from '~/types/FormMode';
+import axios from 'axios';
+import { mutate } from 'swr';
+
+type QueryState = {
+  year?: FiscalYear;
+  exam?: Exam;
+  class?: Class;
+  subject?: Subject;
+};
 
 const GRADE_ENDPOINT = '/api/grades';
 const GradeSettings = ({ user, years, exams, classes, subjects }) => {
-  const [query, setQuery] = useState({
-    yearId: '',
-    examId: '',
-    classId: '',
-    subjectId: '',
+  const [query, setQuery] = useState<QueryState>({
+    year: null,
+    exam: null,
+    class: null,
+    subject: null,
   });
 
-  const handleFormSubmit = async () => true;
+  const params = {
+    yearId: query.year?.id,
+    examId: query.exam?.id,
+    classId: query.class?.id,
+    subjectId: query.subject?.id,
+  };
+
+  const handleFormSubmit = async (state: FormState<Grade>) => {
+    const {
+      id,
+      year,
+      exam,
+      class: clazz,
+      subject,
+      gradeType,
+      fullMark,
+      passMark,
+    } = state.data;
+
+    const payload = {
+      yearId: year.id,
+      examId: exam.id,
+      classId: clazz.id,
+      subjectId: subject.id,
+      gradeType,
+      fullMark,
+      passMark,
+    };
+
+    try {
+      if (state.mode === 'EDIT' && id) {
+        await axios.put(`${GRADE_ENDPOINT}/${id}`, payload);
+      } else {
+        await axios.post(GRADE_ENDPOINT, payload);
+      }
+      mutate(`${GRADE_ENDPOINT}?${stringify(params)}`);
+      return true;
+    } catch (err) {
+      console.error('Handle error', err); // TODO
+      return false;
+    }
+  };
 
   const handleParamsChange =
-    (parmKey: string): ChangeEventHandler<HTMLInputElement> =>
+    (
+      paramKey: string,
+      items: Array<FiscalYear | Exam | Class | Subject>
+    ): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
       e.preventDefault();
-      setQuery((prev) => ({
-        ...prev,
-        [parmKey]: e.target.value,
-      }));
+      setQuery((prev) => {
+        const id = e.target.value;
+        const item = items.find(({ id: id_ }) => id_ === id);
+        return {
+          ...prev,
+          [paramKey]: item,
+        };
+      });
     };
 
   return (
@@ -41,8 +100,8 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="year"
             id="year"
-            value={query.yearId}
-            onChange={handleParamsChange('yearId')}
+            value={query.year?.id}
+            onChange={handleParamsChange('year', years)}
           >
             <option></option>
             {years.map(({ id, name }) => (
@@ -58,8 +117,8 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="exam"
             id="exam"
-            value={query.examId}
-            onChange={handleParamsChange('examId')}
+            value={query.exam?.id}
+            onChange={handleParamsChange('exam', exams)}
           >
             <option></option>
             {exams.map(({ id, name }) => (
@@ -75,8 +134,8 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="class"
             id="class"
-            value={query.classId}
-            onChange={handleParamsChange('classId')}
+            value={query.class?.id}
+            onChange={handleParamsChange('class', classes)}
           >
             <option></option>
             {classes.map(({ id, name }) => (
@@ -92,8 +151,8 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="subject"
             id="subject"
-            value={query.subjectId}
-            onChange={handleParamsChange('subjectId')}
+            value={query.subject?.id}
+            onChange={handleParamsChange('subject', subjects)}
           >
             <option></option>
             {subjects.map(({ id, name }) => (
@@ -105,8 +164,9 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
         </Col>
       </Row>
       <ListPage<Grade>
-        url={`${GRADE_ENDPOINT}?${stringify(query)}`}
+        url={`${GRADE_ENDPOINT}?${stringify(params)}`}
         onFormSubmit={handleFormSubmit}
+        initialFormData={query}
       >
         {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>
@@ -134,14 +194,11 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             </Table>
 
             {formState.isOpen && (
-              <>
-                <h1>TODO</h1>
-                {/* <ExamForm
-                  values={formState.data}
-                  onClose={onFormClose}
-                  onFormSubmit={onFormSubmit}
-                /> */}
-              </>
+              <GradeForm
+                formValue={formState.data}
+                onClose={onFormClose}
+                onFormSubmit={onFormSubmit}
+              />
             )}
           </>
         )}

@@ -36,6 +36,34 @@ const UserAvatar = (props) => {
   );
 };
 
+type NavigationLinkType = {
+  label: string;
+  url: string;
+  children?: NavigationLinkType[];
+};
+
+const navigationLinks: NavigationLinkType[] = [
+  {
+    label: 'Dashboard',
+    url: '/',
+  },
+  {
+    label: 'Students',
+    url: '/students',
+  },
+  {
+    label: 'Settings',
+    url: '#',
+    children: [
+      { label: 'Fiscal Years', url: '/settings/fiscalyears' },
+      { label: 'Subjects', url: '/settings/subjects' },
+      { label: 'Events', url: '/settings/events' },
+      { label: 'Exams', url: '/settings/exams' },
+      { label: 'Grades', url: '/settings/grades' },
+    ],
+  },
+];
+
 const Navigation: FC<NavigationProps> = ({ user }) => {
   const { name, email, image } = user;
 
@@ -91,64 +119,30 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
             <div className="logo-element">IN+</div>
           </li>
 
-          <li className="w-100">
-            <Link href="/">
-              <a>
-                <i className="fa fa-th-large"></i>
-                <span className="nav-label">Dashboards</span>
-              </a>
-            </Link>
-          </li>
-          <li className="w-100">
-            <Link href="/students">
-              <a>
-                <i className="fa fa-th-large"></i>
-                <span className="nav-label">Students</span>
-              </a>
-            </Link>
-          </li>
-
-          <li className="w-100">
-            <a>
-              <i className="fa fa-th-large"></i>
-              <span className="nav-label">Settings</span>
-            </a>
-
-            <ul className="nav nav-second-level collapse show">
-              <li className="w-100">
-                <Link href="/settings/fiscalyears">
-                  <a>
-                    <i className="fa fa-th-large"></i>
-                    <span className="nav-label">Fiscal Years</span>
-                  </a>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link href="/settings/subjects">
-                  <a>
-                    <i className="fa fa-th-large"></i>
-                    <span className="nav-label">Subjects</span>
-                  </a>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link href="/settings/events">
-                  <a>
-                    <i className="fa fa-th-large"></i>
-                    <span className="nav-label">Events</span>
-                  </a>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link href="/settings/exams">
-                  <a>
-                    <i className="fa fa-th-large"></i>
-                    <span className="nav-label">Exams</span>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          </li>
+          {navigationLinks.map(({ label, url, children }) => (
+            <li className="w-100">
+              <Link href={url}>
+                <a>
+                  <i className="fa fa-th-large"></i>
+                  <span className="nav-label">{label}</span>
+                </a>
+              </Link>
+              {children && children.length && (
+                <ul className="nav nav-second-level collapse show">
+                  {children.map((childLink) => (
+                    <li className="w-100">
+                      <Link href={childLink.url}>
+                        <a>
+                          <i className="fa fa-th-large"></i>
+                          <span className="nav-label">{childLink.label}</span>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
         </ul>
       </div>
     </nav>

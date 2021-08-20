@@ -147,7 +147,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
       <ListPage<Grade>
         url={`${GRADE_ENDPOINT}?${stringify(params)}`}
         onFormSubmit={handleFormSubmit}
-        initialFormData={query}
+        initialFormData={{ ...query, fullMark: 100, passMark: 40 }}
       >
         {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>

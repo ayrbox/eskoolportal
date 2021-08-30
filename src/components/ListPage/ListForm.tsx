@@ -16,7 +16,7 @@ export interface ListFormProps<T> {
   ) => ReactElement;
 }
 
-function EventsForm<T>(props: ListFormProps<T>) {
+export default function EventsForm<T>(props: ListFormProps<T>) {
   const { values, onFormSubmit, onClose, validation } = props;
   const handleClose = () => {
     if (onClose) {
@@ -72,5 +72,3 @@ function EventsForm<T>(props: ListFormProps<T>) {
     </Overlay>
   );
 }
-
-export default EventsForm;

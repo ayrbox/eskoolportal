@@ -1,12 +1,12 @@
-import React, { ChangeEventHandler, useState } from 'react';
-import { Col, Input, Label, Row } from 'reactstrap';
-import EntitySelect from '~/components/EntitySelect';
-import Layout from '~/components/Layout';
-import { Class } from '~/database/entities/Class';
-import { Exam } from '~/database/entities/Exam';
-import { FiscalYear } from '~/database/entities/FiscalYear';
-import { Subject } from '~/database/entities/Subject';
-import { securePage } from '~/lib/securePage';
+import React, { ChangeEventHandler, useEffect, useState } from "react";
+import { Col, Input, Label, Row } from "reactstrap";
+import EntitySelect from "~/components/EntitySelect";
+import Layout from "~/components/Layout";
+import { Class } from "~/database/entities/Class";
+import { Exam } from "~/database/entities/Exam";
+import { FiscalYear } from "~/database/entities/FiscalYear";
+import { Subject } from "~/database/entities/Subject";
+import { securePage } from "~/lib/securePage";
 
 type QueryState = {
   year?: FiscalYear;
@@ -59,6 +59,16 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
     value: id,
   });
 
+  const fetchMarks = async () => {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>");
+  };
+
+  useEffect(() => {
+    const { year, exam, class: clazz, subject } = query;
+
+    if (year && exam && clazz && subject) fetchMarks();
+  }, [query]);
+
   return (
     <Layout user={user} title="Marks Entry">
       <Row>
@@ -86,7 +96,7 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="class"
             id="class"
-            onChange={handleParamsChange('class', classes)}
+            onChange={handleParamsChange("class", classes)}
           >
             <option></option>
             {classes.map(({ id, name }) => (
@@ -102,7 +112,7 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="subject"
             id="subject"
-            onChange={handleParamsChange('subject', subjects)}
+            onChange={handleParamsChange("subject", subjects)}
           >
             <option></option>
             {subjects.map(({ id, name }) => (

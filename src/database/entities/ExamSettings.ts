@@ -6,6 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Class } from "./Class";
 import { Exam } from "./Exam";
 import { Subject } from "./Subject";
 
@@ -16,6 +17,9 @@ export class ExamSettings extends BaseEntity {
 
   @ManyToOne(() => Exam, (exam) => exam.id, { eager: true })
   exam: Exam;
+
+  @ManyToOne(() => Class, (clazz) => clazz.id, { eager: true })
+  class: Class;
 
   @ManyToOne(() => Subject, (subject) => subject.id, { eager: true })
   subject: Subject;

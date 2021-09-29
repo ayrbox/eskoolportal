@@ -17,14 +17,16 @@
  * Cons:
  *   - For each migrations would need import and export in default array.  ¯\_(ツ)_/¯
  */
-import { InitialMigration1615164241177 } from './1615164241177-InitialMigration';
-import { classSubject1616968264288 } from './1616968264288-classSubject';
-import { fiscalyear1619827491114 } from './1619827491114-fiscalyear';
-import { entitySoftdelete1620077998064 } from './1620077998064-entity_softdelete';
-import { studentMedicalHistory1620598561987 } from './1620598561987-student_medical_history';
-import { events1625014110835 } from './1625014110835-events';
-import { exam1628730042401 } from './1628730042401-exam';
-import { grades1629158997723 } from './1629158997723-grades';
+import { InitialMigration1615164241177 } from "./1615164241177-InitialMigration";
+import { classSubject1616968264288 } from "./1616968264288-classSubject";
+import { fiscalyear1619827491114 } from "./1619827491114-fiscalyear";
+import { entitySoftdelete1620077998064 } from "./1620077998064-entity_softdelete";
+import { studentMedicalHistory1620598561987 } from "./1620598561987-student_medical_history";
+import { events1625014110835 } from "./1625014110835-events";
+import { exam1628730042401 } from "./1628730042401-exam";
+import { grades1629158997723 } from "./1629158997723-grades";
+import { examNames1632957021579 } from "./1632957021579-exam_names";
+import { examSettings1632958890284 } from "./1632958890284-exam_settings";
 
 export default [
   InitialMigration1615164241177,
@@ -35,4 +37,6 @@ export default [
   events1625014110835,
   exam1628730042401,
   grades1629158997723,
+  examNames1632957021579,
+  examSettings1632958890284,
 ];

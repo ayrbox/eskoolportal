@@ -4,20 +4,31 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
+import { FiscalYear } from "./FiscalYear";
 
-@Entity('exams')
+@Entity("exams")
 export class Exam extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: 'varchar', length: 200 })
-  description: string;
+  @ManyToOne(() => FiscalYear, (year) => year.id, { eager: true })
+  year: FiscalYear;
+
+  @Column({ type: "date", nullable: true })
+  startDate: Date;
+
+  @Column({ type: "date", nullable: true })
+  endDate: Date;
+
+  @Column({ type: "varchar", length: 100, nullable: true })
+  note: string;
 
   @CreateDateColumn()
   createdAt: Date;

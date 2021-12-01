@@ -11,7 +11,6 @@ const authFailedMessage = "Authentication failed.";
 const options = {
   providers: [
     Credentials({
-      id: "email-credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
@@ -33,13 +32,17 @@ const options = {
         });
 
         if (user) {
+          console.log(user);
           const isValid = await bcrypt.compare(password, user.password);
           if (!isValid) {
-            throw `/login?message=${authFailedMessage}`;
+            console.log("Password does not match");
+            return null;
           }
+          console.log("Valid User", user);
           return user;
         } else {
-          throw `/login?message=${authFailedMessage}`;
+          // throw `/login?message=${authFailedMessage}`;
+          return null;
         }
       },
     }),

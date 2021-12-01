@@ -5,9 +5,6 @@ const {
   POSTGRES_PASSWORD,
   POSTGRES_PORT,
 } = process.env;
-console.log(
-  `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`
-);
 
 module.exports = {
   db: {

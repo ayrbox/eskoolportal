@@ -16,7 +16,7 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = ({ csrfToken }) => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("admin@eskoolportal.com");
-  const [password, setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("Passw0rd!23");
 
   const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();

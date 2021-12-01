@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import type { User } from "next-auth";
-import { getSession } from "next-auth/client";
+import { getSession } from "next-auth/react";
 
 import { ensureConnection } from "~/database";
 

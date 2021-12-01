@@ -4,7 +4,7 @@ import {
   FormEventHandler,
   ChangeEventHandler,
 } from "react";
-import { getCsrfToken, signIn } from "next-auth/client";
+import { getCsrfToken, signIn } from "next-auth/react";
 
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";

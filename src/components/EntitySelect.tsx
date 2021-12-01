@@ -1,5 +1,5 @@
-import { ChangeEventHandler, useMemo } from 'react';
-import { Input } from 'reactstrap';
+import { ChangeEventHandler, useMemo } from "react";
+import { Input } from "reactstrap";
 
 export type FormSelectOption = {
   label: string;
@@ -26,7 +26,7 @@ export default function EntitySelect<T extends EntityType>(
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     const item = items.find(({ id }) => id === e.target.value);
-    onSelect(name, item);
+    if (item) onSelect(name, item);
   };
   const options = useMemo(() => items.map(optionTransformer), items);
 

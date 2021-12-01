@@ -1,21 +1,25 @@
 import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
+import Credentials from "next-auth/providers/credentials";
 import { User } from "~/database/entities/User";
 
 import { ensureConnection } from "~/database";
 import bcrypt from "bcrypt";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const authFailedMessage = "Authentication failed.";
 
 const options = {
   providers: [
-    Providers.Credentials({
+    Credentials({
+      id: "email-credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
+        if (!credentials) throw "Cred Error";
+
         const { email, password } = credentials;
 
         try {
@@ -43,6 +47,8 @@ const options = {
   pages: {
     signIn: "/login",
   },
+  secret: "INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw",
 };
 
-export default (req, res) => NextAuth(req, res, options);
+export default (req: NextApiRequest, res: NextApiResponse) =>
+  NextAuth(req, res, options);

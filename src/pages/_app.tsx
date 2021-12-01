@@ -1,4 +1,4 @@
-import { Provider } from "next-auth/client";
+import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import { ReactElement } from "react";
 import Router from "next/router";
@@ -22,9 +22,9 @@ function Application({ Component, pageProps }: AppProps): ReactElement {
   Router.events.on("routeChangeError", handleLoading(false));
 
   return (
-    <Provider session={pageProps.session}>
+    <SessionProvider session={pageProps.session}>
       <Component {...pageProps} />
-    </Provider>
+    </SessionProvider>
   );
 }
 

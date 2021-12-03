@@ -32,16 +32,13 @@ const options = {
         });
 
         if (user) {
-          console.log(user);
           const isValid = await bcrypt.compare(password, user.password);
           if (!isValid) {
-            console.log("Password does not match");
+            console.error("[ERROR] Password does not match");
             return null;
           }
-          console.log("Valid User", user);
           return user;
         } else {
-          // throw `/login?message=${authFailedMessage}`;
           return null;
         }
       },

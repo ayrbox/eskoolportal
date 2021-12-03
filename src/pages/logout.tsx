@@ -1,4 +1,4 @@
-import { signOut } from "next-auth/client";
+import { signOut } from "next-auth/react";
 import { FC, useEffect } from "react";
 import Head from "next/head";
 import { securePage } from "~/lib/securePage";

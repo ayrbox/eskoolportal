@@ -21,10 +21,11 @@ model User {
 }
 
 model Class {
-  id       String    @id @default(uuid())
-  name     Int
-  order    Int
-  students Student[]
+  id              String            @id @default(uuid())
+  name            Int
+  order           Int
+  students        Student[]
+  SubjectsInClass SubjectsInClass[]
 }
 
 model Section {
@@ -34,21 +35,72 @@ model Section {
   students Student[]
 }
 
+// Student Profile
+
 model Student {
-  id            String   @id @default(uuid())
-  name          String
-  dateOfBirth   DateTime
-  gender        String
-  address       String
-  contactNo     String
-  email         String
-  joinDate      DateTime
-  rollNo        Int
-  referenceCode String
-  Class         Class?   @relation(fields: [classId], references: [id])
-  classId       String?
-  Section       Section? @relation(fields: [sectionId], references: [id])
-  sectionId     String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             String           @id @default(uuid())
+  name           String
+  dateOfBirth    DateTime
+  gender         String
+  address        String
+  contactNo      String
+  email          String
+  joinDate       DateTime
+  rollNo         Int
+  referenceCode  String
+  Class          Class?           @relation(fields: [classId], references: [id])
+  classId        String?
+  Section        Section?         @relation(fields: [sectionId], references: [id])
+  sectionId      String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  MedicalHistory MedicalHistory[]
+}
+
+model MedicalHistory {
+  id          String   @id @default(uuid())
+  student     Student  @relation(fields: [studentId], references: [id])
+  studentId   String
+  description String
+  severity    String
+  triageNote  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// End of Student Profile
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  fromDate    DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FiscalYear {
+  id        String   @id @default(uuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subject {
+  id              String            @id @default(uuid())
+  name            String
+  description     String
+  SubjectsInClass SubjectsInClass[]
+}
+
+model SubjectsInClass {
+  class     Class   @relation(fields: [classId], references: [id])
+  classId   String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  @@id([classId, subjectId])
 }

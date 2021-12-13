@@ -1,9 +1,8 @@
 import { Factory } from 'rosie';
-import { name, random, internet, date, address, phone } from 'faker';
+import { name, datatype, random, internet, date, address, phone } from 'faker';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 const studentFactory = new Factory().attrs({
-    id: () => random.uuid(),
     name: () => name.findName(),
     dateOfBirth: () => date.past(4),
     gender: () => random.arrayElement(['male', 'female']),
@@ -13,7 +12,7 @@ const studentFactory = new Factory().attrs({
     joinDate: () => date.past(),
     classGroupId: undefined,
     sectionId: undefined,
-    rollNo: () => random.number(),
+    rollNo: () => datatype.number(),
     referenceCode: () => random.alphaNumeric(5).toUpperCase(),
     createdAt: () => new Date(),
     updatedAt: () => new Date(),

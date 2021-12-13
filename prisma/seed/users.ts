@@ -1,5 +1,5 @@
 import { Factory } from 'rosie';
-import { name, random, internet } from 'faker';
+import { name, internet } from 'faker';
 import bcrypt from 'bcrypt';
 import { Prisma, PrismaClient } from '@prisma/client';
 
@@ -12,7 +12,6 @@ const hashPassword = async (password: string) => {
 };
 
 const userFactory = new Factory().attrs({
-    id: () => random.uuid(),
     name: () => name.findName(),
     email: () => internet.email(),
     avatar: () => internet.avatar(),

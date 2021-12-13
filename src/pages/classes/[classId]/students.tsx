@@ -4,14 +4,21 @@ import Layout from "~/components/Layout";
 import useSwr from "swr";
 
 import { securePage } from "~/lib/securePage";
+import type { User } from "@prisma/client";
+import { FC } from "react";
+import { StudentWithClassGroup } from "~/types/StudentTypes";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Students = ({ user }) => {
+export interface ClassStudentProps {
+  user: User;
+}
+
+const Students: FC<ClassStudentProps> = ({ user }: ClassStudentProps) => {
   const router = useRouter();
   const classId = router.query.classId;
 
-  const { data: students } = useSwr(
+  const { data: students } = useSwr<StudentWithClassGroup[]>(
     `/api/classes/${classId}/students`,
     fetcher
   );
@@ -134,8 +141,8 @@ const Students = ({ user }) => {
                     contactNo,
                     email,
                     joinDate,
-                    class: studentClass,
-                    section,
+                    Class,
+                    Section,
                   }) => (
                     <tr key={id}>
                       <td>
@@ -150,13 +157,13 @@ const Students = ({ user }) => {
                       <td>{email}</td>
                       <td>{joinDate}</td>
                       <td>
-                        <Link href={`/class/${studentClass.id}`}>
-                          <a>{studentClass.name}</a>
+                        <Link href={`/class/${Class.id}`}>
+                          <a>{Class.name}</a>
                         </Link>
                       </td>
                       <td>
-                        <Link href={`/class/${section.id}`}>
-                          <a>{section.name}</a>
+                        <Link href={`/class/${Section.id}`}>
+                          <a>{Section.name}</a>
                         </Link>
                       </td>
                     </tr>

@@ -2,12 +2,19 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "~/components/Layout";
 import useSwr from "swr";
+import { User } from "@prisma/client";
+import { FC } from "react";
 
+import prisma from "~/lib/prisma";
 import { securePage } from "~/lib/securePage";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const ClassIndex = ({ user }) => {
+export interface ClassPageProps {
+  user: User;
+}
+
+const ClassIndex: FC<ClassPageProps> = ({ user }: ClassPageProps) => {
   const router = useRouter();
   const { data, error } = useSwr(
     `/api/classes/${router.query.classId}`,

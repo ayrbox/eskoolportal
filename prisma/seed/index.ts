@@ -5,6 +5,7 @@ import seedClassGroups from './classes';
 import seedSections from './sections';
 import seedUsers from './users';
 import seedStudents from './students';
+import seedSubjects from './subjects';
 import clear from './clear';
 
 const prisma = new PrismaClient();
@@ -29,6 +30,10 @@ export const seeder = async () => {
     console.log('Seeding users...');
     await seedUsers(prisma);
     console.log('Users complete.');
+
+    console.log('Seeding subjects...');
+    await seedSubjects(prisma);
+    console.log('Subjects complete.');
 };
 
 seeder()

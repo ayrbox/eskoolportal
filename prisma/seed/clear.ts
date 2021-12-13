@@ -5,4 +5,5 @@ export default async function clear(prisma: PrismaClient): Promise<void> {
     await prisma.user.deleteMany();
     await prisma.section.deleteMany();
     await prisma.classGroup.deleteMany();
+    await prisma.subject.deleteMany();
 }

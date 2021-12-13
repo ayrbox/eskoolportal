@@ -1,33 +1,40 @@
-import Layout from '~/components/Layout';
-import useSwr, { mutate } from 'swr';
-import { Button, Table } from 'reactstrap';
-import axios from 'axios';
-import { securePage } from '~/lib/securePage';
-import { FiscalYear } from '~/database/entities/FiscalYear';
-import FiscalYearForm from '~/components/FiscalYearForm';
-import { MouseEventHandler, useState } from 'react';
-import type { FormState } from '~/types/FormMode';
-import { FaTrash, FaPencilAlt } from 'react-icons/fa';
-import ListPage from '~/components/ListPage';
+import Layout from "~/components/Layout";
+import { mutate } from "swr";
+import { Table } from "reactstrap";
+import axios from "axios";
+import { securePage } from "~/lib/securePage";
+import { FiscalYear } from "~/database/entities/FiscalYear";
+import FiscalYearForm from "~/components/FiscalYearForm";
+import { FC, MouseEventHandler, useState } from "react";
+import type { FormState } from "~/types/FormMode";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
+import ListPage from "~/components/ListPage";
+import { User } from "@prisma/client";
 
-const ENDPOINT_FISCALYEAR = '/api/fiscalyears';
+const ENDPOINT_FISCALYEAR = "/api/fiscalyears";
 
-const FiscalYearIndex = ({ user }) => {
+export interface FiscalYearIndexProps {
+  user: User;
+}
+
+const FiscalYearIndex: FC<FiscalYearIndexProps> = ({
+  user,
+}: FiscalYearIndexProps) => {
   /**
    * Create/Update handler
    */
   const handleFormSubmit = async (state: FormState<FiscalYear>) => {
     try {
-      if (state.mode === 'EDIT' && state.data.id) {
+      if (state.mode === "EDIT" && state.data.id) {
         await axios.put(`/api/fiscalyears/${state.data.id}`, state.data);
         mutate(ENDPOINT_FISCALYEAR);
       } else {
-        await axios.post('/api/fiscalyears', state.data);
+        await axios.post("/api/fiscalyears", state.data);
         mutate(ENDPOINT_FISCALYEAR);
       }
       return true;
     } catch (err) {
-      console.error('Handle Error here', err);
+      console.error("Handle Error here", err);
       return false;
     }
   };

@@ -1,16 +1,16 @@
-import { MouseEventHandler, ReactElement } from 'react';
-import { useState } from 'react';
-import useSWR from 'swr';
-import { FormState } from '~/types/FormMode';
-import { Button } from 'reactstrap';
-import { EventHandler } from 'react';
+import { MouseEventHandler, ReactElement } from "react";
+import { useState } from "react";
+import useSWR from "swr";
+import { FormState } from "~/types/FormMode";
+import { Button } from "reactstrap";
+import { EventHandler } from "react";
 
 export type ListPageChildrenProps<T> = {
   items: Array<T>;
   onItemClick: (item: T) => MouseEventHandler;
   formState: FormState<Partial<T>>;
   onFormClose: () => void;
-  onFormSubmit: (values: T) => Promise<boolean>;
+  onFormSubmit: (values: T) => Promise<boolean> | boolean;
   onDelete?: (item: T) => MouseEventHandler;
 };
 
@@ -27,7 +27,7 @@ function ListPage<T>(props: ListPageProps<T>) {
 
   const [formState, setFormState] = useState<FormState<Partial<T>>>({
     isOpen: false,
-    mode: 'ADD',
+    mode: "ADD",
     data: initialFormData,
   });
 
@@ -37,7 +37,7 @@ function ListPage<T>(props: ListPageProps<T>) {
       e.preventDefault();
       setFormState({
         isOpen: true,
-        mode: 'EDIT',
+        mode: "EDIT",
         data: item,
       });
     };
@@ -53,7 +53,7 @@ function ListPage<T>(props: ListPageProps<T>) {
     e.preventDefault();
     setFormState({
       isOpen: true,
-      mode: 'ADD',
+      mode: "ADD",
       data: initialFormData,
     });
   };

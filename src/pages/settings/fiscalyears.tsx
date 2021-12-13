@@ -3,13 +3,12 @@ import { mutate } from "swr";
 import { Table } from "reactstrap";
 import axios from "axios";
 import { securePage } from "~/lib/securePage";
-import { FiscalYear } from "~/database/entities/FiscalYear";
 import FiscalYearForm from "~/components/FiscalYearForm";
 import { FC, MouseEventHandler, useState } from "react";
 import type { FormState } from "~/types/FormMode";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import ListPage from "~/components/ListPage";
-import { User } from "@prisma/client";
+import { FiscalYear, User } from "@prisma/client";
 
 const ENDPOINT_FISCALYEAR = "/api/fiscalyears";
 

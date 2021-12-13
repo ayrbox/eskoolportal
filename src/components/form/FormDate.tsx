@@ -27,7 +27,7 @@ const FormItem: FC<FormItemProps> = ({
   readonly,
   ...props
 }) => {
-  const [field, meta, helpers] = useField<string>(props.name);
+  const [field, meta, helpers] = useField<Date>(props.name);
   const [didFocus, setDidFocus] = useState(false);
 
   const [itemColSize, setItemColSize] = useState(10);
@@ -42,8 +42,8 @@ const FormItem: FC<FormItemProps> = ({
 
   const showFeedback = !!didFocus || meta.touched;
 
-  const handleChange = (v, f) => {
-    helpers.setValue(f);
+  const handleChange = (v: Date) => {
+    helpers.setValue(v);
   };
 
   return (

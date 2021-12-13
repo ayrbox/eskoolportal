@@ -3,23 +3,23 @@ import { PrismaClient } from "@prisma/client";
 const fiscalYears = [
   {
     name: "2077",
-    startDate: "2020-04-14",
-    endDate: "2021-04-13",
+    startDate: new Date(2020, 3, 14),
+    endDate: new Date(2021, 3, 13),
   },
   {
     name: "2078",
-    startDate: "2021-04-14",
-    endDate: "2022-04-13",
+    startDate: new Date(2021, 3, 14),
+    endDate: new Date(2022, 3, 13),
   },
   {
     name: "2079",
-    startDate: "2022-04-14",
-    endDate: "2023-04-13",
+    startDate: new Date(2022, 3, 14),
+    endDate: new Date(2023, 3, 13),
   },
   {
     name: "2080",
-    startDate: "2023-04-14",
-    endDate: "2024-04-13",
+    startDate: new Date(2023, 3, 14),
+    endDate: new Date(2024, 3, 13),
   },
 ];
 

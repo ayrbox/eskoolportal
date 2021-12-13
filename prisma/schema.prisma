@@ -20,14 +20,17 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model Class {
-  id              String            @id @default(uuid())
-  name            Int
-  order           Int
-  students        Student[]
-  SubjectsInClass SubjectsInClass[]
+// Students Class/Group (Note: Group is prefixed to avoid conflict with class keyword)
+model ClassGroup {
+  id                String                 @id @default(uuid())
+  name              Int
+  order             Int
+  students          Student[]
+  SubjectsInClass   SubjectsInClassGroup[]
+  StudentExamGrades StudentExamGrades[]
 }
 
+// Sub group of Class/Group
 model Section {
   id       String    @id @default(uuid())
   name     String
@@ -38,25 +41,27 @@ model Section {
 // Student Profile
 
 model Student {
-  id             String           @id @default(uuid())
-  name           String
-  dateOfBirth    DateTime
-  gender         String
-  address        String
-  contactNo      String
-  email          String
-  joinDate       DateTime
-  rollNo         Int
-  referenceCode  String
-  Class          Class?           @relation(fields: [classId], references: [id])
-  classId        String?
-  Section        Section?         @relation(fields: [sectionId], references: [id])
-  sectionId      String?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  MedicalHistory MedicalHistory[]
+  id                String              @id @default(uuid())
+  name              String
+  dateOfBirth       DateTime
+  gender            String
+  address           String
+  contactNo         String
+  email             String
+  joinDate          DateTime
+  rollNo            Int
+  referenceCode     String
+  Class             ClassGroup?         @relation(fields: [classGroupId], references: [id])
+  Section           Section?            @relation(fields: [sectionId], references: [id])
+  sectionId         String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  MedicalHistory    MedicalHistory[]
+  classGroupId      String?
+  StudentExamGrades StudentExamGrades[]
 }
 
+// Medical History of a student
 model MedicalHistory {
   id          String   @id @default(uuid())
   student     Student  @relation(fields: [studentId], references: [id])
@@ -70,6 +75,7 @@ model MedicalHistory {
 
 // End of Student Profile
 
+// Calendar events
 model Event {
   id          String   @id @default(uuid())
   name        String
@@ -80,6 +86,7 @@ model Event {
   updatedAt   DateTime @updatedAt
 }
 
+// School Fiscal Year/Session
 model FiscalYear {
   id        String   @id @default(uuid())
   name      String
@@ -87,20 +94,64 @@ model FiscalYear {
   endDate   DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Exam      Exam[]
 }
 
+// List of subjects
 model Subject {
-  id              String            @id @default(uuid())
-  name            String
-  description     String
-  SubjectsInClass SubjectsInClass[]
+  id                String                 @id @default(uuid())
+  name              String
+  description       String
+  SubjectsInClass   SubjectsInClassGroup[]
+  StudentExamGrades StudentExamGrades[]
 }
 
-model SubjectsInClass {
-  class     Class   @relation(fields: [classId], references: [id])
-  classId   String
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId String
+// List of subjects tought in a class/group
+model SubjectsInClassGroup {
+  classGroup ClassGroup @relation(fields: [classGroupId], references: [id])
+  subject    Subject    @relation(fields: [subjectId], references: [id])
 
-  @@id([classId, subjectId])
+  classGroupId String
+  subjectId    String
+  @@id([classGroupId, subjectId])
+}
+
+// Name of exam (e.g First Term, Mid Term, Final Exam)
+model ExamName {
+  id   String @id @default(uuid())
+  name String
+}
+
+// Exam of a session/fiscal year
+model Exam {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  fiscalYear  FiscalYear @relation(fields: [fiscalYearId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  fiscalYearId      String
+  StudentExamGrades StudentExamGrades[]
+}
+
+// यो Studentले यो Examमा यति class पठिरहदा यो subjectमा यति marks ल्याएको थियो ।
+model StudentExamGrades {
+  id String @id @default(uuid())
+
+  student       Student    @relation(fields: [studentId], references: [id])
+  exam          Exam       @relation(fields: [examId], references: [id])
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  classGroup    ClassGroup @relation(fields: [classGroupId], references: [id])
+  examType      String?
+  fullMark      Int
+  passMark      Int
+  obtainedMarks Int
+
+  studentId    String
+  examId       String
+  subjectId    String
+  classGroupId String
 }

@@ -1,22 +1,25 @@
-import { Student } from "~/database/entities/Student";
-import { NextApiRequest, NextApiResponse } from "next";
-
-import { secureRoute } from "~/lib/secureRoute";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
+import { secureRoute } from '~/lib/secureRoute';
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
-  const classId = req.query.classId as string;
-  const section = req.query.section as string;
-  const whereClause: Record<string, string> = { classId };
+    const classGroupId = req.query.classId as string;
+    const sectionId = req.query.section as string;
 
-  if (section && section !== "ALL") {
-    whereClause.sectionId = section;
-  }
+    const prisma = new PrismaClient();
 
-  const students = await Student.find({
-    where: whereClause,
-  });
+    const students = await prisma.student.findMany({
+        where: {
+            classGroupId,
+            sectionId: sectionId && sectionId !== 'ALL' ? sectionId : undefined,
+        },
+        include: {
+            Class: true,
+            Section: true,
+        },
+    });
 
-  return res.status(200).json(students);
+    return res.status(200).json(students);
 };
 
 export default secureRoute(handler);

@@ -4,15 +4,11 @@ import Layout from '~/components/Layout';
 import useSwr from 'swr';
 import clsx from 'clsx';
 import { Button, Table, Input, Col } from 'reactstrap';
-import {
-    PrismaClient,
-    ClassGroup,
-    Section,
-    User,
-    Student,
-} from '@prisma/client';
+import prisma from '~/lib/prisma';
+import type { ClassGroup, Section, User, Student } from '@prisma/client';
 
 import { securePage } from '~/lib/securePage';
+import { StudentWithClassGroup } from '~/types/StudentTypes';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -42,7 +38,7 @@ const Students: FC<StudentPageProps> = ({
             console.log('Section: ', id);
         };
 
-    const { data: students } = useSwr<Student[]>(
+    const { data: students } = useSwr<StudentWithClassGroup[]>(
         classId ? `/api/classes/${classId}/students?section=${section}` : null,
         fetcher
     );
@@ -183,8 +179,8 @@ const Students: FC<StudentPageProps> = ({
                                             contactNo,
                                             email,
                                             joinDate,
-                                            classGroupId,
-                                            sectionId,
+                                            Class,
+                                            Section,
                                         }) => (
                                             <tr key={id}>
                                                 <td>
@@ -202,12 +198,12 @@ const Students: FC<StudentPageProps> = ({
                                                 <td>{joinDate}</td>
                                                 <td>
                                                     <Link
-                                                        href={`/classes/${classGroupId}/students`}
+                                                        href={`/classes/${Class.id}/students`}
                                                     >
-                                                        <a>{classGroupId}</a>
+                                                        <a>{Class.name}</a>
                                                     </Link>
                                                 </td>
-                                                <td>{sectionId}</td>
+                                                <td>{Section.name}</td>
                                             </tr>
                                         )
                                     )}
@@ -224,8 +220,6 @@ const Students: FC<StudentPageProps> = ({
 };
 
 export const getServerSideProps = securePage(async () => {
-    const prisma = new PrismaClient();
-
     const classes = await prisma.classGroup.findMany();
     const sections = await prisma.section.findMany();
 

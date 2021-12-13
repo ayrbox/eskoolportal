@@ -9,12 +9,7 @@ import {
 import useSWR from 'swr';
 import Panel from './Panel';
 import { useRouter } from 'next/router';
-import { Student, ClassGroup, Section } from '@prisma/client';
-
-type StudentWithClassGroup = Student & {
-    Class: ClassGroup;
-    Section: Section;
-};
+import { StudentWithClassGroup } from '~/types/StudentTypes';
 
 export interface SearchProps {
     onClose?: () => void;

@@ -3,9 +3,8 @@ import nextConnect from 'next-connect';
 import { Student } from '~/database/entities/Student';
 import { ValidationError } from 'yup';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getRepository } from 'typeorm';
 import { studentSchema } from '~/lib/validations';
-import { PrismaClient } from '@prisma/client';
+import prisma from '~/lib/prisma';
 
 const handler = nextConnect();
 
@@ -37,8 +36,6 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).send([]);
         return;
     }
-
-    const prisma = new PrismaClient();
 
     const result = await prisma.student.findMany({
         where: {

@@ -1,10 +1,9 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { PrismaClient } from '.prisma/client';
+import prisma from '~/lib/prisma';
 
 const options = {
     providers: [
@@ -18,8 +17,6 @@ const options = {
                 if (!credentials) throw 'Cred Error';
 
                 const { email, password } = credentials;
-
-                const prisma = new PrismaClient();
 
                 const user = await prisma.user.findFirst({
                     where: { email },

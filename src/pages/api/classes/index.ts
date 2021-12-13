@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import { secureRoute } from '~/lib/secureRoute';
-
-import { PrismaClient } from '@prisma/client';
+import prisma from '~/lib/prisma';
 
 const handler = nextConnect();
 
 handler.get(async (_, res: NextApiResponse) => {
-    const prisma = new PrismaClient();
     const classes = await prisma.classGroup.findMany();
     res.status(200).json(classes);
 });

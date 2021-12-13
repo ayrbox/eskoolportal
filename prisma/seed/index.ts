@@ -11,12 +11,24 @@ const prisma = new PrismaClient();
 
 export const seeder = async () => {
     // Clear all tables
+    console.log('Clearing all tables...');
     await clear(prisma);
 
+    console.log('Seeding classes...');
     await seedClassGroups(prisma);
+    console.log('Classes complete.');
+
+    console.log('Seeding sections...');
     await seedSections(prisma);
+    console.log('Sections complete.');
+
+    console.log('Seeding students...');
     await seedStudents(prisma);
+    console.log('Students complete.');
+
+    console.log('Seeding users...');
     await seedUsers(prisma);
+    console.log('Users complete.');
 };
 
 seeder()

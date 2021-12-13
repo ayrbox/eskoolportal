@@ -1,54 +1,51 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { User } from "~/database/entities/User";
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
-import { ensureConnection } from "~/database";
-import bcrypt from "bcrypt";
-import { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from 'bcrypt';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const authFailedMessage = "Authentication failed.";
+import { PrismaClient } from '.prisma/client';
 
 const options = {
-  providers: [
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials) => {
-        if (!credentials) throw "Cred Error";
+    providers: [
+        Credentials({
+            name: 'Credentials',
+            credentials: {
+                email: { label: 'Email', type: 'email' },
+                password: { label: 'Password', type: 'password' },
+            },
+            authorize: async (credentials) => {
+                if (!credentials) throw 'Cred Error';
 
-        const { email, password } = credentials;
+                const { email, password } = credentials;
 
-        try {
-          await ensureConnection();
-        } catch (err) {
-          console.error(err);
-        }
+                const prisma = new PrismaClient();
 
-        const user = await User.findOne({
-          where: { email },
-        });
+                const user = await prisma.user.findFirst({
+                    where: { email },
+                });
 
-        if (user) {
-          const isValid = await bcrypt.compare(password, user.password);
-          if (!isValid) {
-            console.error("[ERROR] Password does not match");
-            return null;
-          }
-          return user;
-        } else {
-          return null;
-        }
-      },
-    }),
-  ],
-  pages: {
-    signIn: "/login",
-  },
-  secret: "INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw",
+                if (user) {
+                    const isValid = await bcrypt.compare(
+                        password,
+                        user.password
+                    );
+                    if (!isValid) {
+                        console.error('[ERROR] Password does not match');
+                        return null;
+                    }
+                    return user;
+                } else {
+                    return null;
+                }
+            },
+        }),
+    ],
+    pages: {
+        signIn: '/login',
+    },
+    secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
 };
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, options);
+    NextAuth(req, res, options);

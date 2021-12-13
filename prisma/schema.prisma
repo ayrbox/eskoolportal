@@ -23,7 +23,7 @@ model User {
 // Students Class/Group (Note: Group is prefixed to avoid conflict with class keyword)
 model ClassGroup {
   id                String                 @id @default(uuid())
-  name              Int
+  name              String
   order             Int
   students          Student[]
   SubjectsInClass   SubjectsInClassGroup[]

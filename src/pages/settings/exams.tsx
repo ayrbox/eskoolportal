@@ -1,19 +1,25 @@
-import axios from 'axios';
-import React from 'react';
-import { Table } from 'reactstrap';
-import { mutate } from 'swr';
-import ExamForm from '~/components/ExamForm';
-import Layout from '~/components/Layout';
-import ListPage from '~/components/ListPage';
-import { Exam } from '~/database/entities/Exam';
-import { securePage } from '~/lib/securePage';
-import { FormState } from '~/types/FormMode';
+import axios from "axios";
+import React from "react";
+import { Table } from "reactstrap";
+import { mutate } from "swr";
+import ExamForm from "~/components/ExamForm";
+import Layout from "~/components/Layout";
+import ListPage from "~/components/ListPage";
+import { securePage } from "~/lib/securePage";
+import { FormState } from "~/types/FormMode";
+import { Prisma, ExamName, User } from "@prisma/client";
 
-const EXAM_ENDPOINT = '/api/exams';
-const ExamSettings = ({ user }) => {
-  const handleFormSubmit = async (state: FormState<Exam>) => {
+export interface ExamSettingsProps {
+  user: User;
+}
+
+const EXAM_ENDPOINT = "/api/exams";
+const ExamSettings = ({ user }: ExamSettingsProps) => {
+  const handleFormSubmit = async (
+    state: FormState<ExamName | Prisma.ExamNameCreateInput>
+  ) => {
     try {
-      if (state.mode === 'EDIT' && state.data.id) {
+      if (state.mode === "EDIT" && state.data.id) {
         await axios.put(`${EXAM_ENDPOINT}/${state.data.id}`, state.data);
       } else {
         await axios.post(EXAM_ENDPOINT, state.data);
@@ -21,21 +27,26 @@ const ExamSettings = ({ user }) => {
       mutate(EXAM_ENDPOINT);
       return true;
     } catch (err) {
-      console.error('Handle error gracefully', err);
+      console.error("Handle error gracefully", err);
       return false;
     }
   };
 
   return (
     <Layout user={user} title="Exams">
-      <ListPage<Exam> url={EXAM_ENDPOINT} onFormSubmit={handleFormSubmit}>
+      <ListPage<ExamName | Prisma.ExamNameCreateInput>
+        url={EXAM_ENDPOINT}
+        onFormSubmit={handleFormSubmit}
+        initialFormData={{
+          name: "",
+        }}
+      >
         {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>
             <Table striped bordered>
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,7 +57,6 @@ const ExamSettings = ({ user }) => {
                         {exam.name}
                       </a>
                     </td>
-                    <td>{exam.description}</td>
                   </tr>
                 ))}
               </tbody>

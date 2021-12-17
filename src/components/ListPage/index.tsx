@@ -3,12 +3,11 @@ import { useState } from "react";
 import useSWR from "swr";
 import { FormState } from "~/types/FormMode";
 import { Button } from "reactstrap";
-import { EventHandler } from "react";
 
 export type ListPageChildrenProps<T> = {
   items: Array<T>;
   onItemClick: (item: T) => MouseEventHandler;
-  formState: FormState<Partial<T>>;
+  formState: FormState<T>;
   onFormClose: () => void;
   onFormSubmit: (values: T) => Promise<boolean> | boolean;
   onDelete?: (item: T) => MouseEventHandler;
@@ -19,13 +18,13 @@ export interface ListPageProps<T> {
   onFormSubmit: (values: FormState<T>) => Promise<boolean>;
   children: (childProps: ListPageChildrenProps<T>) => ReactElement;
   onDelete?: (item: T) => Promise<boolean>;
-  initialFormData?: Partial<T>;
+  initialFormData: T;
 }
 
 function ListPage<T>(props: ListPageProps<T>) {
   const { url, onFormSubmit, onDelete, initialFormData } = props;
 
-  const [formState, setFormState] = useState<FormState<Partial<T>>>({
+  const [formState, setFormState] = useState<FormState<T>>({
     isOpen: false,
     mode: "ADD",
     data: initialFormData,

@@ -1,18 +1,20 @@
-import React, { FunctionComponent, useRef } from 'react';
-import FormItem from './form/FormItem';
-import FormDate from './form/FormDate';
-import { examSchema } from '~/lib/validations';
-import ListForm from './ListPage/ListForm';
-import type { Exam } from '~/database/entities/Exam';
+import React, { FunctionComponent } from "react";
+import FormItem from "./form/FormItem";
+import { examNameSchema } from "~/lib/validations";
+import ListForm from "./ListPage/ListForm";
+import type { ExamName, Prisma } from "@prisma/client";
 
 export interface ExamFormProps {
-  values: Partial<Exam>;
-  onFormSubmit: (value: Exam) => void;
+  values: ExamName | Prisma.ExamNameCreateInput;
+  onFormSubmit: (value: ExamName | Prisma.ExamNameCreateInput) => void;
   onClose?: () => void;
 }
 
 const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
-  <ListForm<Exam> validation={examSchema} {...props}>
+  <ListForm<ExamName | Prisma.ExamNameCreateInput>
+    validation={examNameSchema}
+    {...props}
+  >
     {({ autoFocusRef }) => (
       <>
         <h2>Exam</h2>
@@ -22,7 +24,6 @@ const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
           colSize={8}
           innerRef={autoFocusRef}
         />
-        <FormItem label="Description" name="description" colSize={8} />
       </>
     )}
   </ListForm>

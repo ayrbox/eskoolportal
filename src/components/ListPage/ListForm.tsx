@@ -1,18 +1,18 @@
-import React, { MutableRefObject, useRef } from 'react';
-import Overlay from '~/components/Overlay';
-import { Formik, FormikProps } from 'formik';
-import { useEffect } from 'react';
-import { ReactElement } from 'react';
-import Panel from '~/components/Panel';
-import { Button, Col, Form, FormGroup } from 'reactstrap';
+import React, { MutableRefObject, useRef } from "react";
+import Overlay from "~/components/Overlay";
+import { Formik, FormikProps } from "formik";
+import { useEffect } from "react";
+import { ReactElement } from "react";
+import Panel from "~/components/Panel";
+import { Button, Col, Form, FormGroup } from "reactstrap";
 
 export interface ListFormProps<T> {
-  values: Partial<T>;
+  values: T;
   validation: unknown;
   onFormSubmit: (value: T) => void;
   onClose?: () => void;
   children: (
-    props: FormikProps<Partial<T>> & { autoFocusRef: MutableRefObject<any> }
+    props: FormikProps<T> & { autoFocusRef: MutableRefObject<any> }
   ) => ReactElement;
 }
 
@@ -24,7 +24,7 @@ export default function EventsForm<T>(props: ListFormProps<T>) {
     }
   };
 
-  const autoFocusRef = useRef(null);
+  const autoFocusRef = useRef<any>(null);
   useEffect(() => {
     if (autoFocusRef.current) {
       autoFocusRef.current.focus();

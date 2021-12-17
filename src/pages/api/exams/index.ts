@@ -1,21 +1,24 @@
-import { NextApiResponse, NextApiRequest } from 'next';
-import nextConnect from 'next-connect';
-import { Exam } from '~/database/entities/Exam';
-import { secureRoute } from '~/lib/secureRoute';
-import { examSchema } from '~/lib/validations';
+import { NextApiResponse, NextApiRequest } from "next";
+import nextConnect from "next-connect";
+import { secureRoute } from "~/lib/secureRoute";
+import { examNameSchema } from "~/lib/validations";
+import prisma from "~/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 const handler = nextConnect();
 
 handler.get(async (_, res: NextApiResponse) => {
-  const exams = await Exam.find();
+  const exams = await prisma.examName.findMany();
   res.send(exams);
 });
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const exam = req.body as Exam;
+  const exam = req.body as Prisma.ExamNameCreateInput;
 
-  await examSchema.validate(exam, { abortEarly: false });
-  const examCreated = await Exam.create(exam).save();
+  await examNameSchema.validate(exam, { abortEarly: false });
+  const examCreated = await prisma.examName.create({
+    data: exam,
+  });
   res.status(201).send(examCreated);
 });
 

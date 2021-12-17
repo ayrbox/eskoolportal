@@ -1,42 +1,42 @@
-import { GetServerSidePropsContext, GetServerSideProps } from 'next';
-import type { User } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext, GetServerSideProps } from "next";
+import type { User } from "next-auth";
+import { getSession } from "next-auth/react";
 
 export type PageServerSideProps = (
-    ctx: GetServerSidePropsContext,
-    user: User
+  ctx: GetServerSidePropsContext,
+  user: User
 ) => Promise<Record<string, any>>;
 
 export type SecurePage = (
-    pageServerSide?: PageServerSideProps
+  pageServerSide?: PageServerSideProps
 ) => GetServerSideProps;
 
 export const securePage: SecurePage = (pageServerSide) => async (ctx) => {
-    const session = await getSession(ctx);
+  const session = await getSession(ctx);
 
-    const user = session?.user;
+  const user = session?.user as User;
 
-    if (!session || !user) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        };
-    }
+  if (!session || !user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
-    if (pageServerSide) {
-        return {
-            props: {
-                user,
-                ...JSON.parse(JSON.stringify(await pageServerSide(ctx, user))),
-            },
-        };
-    } else {
-        return {
-            props: {
-                user,
-            },
-        };
-    }
+  if (pageServerSide) {
+    return {
+      props: {
+        user,
+        ...JSON.parse(JSON.stringify(await pageServerSide(ctx, user))),
+      },
+    };
+  } else {
+    return {
+      props: {
+        user,
+      },
+    };
+  }
 };

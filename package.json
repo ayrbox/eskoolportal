@@ -68,6 +68,7 @@
     "@types/config": "^0.0.38",
     "@types/faker": "^5.5.9",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/lodash": "^4.14.178",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^17.0.0",
     "@types/rosie": "^0.0.38",

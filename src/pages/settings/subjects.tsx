@@ -1,22 +1,23 @@
-import Layout from '~/components/Layout';
-import useSwr, { mutate } from 'swr';
-import axios from 'axios';
-import { Table } from 'reactstrap';
-import type { Subject } from '~/database/entities/Subject';
-import ListPage from '~/components/ListPage';
-import { securePage } from '~/lib/securePage';
-import { FormState } from '~/types/FormMode';
-import SubjectForm from '~/components/SubjectForm';
+import Layout from "~/components/Layout";
+import useSwr, { mutate } from "swr";
+import axios from "axios";
+import { Table } from "reactstrap";
+import type { Subject } from "~/database/entities/Subject";
+import ListPage from "~/components/ListPage";
+import { securePage } from "~/lib/securePage";
+import { FormState } from "~/types/FormMode";
+import SubjectForm from "~/components/SubjectForm";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
 const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
 
-const SUBJECT_ENDPOINT = '/api/subjects';
-const SubjectIndex = ({ user }) => {
-  const { data } = useSwr('/api/subjects', fetcher);
+const SUBJECT_ENDPOINT = "/api/subjects";
+const SubjectIndex = ({ user }: PagePropsWithUser) => {
+  const { data } = useSwr("/api/subjects", fetcher);
 
   const handleFormSubmit = async (state: FormState<Subject>) => {
     try {
-      if (state.mode === 'EDIT' && state.data.id) {
+      if (state.mode === "EDIT" && state.data.id) {
         await axios.put(`${SUBJECT_ENDPOINT}/${state.data.id}`, state.data);
       } else {
         await axios.post(SUBJECT_ENDPOINT, state.data);
@@ -24,7 +25,7 @@ const SubjectIndex = ({ user }) => {
       mutate(SUBJECT_ENDPOINT);
       return true;
     } catch (err) {
-      console.error('Handle error gracefully', err);
+      console.error("Handle error gracefully", err);
       return false;
     }
   };

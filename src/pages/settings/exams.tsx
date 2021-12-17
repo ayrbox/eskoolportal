@@ -8,13 +8,10 @@ import ListPage from "~/components/ListPage";
 import { securePage } from "~/lib/securePage";
 import { FormState } from "~/types/FormMode";
 import { Prisma, ExamName, User } from "@prisma/client";
-
-export interface ExamSettingsProps {
-  user: User;
-}
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
 const EXAM_ENDPOINT = "/api/exams";
-const ExamSettings = ({ user }: ExamSettingsProps) => {
+const ExamSettings = ({ user }: PagePropsWithUser) => {
   const handleFormSubmit = async (
     state: FormState<ExamName | Prisma.ExamNameCreateInput>
   ) => {

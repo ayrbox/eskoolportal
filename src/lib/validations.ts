@@ -19,12 +19,12 @@ export const studentSchema = yup.object().shape({
   address: yup.string().required("Address is required."),
   email: yup.string().email().required("Email is required to contact you."),
   joinDate: yup.date(),
-  rollno: yup.string(),
+  rollNo: yup.number(),
   contactNo: yup
     .string()
     .required("Phone or any other contact number is required."),
   referenceCode: yup.string(),
-  classId: yup.string().required("Please specify student class."),
+  classGroupId: yup.string().required("Please specify student class."),
   sectionId: yup.string().required("Please specify student section."),
 });
 

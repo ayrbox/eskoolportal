@@ -1,19 +1,20 @@
-import { Table } from 'reactstrap';
-import Layout from '~/components/Layout';
-import { securePage } from '~/lib/securePage';
-import type { Event } from '~/database/entities/Event';
-import ListPage from '~/components/ListPage';
-import EventsForm from '~/components/EventsForm';
-import { FormState } from '~/types/FormMode';
-import axios from 'axios';
-import { mutate } from 'swr';
+import { Table } from "reactstrap";
+import Layout from "~/components/Layout";
+import { securePage } from "~/lib/securePage";
+import type { Event } from "~/database/entities/Event";
+import ListPage from "~/components/ListPage";
+import EventsForm from "~/components/EventsForm";
+import { FormState } from "~/types/FormMode";
+import axios from "axios";
+import { mutate } from "swr";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
-const EVENTS_ENDPOINT = '/api/events';
+const EVENTS_ENDPOINT = "/api/events";
 
-const EventsPage = ({ user }) => {
+const EventsPage = ({ user }: PagePropsWithUser) => {
   const handleFormSubmit = async (state: FormState<Event>) => {
     try {
-      if (state.mode === 'EDIT' && state.data.id) {
+      if (state.mode === "EDIT" && state.data.id) {
         await axios.put(`${EVENTS_ENDPOINT}/${state.data.id}`, state.data);
       } else {
         await axios.post(EVENTS_ENDPOINT, state.data);
@@ -21,7 +22,7 @@ const EventsPage = ({ user }) => {
       mutate(EVENTS_ENDPOINT);
       return true;
     } catch (err) {
-      console.error('Handle error gracefully', err);
+      console.error("Handle error gracefully", err);
       return false;
     }
   };
@@ -48,7 +49,7 @@ const EventsPage = ({ user }) => {
                       </a>
                     </td>
                     <td>
-                      {event.fromDate}-{event.endDate}{' '}
+                      {event.fromDate}-{event.endDate}{" "}
                     </td>
                     <td>{event.description}</td>
                   </tr>

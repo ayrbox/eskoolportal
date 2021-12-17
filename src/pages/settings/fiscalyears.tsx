@@ -9,12 +9,11 @@ import type { FormState } from "~/types/FormMode";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import ListPage from "~/components/ListPage";
 import { FiscalYear, User } from "@prisma/client";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
 const ENDPOINT_FISCALYEAR = "/api/fiscalyears";
 
-export interface FiscalYearIndexProps {
-  user: User;
-}
+export interface FiscalYearIndexProps extends PagePropsWithUser {}
 
 const FiscalYearIndex: FC<FiscalYearIndexProps> = ({
   user,

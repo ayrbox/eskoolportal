@@ -3,16 +3,14 @@ import { Formik } from "formik";
 import FormItem from "~/components/form/FormItem";
 import FormSelect, { FormSelectOption } from "~/components/form/FormSelect";
 import FormDate from "~/components/form/FormDate";
-import type { Student } from "~/database/entities/Student";
-import type { Class } from "~/database/entities/Class";
-import type { Section } from "~/database/entities/Section";
 import { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 import { studentSchema } from "~/lib/validations";
+import { Student, ClassGroup, Section } from "@prisma/client";
 
 export interface StudentFormProps {
   initialValues: Student;
-  classes: Class[];
+  classes: ClassGroup[];
   sections: Section[];
   onFormSubmit: (values: Student) => void;
   formMode: "ADD" | "EDIT";
@@ -72,7 +70,7 @@ const StudentForm: FC<StudentFormProps> = ({
             label="Section"
             options={listOfSection}
           />
-          <FormItem name="rollno" label="Roll No" />
+          <FormItem name="rollNo" label="Roll No" type="number" />
           <FormItem name="address" label="Address" type="textarea" />
           <FormItem name="contactNo" label="Contact No" />
           <FormDate name="joinDate" label="Joined Date" />

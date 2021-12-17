@@ -1,13 +1,17 @@
-import React from 'react';
-import Layout from '~/components/Layout';
-import { securePage } from '~/lib/securePage';
-import { Img } from 'react-image';
+import React from "react";
+import Layout from "~/components/Layout";
+import { securePage } from "~/lib/securePage";
+import { Img } from "react-image";
 
-import { User } from '~/database/entities/User';
-import UserAvatar from '~/components/UserAvatar';
-import { Container, Col, Row } from 'reactstrap';
+import UserAvatar from "~/components/UserAvatar";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+import prisma from "~/lib/prisma";
 
-const Profile = ({ profile, user }) => {
+export interface ProfileProps extends PagePropsWithUser {
+  profile: Record<string, any>;
+}
+
+const Profile = ({ profile, user }: ProfileProps) => {
   return (
     <Layout user={user} title="Account Profile">
       <div className="d-flex">
@@ -31,9 +35,9 @@ const Profile = ({ profile, user }) => {
 export default Profile;
 
 export const getServerSideProps = securePage(async (_, user) => {
-  const profile = await User.findOne({
+  const profile = await prisma.user.findFirst({
     where: {
-      email: user.email,
+      email: user.email as string,
     },
   });
 

@@ -12,10 +12,14 @@ const Panel: FunctionComponent<PanelProps> = ({
 }: PanelProps) => {
   return (
     <div
-      className={clsx({
-        ibox: true,
-        [className]: !!className,
-      })}
+      className={clsx(
+        className
+          ? {
+              ibox: true,
+              [className]: !!className,
+            }
+          : { ibox: true }
+      )}
     >
       <div className="ibox-content">{children}</div>
     </div>

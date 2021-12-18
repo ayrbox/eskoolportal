@@ -1,16 +1,16 @@
-import FormItem from '~/components/form/FormItem';
-import { object, string } from 'yup';
-import type { Subject } from '~/database/entities/Subject';
-import { FC } from 'react';
-import ListForm from '~/components/ListPage/ListForm';
+import FormItem from "~/components/form/FormItem";
+import { object, string } from "yup";
+import { FC } from "react";
+import ListForm from "~/components/ListPage/ListForm";
+import { Subject } from "@prisma/client";
 
 const subjectSchema = object().shape({
-  name: string().min(3).required('Subject name is required.'),
-  description: string().nullable().max(200, 'Max 200 character is allowed.'),
+  name: string().min(3).required("Subject name is required."),
+  description: string().nullable().max(200, "Max 200 character is allowed."),
 });
 
 export interface SubjectFormProps {
-  values: Partial<Subject>;
+  values: Subject;
   onFormSubmit: (values: Subject) => void;
   onClose?: () => void;
 }

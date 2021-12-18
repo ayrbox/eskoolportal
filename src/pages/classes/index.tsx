@@ -4,11 +4,13 @@ import useSwr from "swr";
 import axios from "axios";
 
 import { securePage } from "~/lib/securePage";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+import { ClassGroup } from "@prisma/client";
 
 const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
 
-const Classes = ({ user }) => {
-  const { data } = useSwr(`/api/classes/`, fetcher);
+const Classes = ({ user }: PagePropsWithUser) => {
+  const { data } = useSwr<ClassGroup[]>(`/api/classes/`, fetcher);
 
   if (!data) return <h1>Loading...</h1>;
 

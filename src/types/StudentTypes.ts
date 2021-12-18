@@ -1,6 +1,6 @@
-import type { Student, ClassGroup, Section } from '@prisma/client';
+import type { Student, ClassGroup, Section } from "@prisma/client";
 
 export type StudentWithClassGroup = Student & {
-    Class: ClassGroup;
-    Section: Section;
+  ClassGroup: ClassGroup;
+  Section: Section;
 };

@@ -1,19 +1,25 @@
-import { User } from 'next-auth';
-import Link from 'next/link';
-import { FC, useState } from 'react';
+import { User } from "next-auth";
+import Link from "next/link";
+import React, { FC, useState } from "react";
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
-import { Img } from 'react-image';
+} from "reactstrap";
+import { Img } from "react-image";
 
 interface NavigationProps {
   user: User;
 }
 
-const ProfileDropdownItem = ({ href, children }) => (
+const ProfileDropdownItem = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: string | React.ReactElement;
+}) => (
   <li>
     <Link href={href}>
       <a>{children}</a>
@@ -21,15 +27,15 @@ const ProfileDropdownItem = ({ href, children }) => (
   </li>
 );
 
-const UserAvatar = (props) => {
-  const [firstName, lastName] = props.name.split(' ');
+const UserAvatar = (props: { name: string }) => {
+  const [firstName, lastName] = props.name.split(" ");
 
   return (
     <div className="d-flex justify-content-center">
       <div className="bg-light p-3 border border-dark rounded-circle">
         <strong>
           {firstName.charAt(0)}
-          {lastName ? lastName.charAt(0) : ''}
+          {lastName ? lastName.charAt(0) : ""}
         </strong>
       </div>
     </div>
@@ -44,26 +50,26 @@ type NavigationLinkType = {
 
 const navigationLinks: NavigationLinkType[] = [
   {
-    label: 'Dashboard',
-    url: '/',
+    label: "Dashboard",
+    url: "/",
   },
   {
-    label: 'Students',
-    url: '/students',
+    label: "Students",
+    url: "/students",
   },
   {
-    label: 'Marks Entry',
-    url: '/marks-entry',
+    label: "Marks Entry",
+    url: "/marks-entry",
   },
   {
-    label: 'Settings',
-    url: '#',
+    label: "Settings",
+    url: "#",
     children: [
-      { label: 'Fiscal Years', url: '/settings/fiscalyears' },
-      { label: 'Subjects', url: '/settings/subjects' },
-      { label: 'Events', url: '/settings/events' },
-      { label: 'Exams', url: '/settings/exams' },
-      { label: 'Grades', url: '/settings/grades' },
+      { label: "Fiscal Years", url: "/settings/fiscalyears" },
+      { label: "Subjects", url: "/settings/subjects" },
+      { label: "Events", url: "/settings/events" },
+      { label: "Exams", url: "/settings/exams" },
+      { label: "Grades", url: "/settings/grades" },
     ],
   },
 ];
@@ -84,9 +90,9 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
               <Img
                 alt="User Profile Image"
                 className="rounded-circle"
-                src={image}
-                loader={<UserAvatar name={name} />}
-                unloader={<UserAvatar name={name} />}
+                src={image as string}
+                loader={<UserAvatar name={name as string} />}
+                unloader={<UserAvatar name={name as string} />}
               />
               <Dropdown isOpen={isOpen} toggle={handleToggle}>
                 <DropdownToggle caret tag="a">

@@ -5,7 +5,6 @@ import useSwr from "swr";
 import { User } from "@prisma/client";
 import { FC } from "react";
 
-import prisma from "~/lib/prisma";
 import { securePage } from "~/lib/securePage";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

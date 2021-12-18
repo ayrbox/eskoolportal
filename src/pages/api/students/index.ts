@@ -49,7 +49,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     },
     take: 10,
     include: {
-      Class: true,
+      ClassGroup: true,
       Section: true,
     },
   });

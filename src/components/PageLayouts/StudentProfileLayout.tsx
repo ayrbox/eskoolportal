@@ -1,8 +1,18 @@
 import { Row, Col } from "reactstrap";
 import Link from "next/link";
 import Layout from "~/components/Layout";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
-const StudentProfileLayout = ({ children, studentName, user }) => {
+interface StudentProfileLayoutProps extends PagePropsWithUser {
+  children: React.ReactElement | React.ReactElement[];
+  studentName: string;
+}
+
+const StudentProfileLayout = ({
+  children,
+  studentName,
+  user,
+}: StudentProfileLayoutProps) => {
   return (
     <Layout title="Student Profile" user={user}>
       <Row className="border-bottom page-heading py-3">

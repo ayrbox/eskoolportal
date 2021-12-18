@@ -141,7 +141,7 @@ const Students: FC<ClassStudentProps> = ({ user }: ClassStudentProps) => {
                     contactNo,
                     email,
                     joinDate,
-                    Class,
+                    ClassGroup,
                     Section,
                   }) => (
                     <tr key={id}>
@@ -157,8 +157,8 @@ const Students: FC<ClassStudentProps> = ({ user }: ClassStudentProps) => {
                       <td>{email}</td>
                       <td>{joinDate}</td>
                       <td>
-                        <Link href={`/class/${Class.id}`}>
-                          <a>{Class.name}</a>
+                        <Link href={`/class/${ClassGroup.id}`}>
+                          <a>{ClassGroup.name}</a>
                         </Link>
                       </td>
                       <td>

@@ -10,8 +10,8 @@ import { useEffect } from "react";
 import { FiscalYear } from "@prisma/client";
 
 export interface FiscalYearFormProps {
-  formValue: Partial<FiscalYear>;
-  onFormSubmit: (value: FiscalYear) => boolean | Promise<boolean>;
+  formValue: FiscalYear;
+  onFormSubmit: (value: FiscalYear) => void;
   onClose?: () => void;
 }
 
@@ -26,7 +26,7 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
     }
   };
 
-  const yearInputRef = useRef(null);
+  const yearInputRef = useRef<any>(null);
 
   useEffect(() => {
     if (yearInputRef.current) {

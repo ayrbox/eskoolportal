@@ -1,17 +1,17 @@
-import FormItem from '~/components/form/FormItem';
-import { object, string } from 'yup';
-import type { MedicalHistory } from '~/database/entities/MedicalHistory';
-import { FC } from 'react';
-import ListForm from '~/components/ListPage/ListForm';
+import FormItem from "~/components/form/FormItem";
+import { object, string } from "yup";
+import { FC } from "react";
+import ListForm from "~/components/ListPage/ListForm";
+import { MedicalHistory } from "@prisma/client";
 
 const subjectSchema = object().shape({
-  description: string().nullable().max(200, 'Max 200 character is allowed.'),
+  description: string().nullable().max(200, "Max 200 character is allowed."),
   severity: string(),
   triageNote: string(),
 });
 
 export interface MedicalHistoryFormProps {
-  values: Partial<MedicalHistory>;
+  values: MedicalHistory;
   onFormSubmit: (values: MedicalHistory) => void;
   onClose?: () => void;
 }

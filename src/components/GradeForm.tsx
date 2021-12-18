@@ -1,18 +1,18 @@
-import { Formik } from 'formik';
-import React, { FC } from 'react';
-import { Button, Col, Form, FormGroup } from 'reactstrap';
-import { Grade } from '~/database/entities/Grades';
-import FormItem from './form/FormItem';
-import Overlay from './Overlay';
-import Panel from './Panel';
-import { Subject } from '~/database/entities/Subject';
-import FormSelect from './form/FormSelect';
+import { Formik } from "formik";
+import React, { FC } from "react";
+import { Button, Col, Form, FormGroup } from "reactstrap";
+import { Grade } from "~/database/entities/Grades";
+import FormItem from "./form/FormItem";
+import Overlay from "./Overlay";
+import Panel from "./Panel";
+import { Subject } from "~/database/entities/Subject";
+import FormSelect, { FormSelectOption } from "./form/FormSelect";
 
 export interface GradeFormProps {
-  formValue: Partial<Grade>;
+  formValue: Grade;
   onFormSubmit: (value: Grade) => void;
   onClose?: () => void;
-  subjects?: Subject[];
+  subjects: Subject[];
 }
 
 const GradeForm: FC<GradeFormProps> = ({
@@ -27,8 +27,8 @@ const GradeForm: FC<GradeFormProps> = ({
     }
   };
 
-  const subjectOptions = [
-    { label: ' -- select --', value: null },
+  const subjectOptions: FormSelectOption[] = [
+    { label: " -- select --", value: "" },
     ...subjects.map(({ id, name }) => ({
       label: name,
       value: id,

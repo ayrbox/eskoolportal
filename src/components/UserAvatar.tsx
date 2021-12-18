@@ -1,4 +1,4 @@
-const UserAvatar = ({ name }) => {
+const UserAvatar = ({ name }: { name: String }) => {
   const [firstName, lastName] = name.split(" ");
 
   return (

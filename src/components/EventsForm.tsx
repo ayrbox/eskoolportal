@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useRef } from 'react';
-import FormItem from './form/FormItem';
-import FormDate from './form/FormDate';
-import type { Event } from '~/database/entities/Event';
-import { eventSchema } from '~/lib/validations';
-import ListForm from './ListPage/ListForm';
+import React, { FunctionComponent, useRef } from "react";
+import FormItem from "./form/FormItem";
+import FormDate from "./form/FormDate";
+import type { Event } from "~/database/entities/Event";
+import { eventSchema } from "~/lib/validations";
+import ListForm from "./ListPage/ListForm";
 export interface EventsFormProps {
-  values: Partial<Event>;
+  values: Event;
   onFormSubmit: (value: Event) => void;
   onClose?: () => void;
 }

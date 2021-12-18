@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require("uuid");
 import { PrismaClient } from "@prisma/client";
 
 import seedClassGroups from "./classes";

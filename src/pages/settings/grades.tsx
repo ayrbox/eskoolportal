@@ -1,37 +1,49 @@
-import React, { ChangeEventHandler } from 'react';
-import { Col, Input, Label, Row, Table } from 'reactstrap';
-import Layout from '~/components/Layout';
-import ListPage from '~/components/ListPage';
-import { Grade } from '~/database/entities/Grades';
-import { FiscalYear } from '~/database/entities/FiscalYear';
-import { Exam } from '~/database/entities/Exam';
-import { Class } from '~/database/entities/Class';
-import { Subject } from '~/database/entities/Subject';
-import { securePage } from '~/lib/securePage';
-import { useState } from 'react';
-import { stringify } from 'querystring';
-import GradeForm from '~/components/GradeForm';
-import { FormState } from '~/types/FormMode';
-import axios from 'axios';
-import { mutate } from 'swr';
+import React, { ChangeEventHandler } from "react";
+import { Col, Input, Label, Row, Table } from "reactstrap";
+import Layout from "~/components/Layout";
+import ListPage from "~/components/ListPage";
+
+import { securePage } from "~/lib/securePage";
+import { useState } from "react";
+import { stringify } from "querystring";
+import GradeForm from "~/components/GradeForm";
+import { FormState } from "~/types/FormMode";
+import axios from "axios";
+import { mutate } from "swr";
+
+import type { FiscalYear, Exam, ClassGroup, Subject } from "@prisma/client";
+import prisma from "~/lib/prisma";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+
+type Grade = any;
 
 type QueryState = {
-  year?: FiscalYear;
+  fiscalYear?: FiscalYear;
   exam?: Exam;
-  class?: Class;
+  class?: ClassGroup;
   subject?: Subject;
 };
 
-const GRADE_ENDPOINT = '/api/grades';
-const GradeSettings = ({ user, years, exams, classes, subjects }) => {
-  const [query, setQuery] = useState<QueryState>({
-    year: null,
-    exam: null,
-    class: null,
-  });
+const GRADE_ENDPOINT = "/api/grades";
+
+interface GradeSettingsProps extends PagePropsWithUser {
+  fiscalYears: FiscalYear[];
+  exams: Exam[];
+  classGroups: ClassGroup[];
+  subjects: Subject[];
+}
+
+const GradeSettings = ({
+  user,
+  fiscalYears,
+  exams,
+  classGroups,
+  subjects,
+}: GradeSettingsProps) => {
+  const [query, setQuery] = useState<QueryState>({});
 
   const params = {
-    yearId: query.year?.id,
+    fiscalYearId: query.fiscalYear?.id,
     examId: query.exam?.id,
     classId: query.class?.id,
   };
@@ -59,7 +71,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
     };
 
     try {
-      if (state.mode === 'EDIT' && id) {
+      if (state.mode === "EDIT" && id) {
         await axios.put(`${GRADE_ENDPOINT}/${id}`, payload);
       } else {
         await axios.post(GRADE_ENDPOINT, payload);
@@ -67,7 +79,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
       mutate(`${GRADE_ENDPOINT}?${stringify(params)}`);
       return true;
     } catch (err) {
-      console.error('Handle error', err); // TODO
+      console.error("Handle error", err); // TODO
       return false;
     }
   };
@@ -75,7 +87,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
   const handleParamsChange =
     (
       paramKey: string,
-      items: Array<FiscalYear | Exam | Class | Subject>
+      items: Array<FiscalYear | Exam | ClassGroup | Subject>
     ): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
       e.preventDefault();
@@ -98,11 +110,11 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="year"
             id="year"
-            value={query.year?.id}
-            onChange={handleParamsChange('year', years)}
+            value={query.fiscalYear?.id}
+            onChange={handleParamsChange("year", fiscalYears)}
           >
             <option></option>
-            {years.map(({ id, name }) => (
+            {fiscalYears.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>
@@ -116,7 +128,7 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             name="exam"
             id="exam"
             value={query.exam?.id}
-            onChange={handleParamsChange('exam', exams)}
+            onChange={handleParamsChange("exam", exams)}
           >
             <option></option>
             {exams.map(({ id, name }) => (
@@ -133,10 +145,10 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
             name="class"
             id="class"
             value={query.class?.id}
-            onChange={handleParamsChange('class', classes)}
+            onChange={handleParamsChange("class", classGroups)}
           >
             <option></option>
-            {classes.map(({ id, name }) => (
+            {classGroups.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>
@@ -191,15 +203,15 @@ const GradeSettings = ({ user, years, exams, classes, subjects }) => {
 };
 
 export const getServerSideProps = securePage(async () => {
-  const years = await FiscalYear.find();
-  const exams = await Exam.find();
-  const classes = await Class.find();
-  const subjects = await Subject.find();
+  const years = await prisma.fiscalYear.findMany();
+  const exams = await prisma.exam.findMany();
+  const classGroups = await prisma.classGroup.findMany();
+  const subjects = await prisma.subject.findMany();
 
   return {
     years,
     exams,
-    classes,
+    classGroups,
     subjects,
   };
 });

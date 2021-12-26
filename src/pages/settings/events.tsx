@@ -1,13 +1,14 @@
 import { Table } from "reactstrap";
 import Layout from "~/components/Layout";
 import { securePage } from "~/lib/securePage";
-import type { Event } from "~/database/entities/Event";
 import ListPage from "~/components/ListPage";
 import EventsForm from "~/components/EventsForm";
 import { FormState } from "~/types/FormMode";
 import axios from "axios";
 import { mutate } from "swr";
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+
+import type { Event } from "@prisma/client";
 
 const EVENTS_ENDPOINT = "/api/events";
 

@@ -1,10 +1,11 @@
 import { secureRoute } from "~/lib/secureRoute";
 import nextConnect from "next-connect";
-import { Student } from "~/database/entities/Student";
 import { NextApiRequest, NextApiResponse } from "next";
 import { studentSchema } from "~/lib/validations";
 import { ValidationError } from "yup";
 import omit from "lodash/omit";
+import { Student } from "@prisma/client";
+import prisma from "~/lib/prisma";
 
 const handler = nextConnect();
 
@@ -20,7 +21,12 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     await studentSchema.validate(studentData, { abortEarly: false });
-    await Student.update(studentId, studentData);
+    await prisma.student.update({
+      data: studentData,
+      where: {
+        id: studentId,
+      },
+    });
 
     return res.status(200).json({ message: "Student data updated" });
   } catch (validationError) {
@@ -38,7 +44,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const studentId = req.query.id as string;
 
-  (await Student.findOne(studentId)).softRemove();
+  await prisma.student.findUnique({ where: { id: studentId } });
 
   res.send({ message: "Deleted" });
 });

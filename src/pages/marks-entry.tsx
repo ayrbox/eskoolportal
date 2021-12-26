@@ -2,29 +2,39 @@ import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { Col, Input, Label, Row } from "reactstrap";
 import EntitySelect from "~/components/EntitySelect";
 import Layout from "~/components/Layout";
-import { Class } from "~/database/entities/Class";
-import { Exam } from "~/database/entities/Exam";
-import { FiscalYear } from "~/database/entities/FiscalYear";
-import { Subject } from "~/database/entities/Subject";
+
 import { securePage } from "~/lib/securePage";
 
+import { ClassGroup, Exam, FiscalYear, Subject } from "@prisma/client";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+import prisma from "~/lib/prisma";
+
 type QueryState = {
-  year?: FiscalYear;
+  fiscalYear?: FiscalYear;
   exam?: Exam;
-  class?: Class;
+  class?: ClassGroup;
   subject?: Subject;
 };
 
-const MarksEntry = ({ user, years, exams, classes, subjects }) => {
-  const [query, setQuery] = useState<QueryState>({
-    year: null,
-    exam: null,
-    class: null,
-  });
+interface MarksEntryProps extends PagePropsWithUser {
+  fiscalYears: FiscalYear[];
+  classGroups: ClassGroup[];
+  exams: Exam[];
+  subjects: Subject[];
+}
+
+const MarksEntry = ({
+  user,
+  fiscalYears,
+  exams,
+  classGroups,
+  subjects,
+}: MarksEntryProps) => {
+  const [query, setQuery] = useState<QueryState>({});
   const handleParamsChange =
     (
       paramKey: string,
-      items: Array<FiscalYear | Exam | Class | Subject>
+      items: Array<FiscalYear | Exam | ClassGroup | Subject>
     ): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
       e.preventDefault();
@@ -41,7 +51,7 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
 
   const handleParamsChange1 = (
     paramKey: string,
-    item: FiscalYear | Class | Subject | Exam
+    item: FiscalYear | ClassGroup | Subject | Exam
   ) => {
     setQuery((prev) => {
       return {
@@ -54,7 +64,7 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
   const optionTransformer = ({
     id,
     name,
-  }: FiscalYear | Class | Subject | Exam) => ({
+  }: FiscalYear | ClassGroup | Subject | Exam) => ({
     label: name,
     value: id,
   });
@@ -64,9 +74,9 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
   };
 
   useEffect(() => {
-    const { year, exam, class: clazz, subject } = query;
+    const { fiscalYear, exam, class: clazz, subject } = query;
 
-    if (year && exam && clazz && subject) fetchMarks();
+    if (fiscalYear && exam && clazz && subject) fetchMarks();
   }, [query]);
 
   return (
@@ -76,7 +86,7 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
           <Label>Year: </Label>
           <EntitySelect<FiscalYear>
             name="year"
-            items={years}
+            items={fiscalYears}
             optionTransformer={optionTransformer}
             onSelect={handleParamsChange1}
           />
@@ -96,10 +106,10 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
             type="select"
             name="class"
             id="class"
-            onChange={handleParamsChange("class", classes)}
+            onChange={handleParamsChange("class", classGroups)}
           >
             <option></option>
-            {classes.map(({ id, name }) => (
+            {classGroups.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>
@@ -129,15 +139,15 @@ const MarksEntry = ({ user, years, exams, classes, subjects }) => {
 };
 
 export const getServerSideProps = securePage(async () => {
-  const years = await FiscalYear.find();
-  const exams = await Exam.find();
-  const classes = await Class.find();
-  const subjects = await Subject.find();
+  const years = await prisma.fiscalYear.findMany();
+  const exams = await prisma.exam.findMany();
+  const classGroups = await prisma.classGroup.findMany();
+  const subjects = await prisma.subject.findMany();
 
   return {
     years,
     exams,
-    classes,
+    classGroups,
     subjects,
   };
 });

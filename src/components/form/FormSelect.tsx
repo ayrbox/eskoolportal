@@ -56,12 +56,12 @@ const FormSelect: FC<FormItemProps> = ({
         <Input
           {...field}
           bsSize="sm"
-          invalid={meta.error && showFeedback}
+          invalid={!!meta.error && showFeedback}
           valid={!meta.error && showFeedback}
           onFocus={handleFocus}
           type="select"
         >
-          {options.map(({ label, value }) => (
+          {options?.map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>

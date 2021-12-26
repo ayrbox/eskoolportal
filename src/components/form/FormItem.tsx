@@ -53,7 +53,7 @@ const FormItem: FC<FormItemProps> = ({
         <Input
           {...field}
           bsSize="sm"
-          invalid={meta.error && showFeedback}
+          invalid={!!meta.error && showFeedback}
           valid={!meta.error && showFeedback}
           onFocus={handleFocus}
           innerRef={innerRef}

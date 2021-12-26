@@ -12,13 +12,14 @@ import { mutate } from "swr";
 import { Container, Row, Col, Table } from "reactstrap";
 import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
 import Panel from "~/components/Panel";
-import { MedicalHistory } from "~/database/entities/MedicalHistory";
+
 import { securePage } from "~/lib/securePage";
 import ListPage from "~/components/ListPage";
 import MedicalHistoryForm from "~/components/MedicalHistoryForm";
 import { FormState } from "~/types/FormMode";
 import prisma from "~/lib/prisma";
 import { StudentWithClassGroup } from "~/types/StudentTypes";
+import { MedicalHistory } from "@prisma/client";
 
 export interface ProfileProps {
   student: StudentWithClassGroup;

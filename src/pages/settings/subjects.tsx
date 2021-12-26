@@ -2,7 +2,7 @@ import Layout from "~/components/Layout";
 import useSwr, { mutate } from "swr";
 import axios from "axios";
 import { Table } from "reactstrap";
-import type { Subject } from "~/database/entities/Subject";
+import type { Subject } from "@prisma/client";
 import ListPage from "~/components/ListPage";
 import { securePage } from "~/lib/securePage";
 import { FormState } from "~/types/FormMode";

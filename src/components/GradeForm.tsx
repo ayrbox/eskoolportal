@@ -1,12 +1,14 @@
 import { Formik } from "formik";
 import React, { FC } from "react";
 import { Button, Col, Form, FormGroup } from "reactstrap";
-import { Grade } from "~/database/entities/Grades";
 import FormItem from "./form/FormItem";
 import Overlay from "./Overlay";
 import Panel from "./Panel";
-import { Subject } from "~/database/entities/Subject";
 import FormSelect, { FormSelectOption } from "./form/FormSelect";
+
+import type { Subject } from "@prisma/client";
+
+type Grade = any;
 
 export interface GradeFormProps {
   formValue: Grade;

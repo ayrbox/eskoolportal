@@ -1,15 +1,22 @@
 import { Row, Col } from "reactstrap";
-import { Student } from "~/database/entities/Student";
-import { Class } from "~/database/entities/Class";
-import { Section } from "~/database/entities/Section";
+
 import StudentProfileLayout from "~/components/PageLayouts/StudentProfileLayout";
 import Panel from "~/components/Panel";
 import axios from "axios";
 
 import { securePage } from "~/lib/securePage";
 import StudentForm from "~/components/StudentForm";
+import prisma from "~/lib/prisma";
+import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+import { ClassGroup, Section, Student } from "@prisma/client";
 
-const Index = ({ student, classes, sections, user }) => {
+interface EditStudentProps extends PagePropsWithUser {
+  student: Student;
+  classGroups: ClassGroup[];
+  sections: Section[];
+}
+
+const Index = ({ student, classGroups, sections, user }: EditStudentProps) => {
   const { id, name } = student;
 
   const handleFormikSubmit = async (values: Student) => {
@@ -29,7 +36,7 @@ const Index = ({ student, classes, sections, user }) => {
             </Row>
             <StudentForm
               formMode="EDIT"
-              classes={classes}
+              classes={classGroups}
               sections={sections}
               initialValues={student}
               onFormSubmit={handleFormikSubmit}
@@ -41,16 +48,16 @@ const Index = ({ student, classes, sections, user }) => {
   );
 };
 
-export const getServerSideProps = securePage(async (ctx, user) => {
-  const id = ctx.params.id as string;
+export const getServerSideProps = securePage(async (ctx) => {
+  const id = (ctx.params?.id as string) || "";
 
-  const student = await Student.findOne({ id });
-  const classes = await Class.find();
-  const sections = await Section.find();
+  const student = await prisma.student.findUnique({ where: { id } });
+  const classGroups = await prisma.classGroup.findMany();
+  const sections = await prisma.section.findMany();
 
   return {
     student,
-    classes,
+    classGroups,
     sections,
   };
 });

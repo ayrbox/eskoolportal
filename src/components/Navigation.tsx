@@ -69,7 +69,6 @@ const navigationLinks: NavigationLinkType[] = [
       { label: "Subjects", url: "/settings/subjects" },
       { label: "Events", url: "/settings/events" },
       { label: "Exams", url: "/settings/exams" },
-      { label: "Grades", url: "/settings/grades" },
     ],
   },
 ];

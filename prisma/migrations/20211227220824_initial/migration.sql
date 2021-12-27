@@ -33,12 +33,12 @@ CREATE TABLE "Section" (
 CREATE TABLE "Student" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
+    "dateOfBirth" DATE NOT NULL,
     "gender" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "contactNo" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "joinDate" TIMESTAMP(3) NOT NULL,
+    "email" TEXT,
+    "joinDate" DATE NOT NULL,
     "rollNo" INTEGER NOT NULL,
     "referenceCode" TEXT NOT NULL,
     "sectionId" TEXT,
@@ -117,8 +117,8 @@ CREATE TABLE "Exam" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "endDate" TIMESTAMP(3) NOT NULL,
+    "startDate" DATE NOT NULL,
+    "endDate" DATE NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "fiscalYearId" TEXT NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE "Exam" (
 );
 
 -- CreateTable
-CREATE TABLE "StudentExamGrades" (
+CREATE TABLE "ObtainMarks" (
     "id" TEXT NOT NULL,
     "examType" TEXT,
     "fullMark" INTEGER NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE "StudentExamGrades" (
     "subjectId" TEXT NOT NULL,
     "classGroupId" TEXT NOT NULL,
 
-    CONSTRAINT "StudentExamGrades_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ObtainMarks_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
@@ -160,13 +160,13 @@ ALTER TABLE "SubjectsInClassGroup" ADD CONSTRAINT "SubjectsInClassGroup_subjectI
 ALTER TABLE "Exam" ADD CONSTRAINT "Exam_fiscalYearId_fkey" FOREIGN KEY ("fiscalYearId") REFERENCES "FiscalYear"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "StudentExamGrades" ADD CONSTRAINT "StudentExamGrades_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ObtainMarks" ADD CONSTRAINT "ObtainMarks_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "StudentExamGrades" ADD CONSTRAINT "StudentExamGrades_examId_fkey" FOREIGN KEY ("examId") REFERENCES "Exam"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ObtainMarks" ADD CONSTRAINT "ObtainMarks_examId_fkey" FOREIGN KEY ("examId") REFERENCES "Exam"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "StudentExamGrades" ADD CONSTRAINT "StudentExamGrades_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ObtainMarks" ADD CONSTRAINT "ObtainMarks_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "StudentExamGrades" ADD CONSTRAINT "StudentExamGrades_classGroupId_fkey" FOREIGN KEY ("classGroupId") REFERENCES "ClassGroup"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ObtainMarks" ADD CONSTRAINT "ObtainMarks_classGroupId_fkey" FOREIGN KEY ("classGroupId") REFERENCES "ClassGroup"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

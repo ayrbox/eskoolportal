@@ -22,12 +22,12 @@ model User {
 
 // Students Class/Group (Note: Group is prefixed to avoid conflict with class keyword)
 model ClassGroup {
-  id                String                 @id @default(cuid())
-  name              String
-  order             Int
-  students          Student[]
-  SubjectsInClass   SubjectsInClassGroup[]
-  StudentExamGrades StudentExamGrades[]
+  id              String                 @id @default(cuid())
+  name            String
+  order           Int
+  students        Student[]
+  SubjectsInClass SubjectsInClassGroup[]
+  obtainMarks     ObtainMarks[]
 }
 
 // Sub group of Class/Group
@@ -41,24 +41,24 @@ model Section {
 // Student Profile
 
 model Student {
-  id                String              @id @default(cuid())
-  name              String
-  dateOfBirth       DateTime            @db.Date
-  gender            String
-  address           String
-  contactNo         String
-  email             String?
-  joinDate          DateTime            @db.Date
-  rollNo            Int
-  referenceCode     String
-  sectionId         String?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  MedicalHistory    MedicalHistory[]
-  classGroupId      String?
-  StudentExamGrades StudentExamGrades[]
-  ClassGroup        ClassGroup?         @relation(fields: [classGroupId], references: [id])
-  Section           Section?            @relation(fields: [sectionId], references: [id])
+  id             String           @id @default(cuid())
+  name           String
+  dateOfBirth    DateTime         @db.Date
+  gender         String
+  address        String
+  contactNo      String
+  email          String?
+  joinDate       DateTime         @db.Date
+  rollNo         Int
+  referenceCode  String
+  sectionId      String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  MedicalHistory MedicalHistory[]
+  classGroupId   String?
+  obtainMarks    ObtainMarks[]
+  ClassGroup     ClassGroup?      @relation(fields: [classGroupId], references: [id])
+  Section        Section?         @relation(fields: [sectionId], references: [id])
 }
 
 // Medical History of a student
@@ -99,11 +99,11 @@ model FiscalYear {
 
 // List of subjects
 model Subject {
-  id                String                 @id @default(cuid())
-  name              String
-  description       String
-  SubjectsInClass   SubjectsInClassGroup[]
-  StudentExamGrades StudentExamGrades[]
+  id              String                 @id @default(cuid())
+  name            String
+  description     String
+  SubjectsInClass SubjectsInClassGroup[]
+  obtainMarks     ObtainMarks[]
 }
 
 // List of subjects tought in a class/group
@@ -133,12 +133,12 @@ model Exam {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  fiscalYearId      String
-  StudentExamGrades StudentExamGrades[]
+  fiscalYearId String
+  obtainMarks  ObtainMarks[]
 }
 
 // यो Studentले यो Examमा यति class पठिरहदा यो subjectमा यति marks ल्याएको थियो ।
-model StudentExamGrades {
+model ObtainMarks {
   id String @id @default(cuid())
 
   student       Student    @relation(fields: [studentId], references: [id])

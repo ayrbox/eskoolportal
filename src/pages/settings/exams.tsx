@@ -7,8 +7,10 @@ import Layout from "~/components/Layout";
 import ListPage from "~/components/ListPage";
 import { securePage } from "~/lib/securePage";
 import { FormState } from "~/types/FormMode";
-import { Prisma, Exam, FiscalYear } from "@prisma/client";
+import { Prisma, Exam, FiscalYear, ExamName } from "@prisma/client";
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
+
+import prisma from "~/lib/prisma";
 
 const EXAM_ENDPOINT = "/api/exams";
 
@@ -16,7 +18,12 @@ export type ExamWithFiscalYear = Exam & {
   fiscalYear: FiscalYear;
 };
 
-const ExamSettings = ({ user }: PagePropsWithUser) => {
+interface ExamSettingProps extends PagePropsWithUser {
+  fiscalYears: FiscalYear[];
+  examNames: ExamName[];
+}
+
+const ExamSettings = ({ user, fiscalYears, examNames }: ExamSettingProps) => {
   const handleFormSubmit = async (
     state: FormState<Exam | Prisma.ExamCreateInput>
   ) => {
@@ -70,13 +77,15 @@ const ExamSettings = ({ user }: PagePropsWithUser) => {
               </tbody>
             </Table>
 
-            {/* {formState.isOpen && (
+            {formState.isOpen && (
               <ExamForm
                 values={formState.data}
                 onClose={onFormClose}
+                fiscalYears={fiscalYears}
+                examNames={examNames}
                 onFormSubmit={onFormSubmit}
               />
-            )} */}
+            )}
           </>
         )}
       </ListPage>
@@ -84,6 +93,17 @@ const ExamSettings = ({ user }: PagePropsWithUser) => {
   );
 };
 
-export const getServerSideProps = securePage();
+export const getServerSideProps = securePage(async () => {
+  const fiscalYears = await prisma.fiscalYear.findMany({
+    orderBy: { id: "desc" },
+  });
+
+  const examNames = await prisma.examName.findMany();
+
+  return {
+    fiscalYears,
+    examNames,
+  };
+});
 
 export default ExamSettings;

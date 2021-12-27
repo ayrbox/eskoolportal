@@ -2,27 +2,51 @@ import React, { FunctionComponent } from "react";
 import FormItem from "./form/FormItem";
 import { examNameSchema } from "~/lib/validations";
 import ListForm from "./ListPage/ListForm";
-import type { ExamName, Prisma } from "@prisma/client";
+import type { Exam, ExamName, FiscalYear, Prisma } from "@prisma/client";
+import FormSelect from "./form/FormSelect";
 
 export interface ExamFormProps {
-  values: ExamName | Prisma.ExamNameCreateInput;
-  onFormSubmit: (value: ExamName | Prisma.ExamNameCreateInput) => void;
+  values: Exam | Prisma.ExamCreateInput;
+  fiscalYears: FiscalYear[];
+  examNames: ExamName[];
+  onFormSubmit: (value: Exam | Prisma.ExamCreateInput) => void;
   onClose?: () => void;
 }
 
 const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
-  <ListForm<ExamName | Prisma.ExamNameCreateInput>
+  <ListForm<Exam | Prisma.ExamCreateInput>
     validation={examNameSchema}
     {...props}
   >
     {({ autoFocusRef }) => (
       <>
         <h2>Exam</h2>
-        <FormItem
+        <FormSelect
           label="Exam Name"
           name="name"
           colSize={8}
           innerRef={autoFocusRef}
+          options={props.examNames?.map(({ name }) => ({
+            label: name,
+            value: name,
+          }))}
+        />
+
+        <FormSelect
+          label="Fiscal Year"
+          name="fiscalYearId"
+          colSize={8}
+          options={props.fiscalYears?.map(({ id: value, name: label }) => ({
+            value,
+            label,
+          }))}
+        />
+
+        <FormItem
+          label="Description"
+          name="description"
+          colSize={8}
+          type="textarea"
         />
       </>
     )}

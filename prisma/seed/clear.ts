@@ -7,5 +7,7 @@ export default async function clear(prisma: PrismaClient): Promise<void> {
   await prisma.section.deleteMany();
   await prisma.classGroup.deleteMany();
   await prisma.subject.deleteMany();
+  await prisma.exam.deleteMany();
+  await prisma.examName.deleteMany();
   await prisma.fiscalYear.deleteMany();
 }

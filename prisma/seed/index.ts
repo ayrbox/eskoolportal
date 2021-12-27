@@ -7,6 +7,7 @@ import seedStudents from "./students";
 import seedSubjects from "./subjects";
 import clear from "./clear";
 import seedFiscalYear from "./fiscalYear";
+import seedExams from "./seedExams";
 
 const prisma = new PrismaClient();
 
@@ -38,6 +39,10 @@ export const seeder = async () => {
   console.log("[START] Seeding fiscal years...");
   await seedFiscalYear(prisma);
   console.log("[END] Fiscal Year seeded.");
+
+  console.log("[START] Seeding Exams...");
+  await seedExams(prisma);
+  console.log("[END] Seeding Exams...");
 };
 
 seeder()

@@ -15,7 +15,7 @@ yarn seed:db
 # Tasks
 
 1. Prisma: StudentGrade to ObtainedMarks
-2. Add Exam Setting Page with (Marks Name Dialog box)
+2. Add Exam Setting Page with (Exam Name Dialog box)
 3. Marks Entry Page
    Steps:
 

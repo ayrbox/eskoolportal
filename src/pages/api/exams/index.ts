@@ -16,14 +16,19 @@ handler.get(async (_, res: NextApiResponse) => {
 });
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const exam = req.body as Prisma.ExamCreateInput;
+  try {
+    const exam = req.body as Prisma.ExamCreateInput;
 
-  // TODO: Validate
+    // TODO: Validate
 
-  const examCreated = await prisma.exam.create({
-    data: exam,
-  });
-  res.status(201).send(examCreated);
+    const examCreated = await prisma.exam.create({
+      data: exam,
+    });
+    res.status(201).send(examCreated);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("hello");
+  }
 });
 
 export default secureRoute(handler);

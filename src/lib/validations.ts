@@ -38,3 +38,8 @@ export const eventSchema = yup.object().shape({
 export const examNameSchema = yup.object().shape({
   name: yup.string().min(3).required("Name is required."),
 });
+
+export const examSchema = yup.object().shape({
+  name: yup.string().required("Name is required."),
+  description: yup.string().nullable(),
+});

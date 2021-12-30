@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 import FormItem from "./form/FormItem";
-import { examNameSchema } from "~/lib/validations";
+import { examSchema } from "~/lib/validations";
 import ListForm from "./ListPage/ListForm";
 import type { Exam, ExamName, FiscalYear, Prisma } from "@prisma/client";
 import FormSelect from "./form/FormSelect";
+import FormDate from "./form/FormDate";
 
 export interface ExamFormProps {
   values: Exam | Prisma.ExamCreateInput;
@@ -14,13 +15,13 @@ export interface ExamFormProps {
 }
 
 const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
-  <ListForm<Exam | Prisma.ExamCreateInput>
-    validation={examNameSchema}
-    {...props}
-  >
-    {({ autoFocusRef }) => (
+  <ListForm<Exam | Prisma.ExamCreateInput> validation={examSchema} {...props}>
+    {({ autoFocusRef, isValid, values, errors }) => (
       <>
         <h2>Exam</h2>
+
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+
         <FormSelect
           label="Exam Name"
           name="name"
@@ -31,7 +32,6 @@ const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
             value: name,
           }))}
         />
-
         <FormSelect
           label="Fiscal Year"
           name="fiscalYearId"
@@ -41,13 +41,15 @@ const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
             label,
           }))}
         />
-
         <FormItem
           label="Description"
           name="description"
           colSize={8}
           type="textarea"
         />
+
+        <FormDate label="Start" name="startDate" colSize={8} />
+        <FormDate label="End" name="endDate" colSize={8} />
       </>
     )}
   </ListForm>

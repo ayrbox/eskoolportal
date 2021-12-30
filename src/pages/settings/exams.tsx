@@ -11,6 +11,7 @@ import { Prisma, Exam, FiscalYear, ExamName } from "@prisma/client";
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 
 import prisma from "~/lib/prisma";
+import fiscalyears from "../api/fiscalyears";
 
 const EXAM_ENDPOINT = "/api/exams";
 
@@ -43,10 +44,15 @@ const ExamSettings = ({ user, fiscalYears, examNames }: ExamSettingProps) => {
 
   return (
     <Layout user={user} title="Exams">
-      <ListPage<ExamWithFiscalYear>
+      <ListPage<ExamWithFiscalYear, Exam | Prisma.ExamUncheckedCreateInput>
         url={EXAM_ENDPOINT}
         onFormSubmit={handleFormSubmit}
-        initialFormData={undefined}
+        initialFormData={{
+          fiscalYearId: fiscalYears[0].id,
+          name: examNames[0].name,
+          startDate: new Date(),
+          endDate: new Date(),
+        }}
       >
         {({ items, onItemClick, formState, onFormClose, onFormSubmit }) => (
           <>

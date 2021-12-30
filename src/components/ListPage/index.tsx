@@ -4,27 +4,27 @@ import useSWR from "swr";
 import { FormState } from "~/types/FormMode";
 import { Button } from "reactstrap";
 
-export type ListPageChildrenProps<T> = {
+export type ListPageChildrenProps<T, I> = {
   items: Array<T>;
   onItemClick: (item: T) => MouseEventHandler;
-  formState: FormState<T>;
+  formState: FormState<T | I>;
   onFormClose: () => void;
-  onFormSubmit: (values: T) => Promise<boolean> | boolean;
+  onFormSubmit: (values: T | I) => Promise<boolean> | boolean;
   onDelete?: (item: T) => MouseEventHandler;
 };
 
-export interface ListPageProps<T> {
+export interface ListPageProps<T, I> {
   url: string;
-  onFormSubmit: (values: FormState<T>) => Promise<boolean>;
-  children: (childProps: ListPageChildrenProps<T>) => ReactElement;
+  onFormSubmit: (values: FormState<T | I>) => Promise<boolean>;
+  children: (childProps: ListPageChildrenProps<T, I>) => ReactElement;
   onDelete?: (item: T) => Promise<boolean>;
-  initialFormData: T;
+  initialFormData: I;
 }
 
-function ListPage<T>(props: ListPageProps<T>) {
+function ListPage<T, I>(props: ListPageProps<T, I>) {
   const { url, onFormSubmit, onDelete, initialFormData } = props;
 
-  const [formState, setFormState] = useState<FormState<T>>({
+  const [formState, setFormState] = useState<FormState<T | I>>({
     isOpen: false,
     mode: "ADD",
     data: initialFormData,
@@ -57,7 +57,7 @@ function ListPage<T>(props: ListPageProps<T>) {
     });
   };
 
-  const handleFormSubmit = async (values: T): Promise<boolean> => {
+  const handleFormSubmit = async (values: T | I): Promise<boolean> => {
     const state = {
       ...formState,
       data: values,

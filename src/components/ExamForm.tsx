@@ -7,15 +7,18 @@ import FormSelect from "./form/FormSelect";
 import FormDate from "./form/FormDate";
 
 export interface ExamFormProps {
-  values: Exam | Prisma.ExamCreateInput;
+  values: Exam | Prisma.ExamUncheckedCreateInput;
   fiscalYears: FiscalYear[];
   examNames: ExamName[];
-  onFormSubmit: (value: Exam | Prisma.ExamCreateInput) => void;
+  onFormSubmit: (value: Exam | Prisma.ExamUncheckedCreateInput) => void;
   onClose?: () => void;
 }
 
 const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
-  <ListForm<Exam | Prisma.ExamCreateInput> validation={examSchema} {...props}>
+  <ListForm<Exam | Prisma.ExamUncheckedCreateInput>
+    validation={examSchema}
+    {...props}
+  >
     {({ autoFocusRef, isValid, values, errors }) => (
       <>
         <h2>Exam</h2>

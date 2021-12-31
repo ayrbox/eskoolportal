@@ -6,10 +6,15 @@ import { secureRoute } from "~/lib/secureRoute";
 
 const handler = nextConnect();
 
-handler.get(async (_, res: NextApiResponse) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const fiscalYearId = req.query.fiscalYear as string | undefined;
+
   const exams = await prisma.exam.findMany({
     include: {
       fiscalYear: true,
+    },
+    where: {
+      fiscalYearId,
     },
   });
   res.send(exams);

@@ -1,6 +1,5 @@
 import React, {
   ChangeEventHandler,
-  cloneElement,
   KeyboardEventHandler,
   useEffect,
   useState,
@@ -19,6 +18,7 @@ interface MarksEntryProps extends PagePropsWithUser {
   fiscalYears: FiscalYear[];
   classGroups: ClassGroup[];
   sections: Section[];
+	subjects: Subject[];
 }
 
 const MarksEntry = ({
@@ -26,11 +26,13 @@ const MarksEntry = ({
   fiscalYears,
   classGroups,
   sections,
+	subjects,
 }: MarksEntryProps) => {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>();
   const [examList, setExamList] = useState<Exam[]>([]);
 
   const [studentCode, setStudentCode] = useState<string>("");
+
 
   useEffect(() => {
     async function fetchExamList() {
@@ -115,6 +117,17 @@ const MarksEntry = ({
             ))}
           </Input>
         </Col>
+				<Col sm={6}>
+          <Label>Subject: </Label>
+          <Input type="select" name="subject" id="subject">
+            <option></option>
+            {subjects.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </Input>
+        </Col>
       </Row>
 
       <Input
@@ -133,11 +146,13 @@ export const getServerSideProps = securePage(async () => {
   const fiscalYears = await prisma.fiscalYear.findMany();
   const classGroups = await prisma.classGroup.findMany();
   const sections = await prisma.section.findMany();
+	const subjects = await prisma.subject.findMany();
 
   return {
     fiscalYears,
     classGroups,
     sections,
+		subjects,
   };
 });
 

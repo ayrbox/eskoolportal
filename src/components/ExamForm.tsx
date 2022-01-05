@@ -22,9 +22,6 @@ const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
     {({ autoFocusRef, isValid, values, errors }) => (
       <>
         <h2>Exam</h2>
-
-        <pre>{JSON.stringify(values, null, 2)}</pre>
-
         <FormSelect
           label="Exam Name"
           name="name"
@@ -50,7 +47,6 @@ const ExamForm: FunctionComponent<ExamFormProps> = (props: ExamFormProps) => (
           colSize={8}
           type="textarea"
         />
-
         <FormDate label="Start" name="startDate" colSize={8} />
         <FormDate label="End" name="endDate" colSize={8} />
       </>

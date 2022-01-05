@@ -146,8 +146,8 @@ model ObtainMarks {
   subject       Subject    @relation(fields: [subjectId], references: [id])
   classGroup    ClassGroup @relation(fields: [classGroupId], references: [id])
   examType      String?
-  fullMark      Int
-  passMark      Int
+  fullMark      Int        @default(0)
+  passMark      Int        @default(0)
   obtainedMarks Int
 
   studentId    String

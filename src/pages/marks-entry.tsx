@@ -1,20 +1,28 @@
 import React, {
   ChangeEventHandler,
   KeyboardEventHandler,
+  MouseEventHandler,
   useEffect,
   useState,
 } from "react";
-import { Col, Input, Label, Row } from "reactstrap";
+import { Button, Col, Input, Label, Row, Table } from "reactstrap";
 import Layout from "~/components/Layout";
-
 import { securePage } from "~/lib/securePage";
-
-import { ClassGroup, Exam, FiscalYear, Section, Subject } from "@prisma/client";
+import {
+  ClassGroup,
+  Exam,
+  FiscalYear,
+  Section,
+  Student,
+  Subject,
+} from "@prisma/client";
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 import prisma from "~/lib/prisma";
 import axios from "axios";
 import Panel from "~/components/Panel";
 import { StudentWithObtainedMarks } from "~/types/StudentTypes";
+import * as yup from "yup";
+import { ObtainMarksWithStudentDetail } from "~/types/Marks";
 
 interface MarksEntryProps extends PagePropsWithUser {
   fiscalYears: FiscalYear[];
@@ -29,7 +37,16 @@ type FormValue = {
   sectionId?: string;
   subjectId?: string;
   studentCode: string;
+  examType?: string;
 };
+
+const formValueValidation = yup.object().shape({
+  examId: yup.string().required(),
+  classGroupId: yup.string().required(),
+  sectionId: yup.string().required(),
+  subjectId: yup.string().required(),
+  examType: yup.string().nullable(),
+});
 
 type Mark = {
   fullMark: number;
@@ -48,21 +65,23 @@ const MarksEntry = ({
     fiscalYears[0]
   );
   const [examList, setExamList] = useState<Exam[]>([]);
-
   const [formValue, setFormValue] = useState<FormValue>({
     classGroupId: "ckxpa91ni00503z6enhie22eo",
     examId: "ckxpa91v413623z6ey5joslar",
     sectionId: "ckxpa91nl00673z6e06rmgpsl",
     subjectId: "ckxpa91uq13353z6e2jrcc0ny",
     studentCode: "8WWMT",
+    examType: undefined,
   });
-
   const [studentMarks, setStudentMarks] = useState<StudentWithObtainedMarks>();
   const [marks, setMarks] = useState<Mark>({
     fullMark: 0,
     passMark: 0,
     obtainedMarks: 0,
   });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [obtainedMarks, setObtainedMarks] =
+    useState<ObtainMarksWithStudentDetail[]>();
 
   useEffect(() => {
     async function fetchExamList() {
@@ -70,6 +89,10 @@ const MarksEntry = ({
         `/api/exams?fiscalYear=${fiscalYear?.id}`
       );
       setExamList(data);
+      setFormValue((prev) => ({
+        ...prev,
+        examdId: undefined,
+      }));
     }
     if (fiscalYear) fetchExamList();
   }, [fiscalYear]);
@@ -79,6 +102,25 @@ const MarksEntry = ({
     const fiscalYearId = e.target.value;
     setFiscalYear(fiscalYears.find(({ id }) => fiscalYearId == id));
   };
+
+  // When form value
+  useEffect(() => {
+    async function fetchMarks() {
+      try {
+        await formValueValidation.validate(formValue);
+
+        const { data } = await axios.get<ObtainMarksWithStudentDetail[]>(
+          "/api/marks",
+          { params: formValue }
+        );
+        setObtainedMarks(data);
+      } catch {
+        /* DO NOTHING */
+      }
+    }
+
+    fetchMarks();
+  }, [formValue]);
 
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (e.key !== "Enter") return;
@@ -104,7 +146,6 @@ const MarksEntry = ({
     // 400 Error
     // 404 Student not found
     // 400 Student does not belong to selected classGroup and/or classSection
-
     const { data: marksForAll } = await axios.get<unknown>("/api/marks", {
       params: formValue,
     });
@@ -120,107 +161,126 @@ const MarksEntry = ({
       }));
     };
 
+  const handleOpenDialog: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    setOpenDialog(true);
+  };
+
   return (
     <Layout user={user} title="Marks Entry">
-      {/* <pre>{JSON.stringify(formValue, null, 2)}</pre> */}
-      <Row>
-        <Col sm={3}>
-          <Label>Year: </Label>
-          <Input
-            type="select"
-            name="fiscalYear"
-            id="fiscalYear"
-            onChange={handleFiscalYearChange}
-            value={fiscalYear?.id}
-          >
-            <option></option>
-            {fiscalYears.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
-        <Col sm={3}>
-          <Label>Exam: </Label>
-          <Input
-            type="select"
-            name="exam"
-            id="exam"
-            value={formValue.examId}
-            onChange={handleFormChange("examId")}
-          >
-            <option></option>
-            {examList.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={3}>
-          <Label>Class: </Label>
-          <Input
-            type="select"
-            name="classGroup"
-            id="classGroup"
-            value={formValue.classGroupId}
-            onChange={handleFormChange("classGroupId")}
-          >
-            <option></option>
-            {classGroups.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
-        <Col sm={3}>
-          <Label>Section: </Label>
-          <Input
-            type="select"
-            name="section"
-            id="section"
-            value={formValue.sectionId}
-            onChange={handleFormChange("sectionId")}
-          >
-            <option></option>
-            {sections.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
-        <Col sm={6}>
-          <Label>Subject: </Label>
-          <Input
-            type="select"
-            name="subject"
-            id="subject"
-            value={formValue.subjectId}
-            onChange={handleFormChange("subjectId")}
-          >
-            <option></option>
-            {subjects.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </Input>
-        </Col>
-      </Row>
-      <Input
-        type="text"
-        name="studentCode"
-        id="studentCode"
-        onKeyPress={handleKeyPress}
-        onChange={handleFormChange("studentCode")}
-        value={formValue.studentCode}
-      />
       <>
+        <pre>{JSON.stringify(formValue, null, 2)}</pre>
+        <Row>
+          <Col sm={3}>
+            <Label>Year: </Label>
+            <Input
+              type="select"
+              name="fiscalYear"
+              id="fiscalYear"
+              onChange={handleFiscalYearChange}
+              value={fiscalYear?.id}
+            >
+              <option></option>
+              {fiscalYears.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Input>
+          </Col>
+          <Col sm={3}>
+            <Label>Exam: </Label>
+            <Input
+              type="select"
+              name="exam"
+              id="exam"
+              value={formValue.examId}
+              onChange={handleFormChange("examId")}
+            >
+              <option></option>
+              {examList.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Input>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={3}>
+            <Label>Class: </Label>
+            <Input
+              type="select"
+              name="classGroup"
+              id="classGroup"
+              value={formValue.classGroupId}
+              onChange={handleFormChange("classGroupId")}
+            >
+              <option></option>
+              {classGroups.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Input>
+          </Col>
+          <Col sm={3}>
+            <Label>Section: </Label>
+            <Input
+              type="select"
+              name="section"
+              id="section"
+              value={formValue.sectionId}
+              onChange={handleFormChange("sectionId")}
+            >
+              <option></option>
+              {sections.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Input>
+          </Col>
+          <Col sm={3}>
+            <Label>Subject: </Label>
+            <Input
+              type="select"
+              name="subject"
+              id="subject"
+              value={formValue.subjectId}
+              onChange={handleFormChange("subjectId")}
+            >
+              <option></option>
+              {subjects.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Input>
+          </Col>
+          <Col sm={3}>
+            <Label>Exam Type:</Label>
+            <Input
+              type="select"
+              name="examType"
+              id="examType"
+              value={formValue.examType}
+              onChange={handleFormChange("examType")}
+            >
+              <option></option>
+              <option>Theory</option>
+              <option>Practical</option>
+            </Input>
+          </Col>
+        </Row>
+        <Input
+          type="text"
+          name="studentCode"
+          id="studentCode"
+          onKeyPress={handleKeyPress}
+          onChange={handleFormChange("studentCode")}
+          value={formValue.studentCode}
+        />
         {studentMarks && (
           <Panel>
             <h1>
@@ -256,6 +316,39 @@ const MarksEntry = ({
             <pre>{JSON.stringify(studentMarks, null, 2)}</pre>
           </Panel>
         )}
+
+        <div className="d-flex justify-content-end py-3">
+          <Button color="primary" className="mr-3" onClick={handleOpenDialog}>
+            Enter Marks
+          </Button>
+        </div>
+
+        {obtainedMarks && (
+          <Table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Exam Type</th>
+                <th>Full Marks</th>
+                <th>Pass Marks</th>
+                <th>Obtained Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {obtainedMarks.map((marks) => (
+                <tr>
+                  <td>{marks.student.name}</td>
+                  <td>{marks.examType}</td>
+                  <td>{marks.fullMark}</td>
+                  <td>{marks.passMark}</td>
+                  <td>{marks.obtainedMarks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+
+        {openDialog && <h1>Dialog should be open here.</h1>}
       </>
     </Layout>
   );

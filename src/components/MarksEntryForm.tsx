@@ -130,6 +130,7 @@ export default function MarksEntryForm({
     <Overlay open onClose={handleClose}>
       <Panel className="shadow-lg">
         <Form onSubmit={handleFormSubmit} className="p-5">
+          <h3>Student Code: </h3>
           <Input
             type="text"
             name="studentCode"
@@ -139,6 +140,7 @@ export default function MarksEntryForm({
             onChange={handleStudentCodeChange}
             value={studentCode}
           />
+          <p className="small">Please enter student code and press enter.</p>
           {studentDetail && (
             <Panel>
               <h1>
@@ -179,13 +181,17 @@ export default function MarksEntryForm({
           )}
 
           <FormGroup row>
-            <Col sm={{ size: 10, offset: 2 }}>
-              <Button type="submit" color="primary">
-                Save
-              </Button>
-              <Button type="reset" onClick={onClose} outline color="primary">
-                Cancel
-              </Button>
+            <Col sm={12}>
+              <div className="d-flex justify-content-end py-3">
+                {studentDetail && (
+                  <Button type="submit" color="primary">
+                    Save
+                  </Button>
+                )}
+                <Button type="reset" onClick={onClose} outline color="primary">
+                  Cancel
+                </Button>
+              </div>
             </Col>
           </FormGroup>
         </Form>

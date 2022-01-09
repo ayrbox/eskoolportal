@@ -1,6 +1,5 @@
 import React, {
   ChangeEventHandler,
-  KeyboardEventHandler,
   MouseEventHandler,
   useEffect,
   useState,
@@ -19,10 +18,12 @@ import {
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 import prisma from "~/lib/prisma";
 import axios from "axios";
-import Panel from "~/components/Panel";
-import { StudentWithObtainedMarks } from "~/types/StudentTypes";
 import * as yup from "yup";
-import { ObtainMarksWithStudentDetail } from "~/types/Marks";
+import {
+  ObtainedMarksQueryParams,
+  ObtainMarksWithStudentDetail,
+} from "~/types/Marks";
+import MarksEntryForm from "~/components/MarksEntryForm";
 
 interface MarksEntryProps extends PagePropsWithUser {
   fiscalYears: FiscalYear[];
@@ -31,15 +32,6 @@ interface MarksEntryProps extends PagePropsWithUser {
   subjects: Subject[];
 }
 
-type FormValue = {
-  examId?: string;
-  classGroupId?: string;
-  sectionId?: string;
-  subjectId?: string;
-  studentCode: string;
-  examType?: string;
-};
-
 const formValueValidation = yup.object().shape({
   examId: yup.string().required(),
   classGroupId: yup.string().required(),
@@ -47,12 +39,6 @@ const formValueValidation = yup.object().shape({
   subjectId: yup.string().required(),
   examType: yup.string().nullable(),
 });
-
-type Mark = {
-  fullMark: number;
-  passMark: number;
-  obtainedMarks: number;
-};
 
 const MarksEntry = ({
   user,
@@ -65,20 +51,16 @@ const MarksEntry = ({
     fiscalYears[0]
   );
   const [examList, setExamList] = useState<Exam[]>([]);
-  const [formValue, setFormValue] = useState<FormValue>({
-    classGroupId: "ckxpa91ni00503z6enhie22eo",
-    examId: "ckxpa91v413623z6ey5joslar",
-    sectionId: "ckxpa91nl00673z6e06rmgpsl",
-    subjectId: "ckxpa91uq13353z6e2jrcc0ny",
-    studentCode: "8WWMT",
-    examType: undefined,
-  });
-  const [studentMarks, setStudentMarks] = useState<StudentWithObtainedMarks>();
-  const [marks, setMarks] = useState<Mark>({
-    fullMark: 0,
-    passMark: 0,
-    obtainedMarks: 0,
-  });
+  const [formValue, setFormValue] = useState<Partial<ObtainedMarksQueryParams>>(
+    {
+      classGroupId: "ckxpa91ni00503z6enhie22eo",
+      examId: "ckxpa91v413623z6ey5joslar",
+      sectionId: "ckxpa91nl00673z6e06rmgpsl",
+      subjectId: "ckxpa91uq13353z6e2jrcc0ny",
+      examType: undefined,
+    }
+  );
+
   const [openDialog, setOpenDialog] = useState(false);
   const [obtainedMarks, setObtainedMarks] =
     useState<ObtainMarksWithStudentDetail[]>();
@@ -108,7 +90,6 @@ const MarksEntry = ({
     async function fetchMarks() {
       try {
         await formValueValidation.validate(formValue);
-
         const { data } = await axios.get<ObtainMarksWithStudentDetail[]>(
           "/api/marks",
           { params: formValue }
@@ -122,38 +103,10 @@ const MarksEntry = ({
     fetchMarks();
   }, [formValue]);
 
-  const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = async (e) => {
-    if (e.key !== "Enter") return;
-
-    e.preventDefault();
-    const { data } = await axios.get<StudentWithObtainedMarks>(
-      `/api/marks/${formValue.studentCode}`,
-      {
-        params: formValue,
-      }
-    );
-    setStudentMarks(data);
-
-    const [studentCurrentMarks] = data.obtainMarks;
-
-    setMarks({
-      fullMark: studentCurrentMarks?.fullMark || data.fullMark,
-      passMark: studentCurrentMarks?.passMark || data.passMark,
-      obtainedMarks: studentCurrentMarks?.obtainedMarks || 0,
-    });
-
-    // TODO: Handle Error
-    // 400 Error
-    // 404 Student not found
-    // 400 Student does not belong to selected classGroup and/or classSection
-    const { data: marksForAll } = await axios.get<unknown>("/api/marks", {
-      params: formValue,
-    });
-    console.log(marksForAll);
-  };
-
   const handleFormChange =
-    (key: keyof FormValue): ChangeEventHandler<HTMLInputElement> =>
+    (
+      key: keyof ObtainedMarksQueryParams
+    ): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
       setFormValue((prev) => ({
         ...prev,
@@ -161,15 +114,30 @@ const MarksEntry = ({
       }));
     };
 
-  const handleOpenDialog: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-    setOpenDialog(true);
+  const handleToggleForm =
+    (state: boolean): MouseEventHandler<HTMLButtonElement> =>
+    (e) => {
+      e.preventDefault();
+      setOpenDialog(state);
+    };
+
+  const handleCloseForm = () => setOpenDialog(false);
+  const handleSubmission = async () => {
+    try {
+      await formValueValidation.validate(formValue);
+      const { data } = await axios.get<ObtainMarksWithStudentDetail[]>(
+        "/api/marks",
+        { params: formValue }
+      );
+      setObtainedMarks(data);
+    } catch {
+      /* DO NOTHING */
+    }
   };
 
   return (
     <Layout user={user} title="Marks Entry">
       <>
-        <pre>{JSON.stringify(formValue, null, 2)}</pre>
         <Row>
           <Col sm={3}>
             <Label>Year: </Label>
@@ -264,7 +232,7 @@ const MarksEntry = ({
               type="select"
               name="examType"
               id="examType"
-              value={formValue.examType}
+              value={formValue.examType as string | undefined}
               onChange={handleFormChange("examType")}
             >
               <option></option>
@@ -273,60 +241,20 @@ const MarksEntry = ({
             </Input>
           </Col>
         </Row>
-        <Input
-          type="text"
-          name="studentCode"
-          id="studentCode"
-          onKeyPress={handleKeyPress}
-          onChange={handleFormChange("studentCode")}
-          value={formValue.studentCode}
-        />
-        {studentMarks && (
-          <Panel>
-            <h1>
-              <strong>{studentMarks?.name}</strong> (
-              <small>{studentMarks?.rollNo}</small>)
-            </h1>
-            <p>
-              {studentMarks?.ClassGroup.name} ({studentMarks?.Section.name})
-            </p>
-            <Input
-              type="number"
-              name="obtainedMarks"
-              value={marks.obtainedMarks}
-            />
-            <Row>
-              <Col>
-                <Input
-                  type="number"
-                  name="fullMark"
-                  value={marks.fullMark}
-                  disabled
-                />
-              </Col>
-              <Col>
-                <Input
-                  type="number"
-                  name="passMark"
-                  value={marks.passMark}
-                  disabled
-                />
-              </Col>
-            </Row>
-            <pre>{JSON.stringify(studentMarks, null, 2)}</pre>
-          </Panel>
-        )}
-
         <div className="d-flex justify-content-end py-3">
-          <Button color="primary" className="mr-3" onClick={handleOpenDialog}>
+          <Button
+            color="primary"
+            className="mr-3"
+            onClick={handleToggleForm(true)}
+          >
             Enter Marks
           </Button>
         </div>
-
         {obtainedMarks && (
           <Table>
             <thead>
               <tr>
+                <th>Student Code</th>
                 <th>Student</th>
                 <th>Exam Type</th>
                 <th>Full Marks</th>
@@ -337,6 +265,7 @@ const MarksEntry = ({
             <tbody>
               {obtainedMarks.map((marks) => (
                 <tr>
+                  <td>{marks.student.referenceCode}</td>
                   <td>{marks.student.name}</td>
                   <td>{marks.examType}</td>
                   <td>{marks.fullMark}</td>
@@ -348,7 +277,13 @@ const MarksEntry = ({
           </Table>
         )}
 
-        {openDialog && <h1>Dialog should be open here.</h1>}
+        {openDialog && (
+          <MarksEntryForm
+            formValue={formValue as ObtainedMarksQueryParams}
+            onClose={handleCloseForm}
+            onSubmitted={handleSubmission}
+          />
+        )}
       </>
     </Layout>
   );

@@ -3,25 +3,36 @@ import React, {
   KeyboardEventHandler,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import Overlay from "~/components/Overlay";
-import { useEffect } from "react";
 import Panel from "~/components/Panel";
-import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import {
+  Alert,
+  Button,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from "reactstrap";
 import { StudentWithObtainedMarks } from "~/types/StudentTypes";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEventHandler } from "react";
 import {
   Marks,
   ObtainedMarksQueryParams,
   StudentMarksPayload,
 } from "~/types/Marks";
+import { ResponseErrorType } from "~/types/AppTypes";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 export interface MarksEntryFormProps {
   onClose?: () => void;
   formValue: ObtainedMarksQueryParams;
   /**
-   * The even is triggered when marks for a student has been entered successfully
+   * The event is triggered when marks for a student has been entered successfully
    */
   onSubmitted?: () => void;
 }
@@ -31,6 +42,7 @@ export default function MarksEntryForm({
   onClose,
   formValue,
 }: MarksEntryFormProps) {
+  const [error, setError] = useState<ResponseErrorType>();
   const [studentCode, setStudentCode] = useState<string>("");
   const [studentDetail, setStudentDetail] =
     useState<StudentWithObtainedMarks>();
@@ -46,63 +58,71 @@ export default function MarksEntryForm({
     inputStudentCode.current?.focus();
   }, [inputStudentCode.current]);
 
+  useEffect(() => {
+    if (!error) return;
+    setTimeout(() => setError(undefined), 2000);
+  }, [error]);
+
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    // TODO: Validate payload before posting
-    const payload: StudentMarksPayload = {
-      examId: formValue.examId,
-      classGroupId: formValue.classGroupId,
-      sectionId: formValue.sectionId,
-      subjectId: formValue.subjectId,
-      examType: formValue.examType,
-      marks: obtainedMarks,
-    };
+    try {
+      // TODO: Validate payload before posting
+      const payload: StudentMarksPayload = {
+        examId: formValue.examId,
+        classGroupId: formValue.classGroupId,
+        sectionId: formValue.sectionId,
+        subjectId: formValue.subjectId,
+        examType: formValue.examType,
+        marks: obtainedMarks,
+      };
 
-    await axios.post<void, any, StudentMarksPayload>(
-      `/api/students/code/${studentCode}/marks`,
-      payload
-    );
+      await axios.post<void, any, StudentMarksPayload>(
+        `/api/students/code/${studentCode}/marks`,
+        payload
+      );
 
-    setStudentCode("");
-    setStudentDetail(undefined);
-    setObtainedMarks({
-      fullMark: 0,
-      passMark: 0,
-      obtainedMarks: 0,
-    });
-    inputStudentCode.current?.focus();
+      setStudentCode("");
+      setStudentDetail(undefined);
+      setObtainedMarks({
+        fullMark: 0,
+        passMark: 0,
+        obtainedMarks: 0,
+      });
+      inputStudentCode.current?.focus();
 
-    if (onSubmitted) onSubmitted();
-
-    // TODO: handle error on post
+      if (onSubmitted) onSubmitted();
+    } catch (err: unknown) {
+      const e = err as AxiosError<ResponseErrorType>;
+      setError(e);
+    }
   };
 
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
 
-    const { data } = await axios.get<StudentWithObtainedMarks>(
-      `/api/students/code/${studentCode}/marks`,
-      { params: formValue }
-    );
-    setStudentDetail(data);
+    try {
+      const { data } = await axios.get<StudentWithObtainedMarks>(
+        `/api/students/code/${studentCode}/marks`,
+        { params: formValue }
+      );
+      setStudentDetail(data);
 
-    const [obtainedMarksByStudent] = data.obtainedMarks;
-    setObtainedMarks({
-      fullMark: obtainedMarksByStudent?.fullMark || data.fullMark,
-      passMark: obtainedMarksByStudent?.passMark || data.passMark,
-      obtainedMarks: obtainedMarksByStudent?.obtainedMarks || 0,
-    });
+      const [obtainedMarksByStudent] = data.obtainedMarks;
+      setObtainedMarks({
+        fullMark: obtainedMarksByStudent?.fullMark || data.fullMark,
+        passMark: obtainedMarksByStudent?.passMark || data.passMark,
+        obtainedMarks: obtainedMarksByStudent?.obtainedMarks || 0,
+      });
 
-    // // TODO: Handle Error
-    // // 400 Error
-    // // 404 Student not found
-    // // 400 Student does not belong to selected classGroup and/or classSection
-
-    // Focus on obtained marks
-    inputObtainedMarks.current?.focus();
-    inputObtainedMarks.current?.select();
+      // Focus on obtained marks
+      inputObtainedMarks.current?.focus();
+      inputObtainedMarks.current?.select();
+    } catch (err: unknown) {
+      const e = err as AxiosError<ResponseErrorType>; // Assuming its is always Axios Error
+      setError(e.response?.data);
+    }
   };
 
   const handleClose = () => {
@@ -129,6 +149,14 @@ export default function MarksEntryForm({
   return (
     <Overlay open onClose={handleClose}>
       <Panel className="shadow-lg">
+        <>
+          {error && (
+            <Alert color="danger">
+              <FaExclamationTriangle /> {error.message}
+            </Alert>
+          )}
+        </>
+
         <Form onSubmit={handleFormSubmit} className="p-5">
           <h3>Student Code: </h3>
           <Input

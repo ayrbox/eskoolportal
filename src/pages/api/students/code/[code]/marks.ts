@@ -63,6 +63,7 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
       examId,
       subjectId,
       classGroupId,
+      sectionId,
       fullMark: { gt: 0 },
       passMark: { gt: 0 },
     },

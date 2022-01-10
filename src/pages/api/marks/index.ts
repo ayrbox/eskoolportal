@@ -9,6 +9,7 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
 
   const classGroupId = req.query.classGroupId as string | null;
   const sectionId = req.query.sectionId as string | null;
+  const examType = req.query.examType as string | null;
 
   if (!examId) return res.status(400).send({ message: "Exam Id is required." });
   if (!subjectId)
@@ -25,6 +26,8 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
       examId,
       subjectId,
       classGroupId,
+      sectionId,
+      examType: examType || undefined,
     },
     include: {
       student: true,

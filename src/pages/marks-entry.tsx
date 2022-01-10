@@ -21,7 +21,7 @@ import axios from "axios";
 import * as yup from "yup";
 import {
   ObtainedMarksQueryParams,
-  ObtainMarksWithStudentDetail,
+  ObtainedMarksWithStudentDetail,
 } from "~/types/Marks";
 import MarksEntryForm from "~/components/MarksEntryForm";
 
@@ -63,7 +63,7 @@ const MarksEntry = ({
 
   const [openDialog, setOpenDialog] = useState(false);
   const [obtainedMarks, setObtainedMarks] =
-    useState<ObtainMarksWithStudentDetail[]>();
+    useState<ObtainedMarksWithStudentDetail[]>();
 
   useEffect(() => {
     async function fetchExamList() {
@@ -90,7 +90,7 @@ const MarksEntry = ({
     async function fetchMarks() {
       try {
         await formValueValidation.validate(formValue);
-        const { data } = await axios.get<ObtainMarksWithStudentDetail[]>(
+        const { data } = await axios.get<ObtainedMarksWithStudentDetail[]>(
           "/api/marks",
           { params: formValue }
         );
@@ -125,7 +125,7 @@ const MarksEntry = ({
   const handleSubmission = async () => {
     try {
       await formValueValidation.validate(formValue);
-      const { data } = await axios.get<ObtainMarksWithStudentDetail[]>(
+      const { data } = await axios.get<ObtainedMarksWithStudentDetail[]>(
         "/api/marks",
         { params: formValue }
       );

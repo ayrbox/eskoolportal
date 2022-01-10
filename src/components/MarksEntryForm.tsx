@@ -88,7 +88,7 @@ export default function MarksEntryForm({
     );
     setStudentDetail(data);
 
-    const [obtainedMarksByStudent] = data.obtainMarks;
+    const [obtainedMarksByStudent] = data.obtainedMarks;
     setObtainedMarks({
       fullMark: obtainedMarksByStudent?.fullMark || data.fullMark,
       passMark: obtainedMarksByStudent?.passMark || data.passMark,

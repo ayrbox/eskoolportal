@@ -20,7 +20,7 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
   if (!sectionId)
     return res.status(400).send({ message: "Section Id is required." });
 
-  const obtainedMarks = await prisma.obtainMarks.findMany({
+  const obtainedMarks = await prisma.obtainedMarks.findMany({
     where: {
       examId,
       subjectId,

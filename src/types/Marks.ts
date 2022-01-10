@@ -1,6 +1,6 @@
-import { Exam, ObtainMarks, Student, Subject } from "@prisma/client";
+import { Exam, ObtainedMarks, Student, Subject } from "@prisma/client";
 
-export type ObtainMarksWithStudentDetail = ObtainMarks & {
+export type ObtainedMarksWithStudentDetail = ObtainedMarks & {
   student: Student;
   subject: Subject;
   exam: Exam;

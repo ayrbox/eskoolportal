@@ -34,7 +34,7 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
     include: {
       ClassGroup: true,
       Section: true,
-      obtainMarks: {
+      obtainedMarks: {
         where: {
           examId,
           subjectId,
@@ -58,7 +58,7 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
     });
   }
 
-  const obtainMarks = await prisma.obtainMarks.findFirst({
+  const obtainedMarks = await prisma.obtainedMarks.findFirst({
     where: {
       examId,
       subjectId,
@@ -71,8 +71,8 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
   // get marks obtains by student for the exam selected and the subject then return
   res.send({
     ...studentWithObtainedMarks,
-    fullMark: obtainMarks?.fullMark || 0,
-    passMark: obtainMarks?.passMark || 0,
+    fullMark: obtainedMarks?.fullMark || 0,
+    passMark: obtainedMarks?.passMark || 0,
   });
 };
 
@@ -92,7 +92,7 @@ const upsertObtainedMarks: NextApiHandler = async (req, res) => {
     include: {
       ClassGroup: true,
       Section: true,
-      obtainMarks: {
+      obtainedMarks: {
         where: {
           examId: payload.examId,
           subjectId: payload.subjectId,
@@ -117,14 +117,15 @@ const upsertObtainedMarks: NextApiHandler = async (req, res) => {
     });
   }
 
-  const [studentObtainedMarks] = student.obtainMarks;
+  const [studentObtainedMarks] = student.obtainedMarks;
 
   // if student marks already exits then update else create
-  await prisma.obtainMarks.upsert({
+  await prisma.obtainedMarks.upsert({
     create: {
       studentId: student.id,
       examId: payload.examId,
       classGroupId: payload.classGroupId,
+      sectionId: payload.sectionId,
       subjectId: payload.subjectId,
       examType: payload.examType,
       fullMark: Number(payload.marks.fullMark),

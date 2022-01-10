@@ -7,7 +7,7 @@ import React, {
 import Overlay from "~/components/Overlay";
 import { useEffect } from "react";
 import Panel from "~/components/Panel";
-import { Button, Col, Form, FormGroup, Input, Row } from "reactstrap";
+import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { StudentWithObtainedMarks } from "~/types/StudentTypes";
 import axios from "axios";
 import { ChangeEventHandler } from "react";
@@ -151,6 +151,8 @@ export default function MarksEntryForm({
                 {studentDetail.ClassGroup.name} ({studentDetail.Section.name}) -{" "}
                 {studentDetail.rollNo}
               </h3>
+
+              <Label>Obtained Marks:</Label>
               <Input
                 type="number"
                 name="obtainedMarks"
@@ -160,6 +162,7 @@ export default function MarksEntryForm({
               />
               <Row>
                 <Col>
+                  <Label>Full Marks:</Label>
                   <Input
                     type="number"
                     name="fullMark"
@@ -168,6 +171,7 @@ export default function MarksEntryForm({
                   />
                 </Col>
                 <Col>
+                  <Label>Pass Marks:</Label>
                   <Input
                     type="number"
                     name="passMark"

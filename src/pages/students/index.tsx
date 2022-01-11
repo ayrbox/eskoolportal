@@ -76,7 +76,7 @@ const Students: FC<StudentPageProps> = ({
 
         <div className="ibox-content">
           <div className="row">
-            <Col sm={5}>
+            <Col sm={3}>
               <Input
                 type="select"
                 name="studentClass"
@@ -92,7 +92,7 @@ const Students: FC<StudentPageProps> = ({
                 ))}
               </Input>
             </Col>
-            <div className="col-sm-4 m-b-xs">
+            <Col sm={3} className="m-b-xs">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label
                   className={clsx("btn btn-sm btn-white", {
@@ -126,13 +126,19 @@ const Students: FC<StudentPageProps> = ({
                   </label>
                 ))}
               </div>
-              {students && <h1>Total Number of student: {students.length}</h1>}
-            </div>
-            <div className="col-sm-3 m-b-xs text-right">
+              {students && (
+                <span className="px-3">
+                  Total Number of student:
+                  <strong> {students.length}</strong>
+                </span>
+              )}
+            </Col>
+
+            <Col sm={3} className="m-b-xs text-right">
               <Link href="/students/enroll">
                 <Button color="primary">Enroll New Student</Button>
               </Link>
-            </div>
+            </Col>
           </div>
 
           {students && classId ? (
@@ -140,13 +146,13 @@ const Students: FC<StudentPageProps> = ({
               <Table striped>
                 <thead>
                   <tr>
+                    <td>Ref Code</td>
                     <th>Name</th>
                     <th>DOB</th>
                     <th>Gender</th>
                     <th>Address</th>
                     <th>Contact no</th>
                     <th>Email</th>
-
                     <th>Join Date</th>
                     <th>Class</th>
                     <th>Section</th>
@@ -157,6 +163,7 @@ const Students: FC<StudentPageProps> = ({
                     ({
                       id,
                       name,
+                      referenceCode,
                       dateOfBirth,
                       gender,
                       address,
@@ -167,6 +174,7 @@ const Students: FC<StudentPageProps> = ({
                       Section,
                     }) => (
                       <tr key={id}>
+                        <td>{referenceCode}</td>
                         <td>
                           <Link href={`/students/${id}`}>
                             <a>{name}</a>

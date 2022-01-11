@@ -43,6 +43,7 @@ const UserAvatar = (props: { name: string }) => {
 };
 
 type NavigationLinkType = {
+  id: string;
   label: string;
   url: string;
   children?: NavigationLinkType[];
@@ -50,25 +51,45 @@ type NavigationLinkType = {
 
 const navigationLinks: NavigationLinkType[] = [
   {
+    id: "dashboard",
     label: "Dashboard",
     url: "/",
   },
   {
+    id: "student-list",
     label: "Students",
     url: "/students",
   },
   {
-    label: "Marks Entry",
-    url: "/marks-entry",
+    id: "marks",
+    label: "Marks",
+    url: "#",
+    children: [
+      {
+        id: "marks-entry-page",
+        label: "Marks Entry",
+        url: "/marks-entry",
+      },
+      {
+        id: "marks-evaluation-page",
+        label: "Marks Evaluation",
+        url: "/marks-evaluation",
+      },
+    ],
   },
   {
+    id: "settings-list",
     label: "Settings",
     url: "#",
     children: [
-      { label: "Fiscal Years", url: "/settings/fiscalyears" },
-      { label: "Subjects", url: "/settings/subjects" },
-      { label: "Events", url: "/settings/events" },
-      { label: "Exams", url: "/settings/exams" },
+      {
+        label: "Fiscal Years",
+        url: "/settings/fiscalyears",
+        id: "settings-fiscal-year",
+      },
+      { label: "Subjects", url: "/settings/subjects", id: "settings-subjects" },
+      { label: "Events", url: "/settings/events", id: "settings-events" },
+      { label: "Exams", url: "/settings/exams", id: "settings-exams" },
     ],
   },
 ];
@@ -86,13 +107,17 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
         <ul className="nav">
           <li className="nav-header">
             <div className="dropdown profile-element">
-              <Img
-                alt="User Profile Image"
-                className="rounded-circle"
-                src={image as string}
-                loader={<UserAvatar name={name as string} />}
-                unloader={<UserAvatar name={name as string} />}
-              />
+              {image ? (
+                <Img
+                  alt="User Profile Image"
+                  className="rounded-circle"
+                  src={image as string}
+                  loader={<UserAvatar name={name as string} />}
+                  unloader={<UserAvatar name={name as string} />}
+                />
+              ) : (
+                <UserAvatar name={name as string} />
+              )}
               <Dropdown isOpen={isOpen} toggle={handleToggle}>
                 <DropdownToggle caret tag="a">
                   <span className="block m-t-xs font-bold text-center">
@@ -103,33 +128,31 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
                     <b className="caret"></b>
                   </span>
                 </DropdownToggle>
-                {process.browser && (
-                  <DropdownMenu>
-                    <DropdownItem
-                      tag={ProfileDropdownItem}
-                      href="/account/profile"
-                    >
-                      Profile
-                    </DropdownItem>
-                    <DropdownItem
-                      tag={ProfileDropdownItem}
-                      href="/account/settings"
-                    >
-                      Settings
-                    </DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem tag={ProfileDropdownItem} href="/logout">
-                      Logout
-                    </DropdownItem>
-                  </DropdownMenu>
-                )}
+                <DropdownMenu tag="ul">
+                  <DropdownItem
+                    tag={ProfileDropdownItem}
+                    href="/account/profile"
+                  >
+                    Profile
+                  </DropdownItem>
+                  <DropdownItem
+                    tag={ProfileDropdownItem}
+                    href="/account/settings"
+                  >
+                    Settings
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem tag={ProfileDropdownItem} href="/logout">
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
               </Dropdown>
             </div>
             <div className="logo-element">IN+</div>
           </li>
 
-          {navigationLinks.map(({ label, url, children }) => (
-            <li className="w-100">
+          {navigationLinks.map(({ id, label, url, children }) => (
+            <li className="w-100" key={id}>
               <Link href={url} key={label}>
                 <a>
                   <i className="fa fa-th-large"></i>
@@ -139,7 +162,7 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
               {children && children.length && (
                 <ul className="nav nav-second-level collapse show">
                   {children.map((childLink) => (
-                    <li className="w-100" key={childLink.label}>
+                    <li className="w-100" key={childLink.id}>
                       <Link href={childLink.url}>
                         <a>
                           <i className="fa fa-th-large"></i>

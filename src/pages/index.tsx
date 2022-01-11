@@ -20,15 +20,5 @@ const DashboardPage: FunctionComponent<DashboardPageProps> = ({ user }) => {
 };
 
 export const getServerSideProps = securePage();
-// export const getServerSideProps = () => {
-//   return {
-//     props: {
-//       user: {
-//         name: "Hello Sab",
-//         email: "sabin.dangol@hotmail.com",
-//       },
-//     },
-//   };
-// };
 
 export default DashboardPage;

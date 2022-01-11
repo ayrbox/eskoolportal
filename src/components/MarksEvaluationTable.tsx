@@ -74,7 +74,7 @@ export default function MarksEvaluationTable({
       </thead>
       <tbody>
         {studentsWithObtainedMarks.map((student) => (
-          <tr>
+          <tr key={student.id}>
             <td>{student.referenceCode}</td>
             <td>{student.name}</td>
             {renderSubjectMarks(subjects, student.obtainedMarks)}

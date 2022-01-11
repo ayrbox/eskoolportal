@@ -23,3 +23,17 @@ export type ObtainedMarksQueryParams = {
 export type StudentMarksPayload = ObtainedMarksQueryParams & {
   marks: Marks;
 };
+
+export type ExamClassQueryParams = {
+  examId: string;
+  classGroupId: string;
+  sectionId: string;
+};
+
+export type StudentWithObtainedMarks = Student & {
+  obtainedMarks: (ObtainedMarks & {
+    subject: { name: string };
+    classGroup: { name: string };
+    section: { name: string };
+  })[];
+};

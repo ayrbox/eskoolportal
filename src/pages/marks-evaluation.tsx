@@ -1,36 +1,28 @@
-import React, {
-  ChangeEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
-import { Button, Col, Input, Label, Row, Table } from "reactstrap";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
+import { Col, Input, Label, Row, Table } from "reactstrap";
 import Layout from "~/components/Layout";
 import { securePage } from "~/lib/securePage";
-import { ClassGroup, Exam, FiscalYear, Section, Subject } from "@prisma/client";
+import { ClassGroup, Exam, FiscalYear, Section } from "@prisma/client";
 import { PagePropsWithUser } from "~/types/PagePropsWithUser";
 import prisma from "~/lib/prisma";
 import axios from "axios";
 import * as yup from "yup";
 import {
+  ExamClassQueryParams,
   ObtainedMarksQueryParams,
-  ObtainedMarksWithStudentDetail,
+  StudentWithObtainedMarks,
 } from "~/types/Marks";
-import MarksEntryForm from "~/components/MarksEntryForm";
 
 interface MarksEntryProps extends PagePropsWithUser {
   fiscalYears: FiscalYear[];
   classGroups: ClassGroup[];
   sections: Section[];
-  subjects: Subject[];
 }
 
-const formValueValidation = yup.object().shape({
+const examClassQueryValidation = yup.object().shape({
   examId: yup.string().required(),
   classGroupId: yup.string().required(),
   sectionId: yup.string().required(),
-  subjectId: yup.string().required(),
-  examType: yup.string().nullable(),
 });
 
 const MarksEntry = ({
@@ -38,25 +30,21 @@ const MarksEntry = ({
   fiscalYears,
   classGroups,
   sections,
-  subjects,
 }: MarksEntryProps) => {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear | undefined>(
     fiscalYears[0]
   );
   const [examList, setExamList] = useState<Exam[]>([]);
-  const [formValue, setFormValue] = useState<Partial<ObtainedMarksQueryParams>>(
+  const [queryParams, setQueryParams] = useState<Partial<ExamClassQueryParams>>(
     {
       classGroupId: "",
       examId: "",
       sectionId: "",
-      subjectId: "",
-      examType: undefined,
     }
   );
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [obtainedMarks, setObtainedMarks] =
-    useState<ObtainedMarksWithStudentDetail[]>();
+  const [studentsWithObtainedMarks, setStudentsWithObtainedMarks] =
+    useState<StudentWithObtainedMarks[]>();
 
   useEffect(() => {
     async function fetchExamList() {
@@ -64,7 +52,7 @@ const MarksEntry = ({
         `/api/exams?fiscalYear=${fiscalYear?.id}`
       );
       setExamList(data);
-      setFormValue((prev) => ({
+      setQueryParams((prev) => ({
         ...prev,
         examdId: undefined,
       }));
@@ -82,54 +70,33 @@ const MarksEntry = ({
   useEffect(() => {
     async function fetchMarks() {
       try {
-        await formValueValidation.validate(formValue);
-        const { data } = await axios.get<ObtainedMarksWithStudentDetail[]>(
-          "/api/marks",
-          { params: formValue }
+        await examClassQueryValidation.validate(queryParams);
+        const { data } = await axios.get<StudentWithObtainedMarks[]>(
+          "/api/marks/evaluation",
+          { params: queryParams }
         );
-        setObtainedMarks(data);
+        setStudentsWithObtainedMarks(data);
       } catch {
         /* DO NOTHING */
       }
     }
 
     fetchMarks();
-  }, [formValue]);
+  }, [queryParams]);
 
   const handleFormChange =
     (
       key: keyof ObtainedMarksQueryParams
     ): ChangeEventHandler<HTMLInputElement> =>
     (e) => {
-      setFormValue((prev) => ({
+      setQueryParams((prev) => ({
         ...prev,
         [key]: e.target.value,
       }));
     };
 
-  const handleToggleForm =
-    (state: boolean): MouseEventHandler<HTMLButtonElement> =>
-    (e) => {
-      e.preventDefault();
-      setOpenDialog(state);
-    };
-
-  const handleCloseForm = () => setOpenDialog(false);
-  const handleSubmission = async () => {
-    try {
-      await formValueValidation.validate(formValue);
-      const { data } = await axios.get<ObtainedMarksWithStudentDetail[]>(
-        "/api/marks",
-        { params: formValue }
-      );
-      setObtainedMarks(data);
-    } catch {
-      /* DO NOTHING */
-    }
-  };
-
   return (
-    <Layout user={user} title="Marks Entry">
+    <Layout user={user} title="Marks Evaluations">
       <>
         <Row>
           <Col sm={3}>
@@ -155,7 +122,7 @@ const MarksEntry = ({
               type="select"
               name="exam"
               id="exam"
-              value={formValue.examId}
+              value={queryParams.examId}
               onChange={handleFormChange("examId")}
             >
               <option></option>
@@ -174,7 +141,7 @@ const MarksEntry = ({
               type="select"
               name="classGroup"
               id="classGroup"
-              value={formValue.classGroupId}
+              value={queryParams.classGroupId}
               onChange={handleFormChange("classGroupId")}
             >
               <option></option>
@@ -191,7 +158,7 @@ const MarksEntry = ({
               type="select"
               name="section"
               id="section"
-              value={formValue.sectionId}
+              value={queryParams.sectionId}
               onChange={handleFormChange("sectionId")}
             >
               <option></option>
@@ -202,80 +169,37 @@ const MarksEntry = ({
               ))}
             </Input>
           </Col>
-          <Col sm={3}>
-            <Label>Subject: </Label>
-            <Input
-              type="select"
-              name="subject"
-              id="subject"
-              value={formValue.subjectId}
-              onChange={handleFormChange("subjectId")}
-            >
-              <option></option>
-              {subjects.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </Input>
-          </Col>
-          <Col sm={3}>
-            <Label>Exam Type:</Label>
-            <Input
-              type="select"
-              name="examType"
-              id="examType"
-              value={formValue.examType as string | undefined}
-              onChange={handleFormChange("examType")}
-            >
-              <option></option>
-              <option>Theory</option>
-              <option>Practical</option>
-            </Input>
-          </Col>
         </Row>
-        <div className="d-flex justify-content-end py-3">
-          <Button
-            color="primary"
-            className="mr-3"
-            onClick={handleToggleForm(true)}
-          >
-            Enter Marks
-          </Button>
-        </div>
-        {obtainedMarks && (
+        {studentsWithObtainedMarks && (
           <Table>
             <thead>
               <tr>
                 <th>Student Code</th>
                 <th>Student</th>
-                <th>Exam Type</th>
-                <th>Full Marks</th>
-                <th>Pass Marks</th>
-                <th>Obtained Marks</th>
+                {studentsWithObtainedMarks[0].obtainedMarks.map((marks) => (
+                  <th>{marks.subject.name}</th>
+                ))}
+                <th>Total</th>
               </tr>
             </thead>
             <tbody>
-              {obtainedMarks.map((marks) => (
+              {studentsWithObtainedMarks.map((student) => (
                 <tr>
-                  <td>{marks.student.referenceCode}</td>
-                  <td>{marks.student.name}</td>
-                  <td>{marks.examType}</td>
-                  <td>{marks.fullMark}</td>
-                  <td>{marks.passMark}</td>
-                  <td>{marks.obtainedMarks}</td>
+                  <td>{student.referenceCode}</td>
+                  <td>{student.name}</td>
+                  {student.obtainedMarks.map((marks) => (
+                    <td>{marks.obtainedMarks}</td>
+                  ))}
+                  <td>
+                    {student.obtainedMarks.reduce(
+                      (total, marks) => total + marks.obtainedMarks,
+                      0
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </Table>
-        )}
-
-        {openDialog && (
-          <MarksEntryForm
-            formValue={formValue as ObtainedMarksQueryParams}
-            onClose={handleCloseForm}
-            onSubmitted={handleSubmission}
-          />
         )}
       </>
     </Layout>
@@ -286,13 +210,11 @@ export const getServerSideProps = securePage(async () => {
   const fiscalYears = await prisma.fiscalYear.findMany();
   const classGroups = await prisma.classGroup.findMany();
   const sections = await prisma.section.findMany();
-  const subjects = await prisma.subject.findMany();
 
   return {
     fiscalYears,
     classGroups,
     sections,
-    subjects,
   };
 });
 

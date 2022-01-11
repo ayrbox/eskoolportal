@@ -10,6 +10,7 @@ export type StudentWithClassGroup = Student & {
   Section: Section;
 };
 
+// FIX: Duplicate definition
 export type StudentWithObtainedMarks = Student & {
   ClassGroup: ClassGroup;
   Section: Section;

@@ -2,7 +2,6 @@ import { NextApiHandler } from "next";
 import nextConnect from "next-connect";
 import prisma from "~/lib/prisma";
 import { secureRoute } from "~/lib/secureRoute";
-import { processObtainedEvaluation } from "~/service/processObtainedEvaluation";
 
 const getStudentMarks: NextApiHandler = async (req, res) => {
   const examId = req.query.examId as string | null;
@@ -47,8 +46,6 @@ const getStudentMarks: NextApiHandler = async (req, res) => {
       },
     },
   });
-
-  processObtainedEvaluation(studentsWithObtainedMarks);
 
   res.send(studentsWithObtainedMarks);
 };

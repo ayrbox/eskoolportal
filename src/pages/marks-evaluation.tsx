@@ -12,6 +12,7 @@ import {
   ObtainedMarksQueryParams,
   StudentWithObtainedMarks,
 } from "~/types/Marks";
+import MarksEvaluationTable from "~/components/MarksEvaluationTable";
 
 interface MarksEntryProps extends PagePropsWithUser {
   fiscalYears: FiscalYear[];
@@ -32,14 +33,14 @@ const MarksEntry = ({
   sections,
 }: MarksEntryProps) => {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear | undefined>(
-    fiscalYears[0]
+    fiscalYears[fiscalYears.length - 1]
   );
   const [examList, setExamList] = useState<Exam[]>([]);
   const [queryParams, setQueryParams] = useState<Partial<ExamClassQueryParams>>(
     {
-      classGroupId: "",
-      examId: "",
-      sectionId: "",
+      classGroupId: "cky9bcyci0052mf6e8gge3um8",
+      examId: "cky9bcyk01376mf6e4kqvlvw6",
+      sectionId: "cky9bcycl0067mf6ew5azw5k3",
     }
   );
 
@@ -133,8 +134,6 @@ const MarksEntry = ({
               ))}
             </Input>
           </Col>
-        </Row>
-        <Row>
           <Col sm={3}>
             <Label>Class: </Label>
             <Input
@@ -170,37 +169,13 @@ const MarksEntry = ({
             </Input>
           </Col>
         </Row>
-        {studentsWithObtainedMarks && (
-          <Table>
-            <thead>
-              <tr>
-                <th>Student Code</th>
-                <th>Student</th>
-                {studentsWithObtainedMarks[0].obtainedMarks.map((marks) => (
-                  <th>{marks.subject.name}</th>
-                ))}
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {studentsWithObtainedMarks.map((student) => (
-                <tr>
-                  <td>{student.referenceCode}</td>
-                  <td>{student.name}</td>
-                  {student.obtainedMarks.map((marks) => (
-                    <td>{marks.obtainedMarks}</td>
-                  ))}
-                  <td>
-                    {student.obtainedMarks.reduce(
-                      (total, marks) => total + marks.obtainedMarks,
-                      0
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+        <div className="py-3">
+          {studentsWithObtainedMarks && (
+            <MarksEvaluationTable
+              studentsWithObtainedMarks={studentsWithObtainedMarks}
+            />
+          )}
+        </div>
       </>
     </Layout>
   );

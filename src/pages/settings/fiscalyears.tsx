@@ -4,7 +4,7 @@ import { Table } from "reactstrap";
 import axios from "axios";
 import { securePage } from "~/lib/securePage";
 import FiscalYearForm from "~/components/FiscalYearForm";
-import { FC, MouseEventHandler, useState } from "react";
+import { FC } from "react";
 import type { FormState } from "~/types/FormMode";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import ListPage from "~/components/ListPage";

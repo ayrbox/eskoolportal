@@ -68,12 +68,12 @@ const navigationLinks: NavigationLinkType[] = [
       {
         id: "marks-entry-page",
         label: "Marks Entry",
-        url: "/marks-entry",
+        url: "/marks/entry",
       },
       {
         id: "marks-evaluation-page",
         label: "Marks Evaluation",
-        url: "/marks-evaluation",
+        url: "/marks/evaluation",
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { Col, Input, Label, Row, Table } from "reactstrap";
 import Layout from "~/components/Layout";
@@ -175,6 +176,13 @@ const MarksEntry = ({
               studentsWithObtainedMarks={studentsWithObtainedMarks}
             />
           )}
+
+          <a
+            href={`/api/marks/evaluation/pdf?${stringify(queryParams)}`}
+            target="_blank"
+          >
+            Print
+          </a>
         </div>
       </>
     </Layout>

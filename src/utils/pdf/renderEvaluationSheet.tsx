@@ -5,16 +5,19 @@ import path from "path";
 import { promisify } from "util";
 import MarksEvaluationTable from "~/components/MarksEvaluationTable";
 import { StudentWithObtainedMarks } from "~/types/Marks";
+import getConfig from "next/config";
 
 const readFile = promisify(fs.readFile);
 
 const wrapContent = async (contentHtml: string): Promise<string> => {
-  const layoutFile = "./pdf-layout.html";
+  const { serverRuntimeConfig } = getConfig();
 
-  console.log("xxxxxx", __dirname);
-  console.log(">>>>>>>>", layoutFile);
+  const layoutFile = path.join(
+    serverRuntimeConfig.ROOT_PATH,
+    "public",
+    "pdf-layout.html"
+  );
   const layoutHtml = await readFile(layoutFile, "utf-8");
-
   return layoutHtml.replace("<%content%>", contentHtml);
 };
 
@@ -22,11 +25,15 @@ const renderEvaluationSheet = async (
   data: StudentWithObtainedMarks[]
 ): Promise<string> => {
   const content = ReactDOMServer.renderToStaticMarkup(
-    <MarksEvaluationTable studentsWithObtainedMarks={data} />
+    <div>
+      <h3>
+        Marks Evaluation Sheet - <strong>Class 10 (A)</strong>
+      </h3>
+      <MarksEvaluationTable studentsWithObtainedMarks={data} />
+    </div>
   );
-  return content;
 
-  // return await wrapContent(content);
+  return await wrapContent(content);
 };
 
 export default renderEvaluationSheet;

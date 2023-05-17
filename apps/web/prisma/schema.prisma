@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  password  String
+  avatar    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Students Class/Group (Note: Group is prefixed to avoid conflict with class keyword)
+model ClassGroup {
+  id              String                 @id @default(cuid())
+  name            String
+  order           Int
+  students        Student[]
+  SubjectsInClass SubjectsInClassGroup[]
+  obtainedMarks   ObtainedMarks[]
+}
+
+// Sub group of Class/Group
+model Section {
+  id            String          @id @default(cuid())
+  name          String
+  order         Int
+  students      Student[]
+  obtainedMarks ObtainedMarks[]
+}
+
+// Student Profile
+
+model Student {
+  id             String           @id @default(cuid())
+  name           String
+  dateOfBirth    DateTime         @db.Date
+  gender         String
+  address        String
+  contactNo      String
+  email          String?
+  joinDate       DateTime         @db.Date
+  rollNo         Int
+  referenceCode  String           @unique
+  sectionId      String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  MedicalHistory MedicalHistory[]
+  classGroupId   String?
+  obtainedMarks  ObtainedMarks[]
+  ClassGroup     ClassGroup?      @relation(fields: [classGroupId], references: [id])
+  Section        Section?         @relation(fields: [sectionId], references: [id])
+}
+
+// Medical History of a student
+model MedicalHistory {
+  id          String   @id @default(cuid())
+  student     Student  @relation(fields: [studentId], references: [id])
+  studentId   String
+  description String
+  severity    String
+  triageNote  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// End of Student Profile
+
+// Calendar events
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  fromDate    DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// School Fiscal Year/Session
+model FiscalYear {
+  id        String   @id @default(cuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Exam      Exam[]
+}
+
+// List of subjects
+model Subject {
+  id              String                 @id @default(cuid())
+  name            String
+  description     String
+  SubjectsInClass SubjectsInClassGroup[]
+  obtainedMarks   ObtainedMarks[]
+}
+
+// List of subjects tought in a class/group
+model SubjectsInClassGroup {
+  classGroup ClassGroup @relation(fields: [classGroupId], references: [id])
+  subject    Subject    @relation(fields: [subjectId], references: [id])
+
+  classGroupId String
+  subjectId    String
+  @@id([classGroupId, subjectId])
+}
+
+// Name of exam (e.g First Term, Mid Term, Final Exam)
+model ExamName {
+  id   String @id @default(cuid())
+  name String
+}
+
+// Exam of a session/fiscal year
+model Exam {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  fiscalYear  FiscalYear @relation(fields: [fiscalYearId], references: [id])
+  startDate   DateTime   @db.Date
+  endDate     DateTime   @db.Date
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  fiscalYearId  String
+  obtainedMarks ObtainedMarks[]
+}
+
+// यो Studentले यो Examमा यति class पठिरहदा यो subjectमा यति marks ल्याएको थियो ।
+model ObtainedMarks {
+  id String @id @default(cuid())
+
+  student       Student    @relation(fields: [studentId], references: [id])
+  exam          Exam       @relation(fields: [examId], references: [id])
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  classGroup    ClassGroup @relation(fields: [classGroupId], references: [id])
+  section       Section    @relation(fields: [sectionId], references: [id])
+  examType      String?
+  fullMark      Int        @default(0)
+  passMark      Int        @default(0)
+  obtainedMarks Int
+
+  studentId    String
+  examId       String
+  subjectId    String
+  classGroupId String
+  sectionId    String
+}

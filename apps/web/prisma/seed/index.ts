@@ -45,7 +45,6 @@ export const seeder = async () => {
   await seedExams(prisma);
   console.log("[END] Seeding Exams...");
 
-
   console.log('[START] Seeding Obtained Marks')
   await seedObtainedMarks(prisma)
   console.log('[END] Seeding Obtained Marks')

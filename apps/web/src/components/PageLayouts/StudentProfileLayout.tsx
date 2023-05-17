@@ -20,12 +20,12 @@ const StudentProfileLayout = ({
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <Link href="/" as="/">
-                <a>Home</a>
+                Home
               </Link>
             </li>
             <li className="breadcrumb-item">
               <Link href="/students" as="/students">
-                <a>Students</a>
+                Students
               </Link>
             </li>
             <li className="breadcrumb-item active">

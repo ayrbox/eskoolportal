@@ -1,6 +1,6 @@
 import { User } from "next-auth";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useState, ReactNode } from "react";
 import {
   Dropdown,
   DropdownToggle,
@@ -15,15 +15,12 @@ interface NavigationProps {
 
 const ProfileDropdownItem = ({
   href,
-  children,
 }: {
   href: string;
-  children: string | React.ReactElement;
+  children: ReactNode;
 }) => (
   <li>
-    <Link href={href}>
-      <a>{children}</a>
-    </Link>
+    <Link href={href}>Test</Link>
   </li>
 );
 
@@ -154,20 +151,16 @@ const Navigation: FC<NavigationProps> = ({ user }) => {
           {navigationLinks.map(({ id, label, url, children }) => (
             <li className="w-100" key={id}>
               <Link href={url} key={label}>
-                <a>
-                  <i className="fa fa-th-large"></i>
-                  <span className="nav-label">{label}</span>
-                </a>
+                <i className="fa fa-th-large"></i>
+                <span className="nav-label">{label}</span>
               </Link>
               {children && children.length && (
                 <ul className="nav nav-second-level collapse show">
                   {children.map((childLink) => (
                     <li className="w-100" key={childLink.id}>
                       <Link href={childLink.url}>
-                        <a>
-                          <i className="fa fa-th-large"></i>
-                          <span className="nav-label">{childLink.label}</span>
-                        </a>
+                        <i className="fa fa-th-large"></i>
+                        <span className="nav-label">{childLink.label}</span>
                       </Link>
                     </li>
                   ))}

@@ -5,7 +5,7 @@ import useSwr from "swr";
 import clsx from "clsx";
 import { Button, Table, Input, Col } from "reactstrap";
 import prisma from "~/lib/prisma";
-import type { ClassGroup, Section, User, Student } from "@prisma/client";
+import type { ClassGroup, Section, User } from "@prisma/client";
 
 import { securePage } from "~/lib/securePage";
 import { StudentWithClassGroup } from "~/types/StudentTypes";
@@ -32,11 +32,11 @@ const Students: FC<StudentPageProps> = ({
   };
   const handleSectionChange =
     (id: string): MouseEventHandler<HTMLInputElement> =>
-    (e) => {
-      e.preventDefault();
-      setSection(id);
-      console.log("Section: ", id);
-    };
+      (e) => {
+        e.preventDefault();
+        setSection(id);
+        console.log("Section: ", id);
+      };
 
   const { data: students } = useSwr<StudentWithClassGroup[]>(
     classId ? `/api/classes/${classId}/students?section=${section}` : null,
@@ -177,18 +177,18 @@ const Students: FC<StudentPageProps> = ({
                         <td>{referenceCode}</td>
                         <td>
                           <Link href={`/students/${id}`}>
-                            <a>{name}</a>
+                            {name}
                           </Link>
                         </td>
-                        <td>{dateOfBirth}</td>
+                        <td>{dateOfBirth.toString()}</td>
                         <td>{gender}</td>
                         <td>{address}</td>
                         <td>{contactNo}</td>
                         <td>{email}</td>
-                        <td>{joinDate}</td>
+                        <td>{joinDate.toString()}</td>
                         <td>
                           <Link href={`/classes/${ClassGroup.id}/students`}>
-                            <a>{ClassGroup.name}</a>
+                            {ClassGroup.name}
                           </Link>
                         </td>
                         <td>{Section.name}</td>

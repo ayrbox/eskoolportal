@@ -2,14 +2,14 @@ import Navigation from "./Navigation";
 import Link from "next/link";
 import { FaSignOutAlt, FaSearch } from "react-icons/fa";
 import { Container, Row, Col } from "reactstrap";
-import { FunctionComponent, ReactElement, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { User } from "next-auth";
 import Head from "next/head";
 import Overlay from "./Overlay";
 import Search from "./Search";
 
 interface LayoutProps {
-  children: ReactElement | ReactElement[];
+  children: React.ReactNode;
   title: string;
   user: User;
 }
@@ -23,10 +23,10 @@ const Layout: FunctionComponent<LayoutProps> = ({
 
   const toggleOpenSearch =
     (toggleTo: boolean) =>
-    (e?: any): void => {
-      e?.preventDefault();
-      setSearchOpen(toggleTo);
-    };
+      (e?: any): void => {
+        e?.preventDefault();
+        setSearchOpen(toggleTo);
+      };
 
   return (
     <>
@@ -50,9 +50,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
                   </li>
                   <li>
                     <Link href="/logout">
-                      <a>
-                        <FaSignOutAlt /> Log out
-                      </a>
+                      <FaSignOutAlt /> Log out
                     </Link>
                   </li>
                 </ul>

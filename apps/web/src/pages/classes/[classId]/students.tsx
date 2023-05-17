@@ -147,23 +147,23 @@ const Students: FC<ClassStudentProps> = ({ user }: ClassStudentProps) => {
                     <tr key={id}>
                       <td>
                         <Link href={`/students/${id}`}>
-                          <a>{name}</a>
+                          {name}
                         </Link>
                       </td>
-                      <td>{dateOfBirth}</td>
+                      <td>{dateOfBirth.toString()}</td>
                       <td>{gender}</td>
                       <td>{address}</td>
                       <td>{contactNo}</td>
                       <td>{email}</td>
-                      <td>{joinDate}</td>
+                      <td>{joinDate.toString()}</td>
                       <td>
                         <Link href={`/class/${ClassGroup.id}`}>
-                          <a>{ClassGroup.name}</a>
+                          {ClassGroup.name}
                         </Link>
                       </td>
                       <td>
                         <Link href={`/class/${Section.id}`}>
-                          <a>{Section.name}</a>
+                          {Section.name}
                         </Link>
                       </td>
                     </tr>

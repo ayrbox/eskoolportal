@@ -34,11 +34,11 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const handleResultClick =
     (href: string): MouseEventHandler<HTMLAnchorElement> =>
-    (e) => {
-      e.preventDefault();
-      router.replace(href);
-      if (onClose) onClose();
-    };
+      (e) => {
+        e.preventDefault();
+        router.replace(href);
+        if (onClose) onClose();
+      };
 
   const searchTermRef = useRef<any>(null);
 
@@ -48,7 +48,7 @@ const Search: FunctionComponent<SearchProps> = ({
         searchTermRef.current.focus();
       }, 1);
     }
-  }, [searchTermRef.current, open]);
+  }, [searchTermRef, open]);
 
   return (
     <Panel className="shadow-lg">

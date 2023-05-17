@@ -28,11 +28,9 @@ const FiscalYearForm: FunctionComponent<FiscalYearFormProps> = ({
 
   const yearInputRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (yearInputRef.current) {
-      yearInputRef.current.focus();
-    }
-  }, [yearInputRef.current]);
+  if (yearInputRef.current) {
+    yearInputRef.current.focus();
+  }
 
   return (
     <Overlay open onClose={handleClose} light>

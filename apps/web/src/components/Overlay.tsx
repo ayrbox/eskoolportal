@@ -1,4 +1,4 @@
-import React, { FC, ReactElement as RE, ReactNode, useEffect } from "react";
+import React, { FC, ReactElement as RE, ReactNode, useCallback, useEffect } from "react";
 import clsx from "clsx";
 
 // import CloseButton from '../buttons/CloseButton';
@@ -16,25 +16,21 @@ const Overlay: FC<OverlayProps> = ({
   onClose,
   light,
 }: OverlayProps): RE => {
-  const handleEscapePress = (e: KeyboardEvent): void => {
+  const handleEscapePress = useCallback((e: KeyboardEvent): void => {
     if (e.key === "Escape" && onClose) {
       onClose();
     }
-  };
+  }, [onClose]);
 
   useEffect(() => {
     document.body.classList.add("no-scroll");
-    if (onClose) {
-      document.addEventListener("keyup", handleEscapePress);
-    }
+    document.addEventListener("keyup", handleEscapePress);
 
     return (): void => {
       document.body.classList.remove("no-scroll");
-      if (onClose) {
-        document.removeEventListener("keyup", handleEscapePress);
-      }
+      document.removeEventListener("keyup", handleEscapePress);
     };
-  }, []);
+  }, [handleEscapePress]);
 
   return (
     <div

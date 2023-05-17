@@ -29,7 +29,7 @@ export default function EventsForm<T>(props: ListFormProps<T>) {
     if (autoFocusRef.current) {
       autoFocusRef.current.focus();
     }
-  }, [autoFocusRef.current]);
+  }, []);
 
   return (
     <Overlay open onClose={handleClose}>

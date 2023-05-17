@@ -5,11 +5,7 @@ import { PrismaClient } from "@prisma/client";
 let prisma: PrismaClient;
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma: PrismaClient;
-    }
-  }
+  var prisma: PrismaClient; // This must be a `var` and not a `let / const`
 }
 
 if (process.env.NODE_ENV === "production") {

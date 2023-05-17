@@ -56,7 +56,7 @@ export default function MarksEntryForm({
   const inputStudentCode = useRef<any>(null);
   useEffect(() => {
     inputStudentCode.current?.focus();
-  }, [inputStudentCode.current]);
+  }, []);
 
   useEffect(() => {
     if (!error) return;
@@ -137,14 +137,14 @@ export default function MarksEntryForm({
 
   const handleObtaineMarksChange =
     (key: keyof Marks): ChangeEventHandler<HTMLInputElement> =>
-    (e) => {
-      e.preventDefault();
+      (e) => {
+        e.preventDefault();
 
-      setObtainedMarks((state) => ({
-        ...state,
-        [key]: e.target.value,
-      }));
-    };
+        setObtainedMarks((state) => ({
+          ...state,
+          [key]: e.target.value,
+        }));
+      };
 
   return (
     <Overlay open onClose={handleClose}>
